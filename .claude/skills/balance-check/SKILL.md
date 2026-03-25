@@ -1,72 +1,72 @@
 ---
 name: balance-check
-description: "Analyzes game balance data files, formulas, and configuration to identify outliers, broken progressions, degenerate strategies, and economy imbalances. Use after modifying any balance-related data or design."
-argument-hint: "[system-name|path-to-data-file]"
+description: "分析游戏平衡数据文件、公式与配置，识别异常值、断裂的成长曲线、退化策略与经济失衡。在修改任何与平衡相关的数据或设计之后使用。"
+argument-hint: "[系统名称|数据文件路径]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 ---
 
-When this skill is invoked:
+当本技能被调用时：
 
-1. **Identify the balance domain** from the argument.
+1. **根据参数确定平衡所涉领域**。
 
-2. **Read relevant data files** from `assets/data/` and `design/balance/`.
+2. **从 `assets/data/` 与 `design/balance/` 读取相关数据文件**。
 
-3. **Read the design document** for the system being checked from `design/gdd/`.
+3. **从 `design/gdd/` 读取所检查系统的设计文档**。
 
-4. **Perform analysis**:
+4. **执行分析**：
 
-   For **combat balance**:
-   - Calculate DPS for all weapons/abilities at each power tier
-   - Check time-to-kill at each tier
-   - Identify any options that dominate all others (strictly better)
-   - Check if defensive options can create unkillable states
-   - Verify damage type/resistance interactions are balanced
+   **战斗平衡**：
+   - 计算各强度档位下所有武器/技能的 DPS
+   - 检查各档位下的击杀时间（TTK）
+   - 识别是否出现严格优于其他一切选项的构筑
+   - 检查防御向选项是否会导致无法击杀的状态
+   - 验证伤害类型/抗性交互是否平衡
 
-   For **economy balance**:
-   - Map all resource faucets and sinks with flow rates
-   - Project resource accumulation over time
-   - Check for infinite resource loops
-   - Verify gold sinks scale with gold generation
-   - Check if any items are never worth purchasing
+   **经济平衡**：
+   - 梳理所有资源水龙头与 sink 及其流速
+   - 推演资源随时间的积累
+   - 检查是否存在无限资源循环
+   - 验证金币 sink 是否与金币产出规模匹配
+   - 检查是否存在永远不值得购买的物品
 
-   For **progression balance**:
-   - Plot the XP curve and power curve
-   - Check for dead zones (no meaningful progression for too long)
-   - Check for power spikes (sudden jumps in capability)
-   - Verify content gates align with expected player power
-   - Check if skip/grind strategies break intended pacing
+   **成长/进度平衡**：
+   - 绘制经验曲线与强度曲线
+   - 检查是否存在长时间无实质成长的「死区」
+   - 检查是否存在能力突然跃升的强度尖峰
+   - 验证内容门槛是否与预期玩家强度对齐
+   - 检查跳过/刷取策略是否会破坏预期节奏
 
-   For **loot balance**:
-   - Calculate expected time to acquire each rarity tier
-   - Check pity timer math
-   - Verify no loot is strictly useless at any stage
-   - Check inventory pressure vs acquisition rate
+   **战利品平衡**：
+   - 计算获得各稀有度档位的期望时间
+   - 检查保底（pity）机制的数学是否合理
+   - 验证是否存在在任何阶段都严格无用的掉落
+   - 检查背包压力与获取速率是否匹配
 
-5. **Output the analysis**:
+5. **输出分析**：
 
 ```
-## Balance Check: [System Name]
+## 平衡检查：[系统名称]
 
-### Data Sources Analyzed
-- [List of files read]
+### 已分析的数据来源
+- [已读文件列表]
 
-### Health Summary: [HEALTHY / CONCERNS / CRITICAL ISSUES]
+### 健康度摘要：[健康 / 存疑 / 严重问题]
 
-### Outliers Detected
-| Item/Value | Expected Range | Actual | Issue |
-|-----------|---------------|--------|-------|
+### 检测到的异常值
+| 条目/数值 | 预期范围 | 实际值 | 问题 |
+|-----------|----------|--------|------|
 
-### Degenerate Strategies Found
-- [Strategy description and why it is problematic]
+### 发现的退化策略
+- [策略描述及为何构成问题]
 
-### Progression Analysis
-[Graph description or table showing progression curve health]
+### 成长曲线分析
+[以图表描述或表格说明成长曲线是否健康]
 
-### Recommendations
-| Priority | Issue | Suggested Fix | Impact |
-|----------|-------|--------------|--------|
+### 建议
+| 优先级 | 问题 | 建议修改 | 影响 |
+|--------|------|----------|------|
 
-### Values That Need Attention
-[Specific values with suggested adjustments and rationale]
+### 需要关注的数值
+[具体数值及建议调整与理由]
 ```

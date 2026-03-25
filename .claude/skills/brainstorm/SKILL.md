@@ -1,210 +1,169 @@
 ---
 name: brainstorm
-description: "Guided game concept ideation — from zero idea to a structured game concept document. Uses professional studio ideation techniques, player psychology frameworks, and structured creative exploration."
-argument-hint: "[genre or theme hint, or 'open' for fully open brainstorm]"
+description: "引导式游戏概念头脑风暴——从零想法到结构化游戏概念文档。采用专业工作室的创意技法、玩家心理框架与结构化创意探索。"
+argument-hint: "[题材或类型提示，或填 open 表示完全开放式头脑风暴]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, WebSearch, AskUserQuestion
 ---
 
-When this skill is invoked:
+当本 skill 被调用时：
 
-1. **Parse the argument** for an optional genre/theme hint (e.g., `roguelike`,
-   `space survival`, `cozy farming`). If `open` or no argument, start from
-   scratch.
+1. **解析参数**：可选的题材/类型提示（例如 `roguelike`、`space survival`、`cozy farming`）。若为 `open` 或无参数，则从零开始。
 
-2. **Check for existing concept work**:
-   - Read `design/gdd/game-concept.md` if it exists (resume, don't restart)
-   - Read `design/gdd/game-pillars.md` if it exists (build on established pillars)
+2. **检查是否已有概念工作**：
+   - 若存在 `design/gdd/game-concept.md`，则读取（接续，勿重来）
+   - 若存在 `design/gdd/game-pillars.md`，则读取（在已定支柱上延伸）
 
-3. **Run through ideation phases** interactively, asking the user questions at
-   each phase. Do NOT generate everything silently — the goal is **collaborative
-   exploration** where the AI acts as a creative facilitator, not a replacement
-   for the human's vision.
+3. **分阶段进行创意探索**，每一阶段向用户提问互动。**不要**静默生成全部内容——目标是**协作式探索**，AI 扮演创意引导者，而非取代人的愿景。
 
-   **Use `AskUserQuestion`** at key decision points throughout brainstorming:
-   - Constrained taste questions (genre preferences, scope, team size)
-   - Concept selection ("Which 2-3 concepts resonate?") after presenting options
-   - Direction choices ("Develop further, explore more, or prototype?")
-   - Pillar ranking after concepts are refined
-   Write full creative analysis in conversation text first, then use
-   `AskUserQuestion` to capture the decision with concise labels.
+   在头脑风暴的关键决策点**使用 `AskUserQuestion`**：
+   - 有边界的品味问题（类型偏好、规模、团队规模）
+   - 概念选择（展示选项后问「哪 2–3 个概念更打动你？」）
+   - 方向选择（「继续深化、再探索，还是做原型？」）
+   - 概念细化后的支柱排序
+   先在对话中写出完整创意分析，再用 `AskUserQuestion` 以简短标签捕获决策。
 
-   Professional studio brainstorming principles to follow:
-   - Withhold judgment — no idea is bad during exploration
-   - Encourage unusual ideas — outside-the-box thinking sparks better concepts
-   - Build on each other — "yes, and..." responses, not "but..."
-   - Use constraints as creative fuel — limitations often produce the best ideas
-   - Time-box each phase — keep momentum, don't over-deliberate early
+   应遵循的专业工作室头脑风暴原则：
+   - 暂缓评判——探索阶段没有坏点子
+   - 鼓励非常规想法——跳出框架能催生更好的概念
+   - 彼此叠加——用「是的，而且……」而非「但是……」
+   - 把约束当燃料——限制往往能逼出最好的想法
+   - 为每阶段设时限——保持节奏，前期不要过度纠结
 
 ---
 
-### Phase 1: Creative Discovery
+### 阶段 1：创意发现
 
-Start by understanding the person, not the game. Ask these questions
-conversationally (not as a checklist):
+先理解**人**，再谈游戏。用对话方式提出下列问题（不要像清单一样念）：
 
-**Emotional anchors**:
-- What's a moment in a game that genuinely moved you, thrilled you, or made
-  you lose track of time? What specifically created that feeling?
-- Is there a fantasy or power trip you've always wanted in a game but never
-  quite found?
+**情感锚点**：
+- 哪款游戏里曾真正打动你、让你兴奋或忘记时间？具体是什么带来了那种感觉？
+- 是否有一种幻想或「爽感」你一直想在游戏里体验，却总觉得没找到？
 
-**Taste profile**:
-- What 3 games have you spent the most time with? What kept you coming back?
-- Are there genres you love? Genres you avoid? Why?
-- Do you prefer games that challenge you, relax you, tell you stories,
-  or let you express yourself?
+**品味画像**：
+- 你花时间最多的三款游戏是什么？是什么让你一直回来玩？
+- 有哪些类型你特别喜欢？有哪些你回避？为什么？
+- 你更偏向挑战型、放松型、叙事型，还是能自我表达的游戏？
 
-**Practical constraints** (shape the sandbox before brainstorming):
-- Solo developer or team? What skills are available?
-- Timeline: weeks, months, or years?
-- Any platform constraints? (PC only? Mobile? Console?)
-- First game or experienced developer?
+**现实约束**（在头脑风暴前先框定沙盒）：
+- 单人还是团队？具备哪些技能？
+- 时间线：数周、数月还是数年？
+- 平台限制？（仅 PC？移动？主机？）
+- 首款游戏还是已有经验的开发者？
 
-**Synthesize** the answers into a **Creative Brief** — a 3-5 sentence
-summary of the person's emotional goals, taste profile, and constraints.
-Read the brief back and confirm it captures their intent.
+将回答**提炼**为**创意简报**——用 3–5 句话概括对方的情感目标、品味画像与约束。把简报读回给对方，确认是否抓住其意图。
 
 ---
 
-### Phase 2: Concept Generation
+### 阶段 2：概念生成
 
-Using the creative brief as a foundation, generate **3 distinct concepts**
-that each take a different creative direction. Use these ideation techniques:
+以创意简报为基础，产出 **3 个彼此区隔的概念**，每个走不同创意方向。使用下列技法：
 
-**Technique 1: Verb-First Design**
-Start with the core player verb (build, fight, explore, solve, survive,
-create, manage, discover) and build outward from there. The verb IS the game.
+**技法 1：动词优先设计**
+从核心玩家动词出发（建造、战斗、探索、解谜、生存、创造、经营、发现），再向外扩展。**动词即游戏**。
 
-**Technique 2: Mashup Method**
-Combine two unexpected elements: [Genre A] + [Theme B]. The tension between
-the two creates the unique hook. (e.g., "farming sim + cosmic horror",
-"roguelike + dating sim", "city builder + real-time combat")
+**技法 2：混搭法**
+组合两个意想不到的元素：[类型 A] + [主题 B]。两者之间的张力构成独特钩子。（例如：「农场模拟 + 宇宙恐怖」「roguelike + 恋爱模拟」「城建 + 即时战斗」）
 
-**Technique 3: Experience-First Design (MDA Backward)**
-Start from the desired player emotion (aesthetic goal from MDA framework:
-sensation, fantasy, narrative, challenge, fellowship, discovery, expression,
-submission) and work backward to the dynamics and mechanics that produce it.
+**技法 3：体验优先设计（从 MDA 反推）**
+从期望的玩家情绪出发（MDA 框架中的美学目标：感官、幻想、叙事、挑战、社交、发现、表达、消遣（submission）），再反推到能产生它的动态与机制。
 
-For each concept, present:
-- **Working Title**
-- **Elevator Pitch** (1-2 sentences — must pass the "10-second test")
-- **Core Verb** (the single most common player action)
-- **Core Fantasy** (the emotional promise)
-- **Unique Hook** (passes the "and also" test: "Like X, AND ALSO Y")
-- **Primary MDA Aesthetic** (which emotion dominates?)
-- **Estimated Scope** (small / medium / large)
-- **Why It Could Work** (1 sentence on market/audience fit)
-- **Biggest Risk** (1 sentence on the hardest unanswered question)
+每个概念需呈现：
+- **暂定标题**
+- **电梯陈述**（1–2 句——须能通过「10 秒测试」）
+- **核心动词**（玩家最常做的单一动作）
+- **核心幻想**（情感承诺）
+- **独特钩子**（通过「而且还」测试：「像 X，**而且还** Y」）
+- **主导 MDA 美学**（哪种情绪占主导？）
+- **规模预估**（小 / 中 / 大）
+- **为何可能成立**（1 句：市场/受众契合）
+- **最大风险**（1 句：最难回答的开放问题）
 
-Present all three. Ask the user to pick one, combine elements, or request
-new concepts. Never pressure toward a choice — let them sit with it.
+三个全部展示后，请用户选一个、组合元素或要求新概念。不要施压——让对方有时间消化。
 
 ---
 
-### Phase 3: Core Loop Design
+### 阶段 3：核心循环设计
 
-For the chosen concept, use structured questioning to build the core loop.
-The core loop is the beating heart of the game — if it isn't fun in
-isolation, no amount of content or polish will save the game.
+针对选定概念，用结构化提问搭建核心循环。核心循环是游戏的**心跳**——若单独玩都不有趣，再多内容与打磨也救不回来。
 
-**30-Second Loop** (moment-to-moment):
-- What is the player physically doing most often?
-- Is this action intrinsically satisfying? (Would they do it with no
-  rewards, no progression, no story — just for the feel of it?)
-- What makes this action feel good? (Audio feedback, visual juice,
-  timing satisfaction, tactical depth?)
+**30 秒循环**（当下操作）：
+- 玩家最常**物理上**在做什么？
+- 这个动作本身是否令人满足？（若没有奖励、成长、剧情——仅凭手感，他们还愿意做吗？）
+- 什么让这个动作感觉好？（音频反馈、画面反馈、节奏满足、战术深度？）
 
-**5-Minute Loop** (short-term goals):
-- What structures the moment-to-moment play into cycles?
-- Where does "one more turn" / "one more run" psychology kick in?
-- What choices does the player make at this level?
+**5 分钟循环**（短期目标）：
+- 什么结构把当下操作组织成周期？
+- 「再来一局」/「再来一轮」的心理在哪里出现？
+- 在这一层玩家做哪些选择？
 
-**Session Loop** (30-120 minutes):
-- What does a complete session look like?
-- Where are the natural stopping points?
-- What's the "hook" that makes them think about the game when not playing?
+**单局循环**（30–120 分钟）：
+- 完整的一局/一次游玩长什么样？
+- 自然的停手点在哪里？
+- 不玩时仍让人惦记游戏的「钩子」是什么？
 
-**Progression Loop** (days/weeks):
-- How does the player grow? (Power? Knowledge? Options? Story?)
-- What's the long-term goal? When is the game "done"?
+**成长循环**（天/周）：
+- 玩家如何成长？（力量？知识？选项？剧情？）
+- 长期目标是什么？何时算「通关」？
 
-**Player Motivation Analysis** (based on Self-Determination Theory):
-- **Autonomy**: How much meaningful choice does the player have?
-- **Competence**: How does the player feel their skill growing?
-- **Relatedness**: How does the player feel connected (to characters,
-  other players, or the world)?
+**玩家动机分析**（基于自我决定论）：
+- **自主**：玩家有多少有意义的选择？
+- **胜任**：玩家如何感受到技能在成长？
+- **关联**：玩家如何感到与角色、其他玩家或世界的连接？
 
 ---
 
-### Phase 4: Pillars and Boundaries
+### 阶段 4：支柱与边界
 
-Game pillars are used by real AAA studios (God of War, Hades, The Last of
-Us) to keep hundreds of team members making decisions that all point the
-same direction. Even for solo developers, pillars prevent scope creep and
-keep the vision sharp.
+游戏支柱被真实 AAA 工作室（如《战神》《黑帝斯》《最后生还者》）用来让数百人做决策时仍朝同一方向。即使是单人开发，支柱也能抑制范围蔓延、保持愿景清晰。
 
-Collaboratively define **3-5 pillars**:
-- Each pillar has a **name** and **one-sentence definition**
-- Each pillar has a **design test**: "If we're debating between X and Y,
-  this pillar says we choose __"
-- Pillars should feel like they create tension with each other — if all
-  pillars point the same way, they're not doing enough work
+协作定义 **3–5 条支柱**：
+- 每条支柱有**名称**与**一句话定义**
+- 每条支柱有**设计检验**：「若在 X 与 Y 之间争论，这条支柱告诉我们选 __」
+- 支柱之间应存在张力——若全部指向同一方向，它们就没有尽到分工
 
-Then define **3+ anti-pillars** (what this game is NOT):
-- Anti-pillars prevent the most common form of scope creep: "wouldn't it
-  be cool if..." features that don't serve the core vision
-- Frame as: "We will NOT do [thing] because it would compromise [pillar]"
+再定义 **3 条以上反支柱**（本游戏**不是**什么）：
+- 反支柱针对最常见的范围蔓延：「要是能加……就好了」却不服务核心愿景
+- 表述为：「我们**不做** [某事]，因为会破坏 [某支柱]」
 
 ---
 
-### Phase 5: Player Type Validation
+### 阶段 5：玩家类型校验
 
-Using the Bartle taxonomy and Quantic Foundry motivation model, validate
-who this game is actually for:
+借助 Bartle 分类与 Quantic Foundry 动机模型，校验游戏**真正**服务谁：
 
-- **Primary player type**: Who will LOVE this game? (Achievers, Explorers,
-  Socializers, Competitors, Creators, Storytellers)
-- **Secondary appeal**: Who else might enjoy it?
-- **Who is this NOT for**: Being clear about who won't like this game is as
-  important as knowing who will
-- **Market validation**: Are there successful games that serve a similar
-  player type? What can we learn from their audience size?
+- **主要玩家类型**：谁会**爱上**这款游戏？（成就型、探索型、社交型、竞争型、创造型、叙事型等）
+- **次要吸引力**：还有谁可能喜欢？
+- **不适合谁**：明确谁不会喜欢，与明确谁会喜欢同样重要
+- **市场校验**：是否有成功作品服务类似玩家类型？可从其受众规模学到什么？
 
 ---
 
-### Phase 6: Scope and Feasibility
+### 阶段 6：范围与可行性
 
-Ground the concept in reality:
+把概念落到现实：
 
-- **Engine recommendation** (Godot / Unity / Unreal) with reasoning based
-  on concept needs, team expertise, and platform targets
-- **Art pipeline**: What's the art style and how labor-intensive is it?
-- **Content scope**: Estimate level/area count, item count, gameplay hours
-- **MVP definition**: What's the absolute minimum build that tests "is the
-  core loop fun?"
-- **Biggest risks**: Technical risks, design risks, market risks
-- **Scope tiers**: What's the full vision vs. what ships if time runs out?
+- **引擎建议**（Godot / Unity / Unreal），依据概念需求、团队能力与目标平台说明理由
+- **美术管线**：风格是什么？人力密集度如何？
+- **内容规模**：关卡/区域数量、道具数量、可玩时长等的估算
+- **MVP 定义**：验证「核心循环是否好玩」所需的**最小**可玩版本是什么？
+- **最大风险**：技术、设计、市场
+- **范围层级**：完整愿景 vs. 时间不够时先交付什么？
 
 ---
 
-4. **Generate the game concept document** using the template at
-   `.claude/docs/templates/game-concept.md`. Fill in ALL sections from the
-   brainstorm conversation, including the MDA analysis, player motivation
-   profile, and flow state design sections.
+4. **生成游戏概念文档**：使用 `.claude/docs/templates/game-concept.md` 中的模板。根据头脑风暴对话**填满所有章节**，包括 MDA 分析、玩家动机画像与心流设计等部分。
 
-5. **Save to** `design/gdd/game-concept.md`, creating directories as needed.
+5. **保存到** `design/gdd/game-concept.md`，按需创建目录。
 
-6. **Suggest next steps** (in this order — this is the professional studio
-   pre-production pipeline):
-   - "Run `/setup-engine [engine] [version]` to configure the engine and populate version-aware reference docs"
-   - "Use `/design-review design/gdd/game-concept.md` to validate completeness"
-   - "Discuss vision with the `creative-director` agent for pillar refinement"
-   - "Decompose the concept into individual systems with `/map-systems` — maps dependencies, assigns priorities, and creates the systems index"
-   - "Author per-system GDDs with `/design-system` — guided, section-by-section GDD writing"
-   - "Prototype the core loop with `/prototype [core-mechanic]`"
-   - "Playtest the prototype with `/playtest-report` to validate the hypothesis"
-   - "If validated, plan the first sprint with `/sprint-plan new`"
+6. **建议后续步骤**（按此顺序——专业工作室预制作管线）：
+   - "运行 `/setup-engine [engine] [version]` 以配置引擎并填充与版本相关的参考文档"
+   - "使用 `/design-review design/gdd/game-concept.md` 校验完整性"
+   - "与 `creative-director` agent 讨论愿景以细化支柱"
+   - "用 `/map-systems` 将概念拆成各系统——映射依赖、排优先级并生成系统索引"
+   - "用 `/design-system` 按系统撰写 GDD——分章节引导式写作"
+   - "用 `/prototype [core-mechanic]` 为核心循环做原型"
+   - "用 `/playtest-report` 试玩原型以验证假设"
+   - "若验证通过，用 `/sprint-plan new` 规划首个冲刺"
 
-7. **Output a summary** with the chosen concept's elevator pitch, pillars,
-   primary player type, engine recommendation, biggest risk, and file path.
+7. **输出摘要**：包含选定概念的电梯陈述、支柱、主要玩家类型、引擎建议、最大风险及文件路径。

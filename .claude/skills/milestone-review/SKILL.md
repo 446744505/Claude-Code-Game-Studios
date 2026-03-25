@@ -1,91 +1,89 @@
 ---
 name: milestone-review
-description: "Generates a comprehensive milestone progress review including feature completeness, quality metrics, risk assessment, and go/no-go recommendation. Use at milestone checkpoints or when evaluating readiness for a milestone deadline."
-argument-hint: "[milestone-name|current]"
+description: "生成本里程碑的全面进度审阅，包括功能完成度、质量指标、风险评估与上线/不上线建议。在里程碑检查点或评估是否赶得上里程碑截止日时使用。"
+argument-hint: "[里程碑名称|当前]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
 
-When this skill is invoked:
+当本技能被调用时：
 
-1. **Read the milestone definition** from `production/milestones/`.
+1. **阅读里程碑定义**，来源：`production/milestones/`。
 
-2. **Read all sprint reports** for sprints within this milestone from
-   `production/sprints/`.
+2. **阅读本里程碑内所有 sprint 报告**，来源：`production/sprints/`。
 
-3. **Scan the codebase** for TODO, FIXME, HACK markers that indicate
-   incomplete work.
+3. **扫描代码库**中的 TODO、FIXME、HACK 标记，识别未完成工作。
 
-4. **Check the risk register** at `production/risk-register/`.
+4. **查阅风险登记**，路径：`production/risk-register/`。
 
-5. **Generate the milestone review**:
+5. **生成本里程碑审阅**：
 
 ```markdown
-# Milestone Review: [Milestone Name]
+# 里程碑审阅：[里程碑名称]
 
-## Overview
-- **Target Date**: [Date]
-- **Current Date**: [Today]
-- **Days Remaining**: [N]
-- **Sprints Completed**: [X/Y]
+## 概览
+- **目标日期**：[Date]
+- **当前日期**：[Today]
+- **剩余天数**：[N]
+- **已完成 Sprint**：[X/Y]
 
-## Feature Completeness
+## 功能完成度
 
-### Fully Complete
-| Feature | Acceptance Criteria | Test Status |
-|---------|-------------------|-------------|
+### 已完全完成
+| 功能 | 验收标准 | 测试状态 |
+|------|----------|----------|
 
-### Partially Complete
-| Feature | % Done | Remaining Work | Risk to Milestone |
-|---------|--------|---------------|------------------|
+### 部分完成
+| 功能 | 完成度 % | 剩余工作 | 对里程碑的风险 |
+|------|----------|----------|----------------|
 
-### Not Started
-| Feature | Priority | Can Cut? | Impact of Cutting |
-|---------|----------|----------|------------------|
+### 尚未开始
+| 功能 | 优先级 | 可否砍掉 | 砍掉的影响 |
+|------|--------|----------|------------|
 
-## Quality Metrics
-- **Open S1 Bugs**: [N] -- [List]
-- **Open S2 Bugs**: [N]
-- **Open S3 Bugs**: [N]
-- **Test Coverage**: [X%]
-- **Performance**: [Within budget? Details]
+## 质量指标
+- **未关闭 S1 缺陷**：[N] — [列表]
+- **未关闭 S2 缺陷**：[N]
+- **未关闭 S3 缺陷**：[N]
+- **测试覆盖率**：[X%]
+- **性能**：[是否在预算内？详情]
 
-## Code Health
-- **TODO count**: [N across codebase]
-- **FIXME count**: [N]
-- **HACK count**: [N]
-- **Technical debt items**: [List critical ones]
+## 代码健康度
+- **TODO 数量**：[全仓库 N 处]
+- **FIXME 数量**：[N]
+- **HACK 数量**：[N]
+- **技术债条目**：[列出关键项]
 
-## Risk Assessment
-| Risk | Status | Impact if Realized | Mitigation Status |
-|------|--------|-------------------|------------------|
+## 风险评估
+| 风险 | 状态 | 若发生的影响 | 缓解状态 |
+|------|------|--------------|----------|
 
-## Velocity Analysis
-- **Planned vs Completed** (across all sprints): [X/Y tasks = Z%]
-- **Trend**: [Improving / Stable / Declining]
-- **Adjusted estimate for remaining work**: [Days needed at current velocity]
+## 速率分析
+- **计划 vs 完成**（跨所有 sprint）：[X/Y 项任务 = Z%]
+- **趋势**：[上升 / 稳定 / 下降]
+- **剩余工作修正估算**：[按当前速率尚需天数]
 
-## Scope Recommendations
-### Protect (Must ship with milestone)
-- [Feature and why]
+## 范围建议
+### 必须保住（本里程碑必须交付）
+- [功能及理由]
 
-### At Risk (May need to cut or simplify)
-- [Feature and risk]
+### 有风险（可能需要砍掉或简化）
+- [功能及风险]
 
-### Cut Candidates (Can defer without compromising milestone)
-- [Feature and impact of cutting]
+### 可砍候选（推迟不损害本里程碑）
+- [功能及砍掉的影响]
 
-## Go/No-Go Assessment
+## 上线/不上线评估
 
-**Recommendation**: [GO / CONDITIONAL GO / NO-GO]
+**建议**：[上线 / 有条件上线 / 不上线]
 
-**Conditions** (if conditional):
-- [Condition 1 that must be met]
-- [Condition 2 that must be met]
+**条件**（若为有条件上线）：
+- [须满足的条件 1]
+- [须满足的条件 2]
 
-**Rationale**: [Explanation of the recommendation]
+**依据**：[对建议的说明]
 
-## Action Items
-| # | Action | Owner | Deadline |
-|---|--------|-------|----------|
+## 行动项
+| # | 行动项 | 负责人 | 截止日期 |
+|---|--------|--------|----------|
 ```

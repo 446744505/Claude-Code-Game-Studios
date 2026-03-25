@@ -1,162 +1,161 @@
 ---
 name: reverse-document
-description: "Generate design or architecture documents from existing implementation. Works backwards from code/prototypes to create missing planning docs."
-argument-hint: "<type> <path> (e.g., 'design src/gameplay/combat' or 'architecture src/core')"
+description: "从现有实现生成设计或架构文档。从代码/原型倒推，补全缺失的规划文档。"
+argument-hint: "<类型> <路径>（例如 'design src/gameplay/combat' 或 'architecture src/core'）"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash
 ---
 
-# Reverse Documentation
+# 逆向文档（Reverse Documentation）
 
-This skill analyzes existing implementation (code, prototypes, systems) and generates
-appropriate design or architecture documentation. Use this when:
-- You built a feature without writing a design doc first
-- You inherited a codebase without documentation
-- You prototyped a mechanic and need to formalize it
-- You need to document "why" behind existing code
+本技能分析现有实现（代码、原型、系统），并生成相应的设计或架构文档。适用于：
+- 先做了功能、尚未写设计文档
+- 接手了无文档的代码库
+- 已原型验证某机制，需要成文固化
+- 需要记录现有代码背后的「为什么」
 
 ---
 
-## Workflow
+## 工作流
 
-### 1. Parse Arguments
+### 1. 解析参数
 
-**Format**: `/reverse-document <type> <path>`
+**格式**：`/reverse-document <类型> <路径>`
 
-**Type options**:
-- `design` → Generate a game design document (GDD section)
-- `architecture` → Generate an Architecture Decision Record (ADR)
-- `concept` → Generate a concept document from prototype
+**类型选项**：
+- `design` → 生成游戏设计文档（GDD 章节）
+- `architecture` → 生成架构决策记录（ADR）
+- `concept` → 从原型生成概念文档
 
-**Path**: Directory or file to analyze
-- `src/gameplay/combat/` → All combat-related code
-- `src/core/event-system.cpp` → Specific file
-- `prototypes/stealth-mech/` → Prototype directory
+**路径**：要分析的目录或文件
+- `src/gameplay/combat/` → 与战斗相关的全部代码
+- `src/core/event-system.cpp` → 单个文件
+- `prototypes/stealth-mech/` → 原型目录
 
-**Examples**:
+**示例**：
 ```bash
 /reverse-document design src/gameplay/magic-system
 /reverse-document architecture src/core/entity-component
 /reverse-document concept prototypes/vehicle-combat
 ```
 
-### 2. Analyze Implementation
+### 2. 分析实现
 
-**Read and understand the code/prototype**:
+**阅读并理解代码/原型**：
 
-**For design docs (GDD):**
-- Identify mechanics, rules, formulas
-- Extract gameplay values (damage, cooldowns, ranges)
-- Find state machines, ability systems, progression
-- Detect edge cases handled in code
-- Map dependencies (what systems interact?)
+**设计文档（GDD）**：
+- 识别机制、规则、公式
+- 提取玩法数值（伤害、冷却、距离等）
+- 查找状态机、能力系统、成长线
+- 发现代码中已处理的边界情况
+- 梳理依赖（哪些系统在交互？）
 
-**For architecture docs (ADR):**
-- Identify patterns (ECS, singleton, observer, etc.)
-- Understand technical decisions (threading, serialization, etc.)
-- Map dependencies and coupling
-- Assess performance characteristics
-- Find constraints and trade-offs
+**架构文档（ADR）**：
+- 识别模式（ECS、单例、观察者等）
+- 理解技术决策（线程、序列化等）
+- 映射依赖与耦合
+- 评估性能特征
+- 找出约束与权衡
 
-**For concept docs (prototype analysis):**
-- Identify core mechanic
-- Extract emergent gameplay patterns
-- Note what worked vs what didn't
-- Find technical feasibility insights
-- Document player fantasy / feel
+**概念文档（原型分析）**：
+- 识别核心机制
+- 提炼涌现式玩法模式
+- 记录有效与无效之处
+- 记录技术可行性洞见
+- 记录玩家幻想 / 手感
 
-### 3. Ask Clarifying Questions (Collaborative Protocol)
+### 3. 澄清问题（协作协议）
 
-**DO NOT** just describe the code. **ASK** about intent:
+**不要**只复述代码。**要问**设计意图：
 
-**Design questions**:
-- "I see a stamina system that depletes during combat. Was this for:
-  - Pacing (prevent spam)?
-  - Resource management (strategic depth)?
-  - Or something else?"
-- "The stagger mechanic seems central. Is this a core pillar, or supporting feature?"
-- "Damage scales exponentially with level. Intentional power fantasy, or needs rebalancing?"
+**设计向问题**：
+- 「我看到战斗中有体力消耗系统。这是为了：
+  - 节奏（防止连按）？
+  - 资源管理（策略深度）？
+  - 还是其他？」
+- 「硬直机制看起来很核心。这是支柱玩法，还是辅助功能？」
+- 「伤害随等级指数增长。是有意做强度幻想，还是需要再平衡？」
 
-**Architecture questions**:
-- "You're using a service locator pattern. Was this chosen for:
-  - Testability (mock dependencies)?
-  - Decoupling (reduce hard references)?
-  - Or inherited from existing code?"
-- "I see manual memory management instead of smart pointers. Performance requirement, or legacy?"
+**架构向问题**：
+- 「你们用了服务定位器模式。选型原因是：
+  - 可测性（模拟依赖）？
+  - 解耦（减少硬引用）？
+  - 还是从既有代码继承来的？」
+- 「我看到是手动内存管理而不是智能指针。是性能要求，还是历史遗留？」
 
-**Concept questions**:
-- "The prototype emphasizes stealth over combat. Is that the intended pillar?"
-- "Players seem to exploit the grappling hook for speed. Feature or bug?"
+**概念向问题**：
+- 「原型强调潜行多于战斗。这是既定支柱吗？」
+- 「玩家似乎用抓钩赶路。算特性还是 bug？」
 
-### 4. Present Findings
+### 4. 呈现发现
 
-Before drafting, show what you discovered:
+在起草前，展示分析结论：
 
 ```
-I've analyzed src/gameplay/combat/. Here's what I found:
+已分析 src/gameplay/combat/。发现如下：
 
-MECHANICS IMPLEMENTED:
+已实现机制（MECHANICS IMPLEMENTED）：
 - 3-hit combo system with timing windows
 - Guard-break mechanic (heavy attack vs blocking enemy)
 - Stamina system (depletes on attack/dodge, regens when idle)
 - Stagger system (builds up, triggers vulnerable state)
 
-FORMULAS DISCOVERED:
+已发现公式（FORMULAS DISCOVERED）：
 - Damage = Base * (1 + StrengthScaling * Level)
 - Stagger buildup = AttackStaggerValue / (Enemy.Poise * 0.5)
 - Stamina cost = BaseStaminaCost * (1 - EfficiencyBonus)
 
-UNCLEAR INTENT AREAS:
-1. Stamina system — pacing or resource management?
-2. Stagger — core pillar or supporting feature?
-3. Damage scaling — power fantasy or needs tuning?
+意图不明处（UNCLEAR INTENT AREAS）：
+1. 体力系统 — 节奏向还是资源管理向？
+2. 硬直 — 支柱玩法还是辅助功能？
+3. 伤害成长 — 有意做强度幻想还是需要再调？
 
-Before I draft the design doc, could you clarify these points?
+起草设计文档前，能否澄清以上几点？
 ```
 
-Wait for user to clarify intent before drafting.
+等待用户澄清意图后再起草。
 
-### 5. Draft Document Using Template
+### 5. 按模板起草文档
 
-Based on type, use appropriate template:
+按类型选用对应模板：
 
-| Type | Template | Output Path |
+| 类型 | 模板 | 输出路径 |
 |------|----------|-------------|
 | `design` | `templates/design-doc-from-implementation.md` | `design/gdd/[system-name].md` |
 | `architecture` | `templates/architecture-doc-from-code.md` | `docs/architecture/[decision-name].md` |
-| `concept` | `templates/concept-doc-from-prototype.md` | `prototypes/[name]/CONCEPT.md` or `design/concepts/[name].md` |
+| `concept` | `templates/concept-doc-from-prototype.md` | `prototypes/[name]/CONCEPT.md` 或 `design/concepts/[name].md` |
 
-**Draft structure**:
-- Capture **what exists** (mechanics, patterns, implementation)
-- Document **why it exists** (intent clarified with user)
-- Identify **what's missing** (edge cases not handled, gaps in design)
-- Flag **follow-up work** (balance tuning, missing features)
+**草稿结构**：
+- 记录**已有内容**（机制、模式、实现）
+- 记录**为何如此**（与用户澄清后的意图）
+- 标出**缺口**（未处理的边界、设计空白）
+- 标注**后续工作**（数值调优、缺失功能）
 
-### 6. Show Draft and Request Approval
+### 6. 展示草稿并请求批准
 
-**Collaborative protocol**:
+**协作协议**：
 ```
-I've drafted the combat system design doc based on your code and clarifications.
+已根据你的代码与澄清起草战斗系统设计文档。
 
-[Show key sections: Overview, Mechanics, Formulas, Design Intent]
+[展示关键章节：Overview, Mechanics, Formulas, Design Intent]
 
-ADDITIONS I MADE:
-- Documented stamina as "pacing mechanic" per your clarification
-- Added edge cases not in code (what if stamina hits 0 mid-combo?)
-- Flagged balance concern: exponential damage scaling at high levels
+本次增补（ADDITIONS I MADE）：
+- 按你的说明将体力记为「节奏机制」
+- 补充了代码中未写的边界情况（连段中途体力归零怎么办？）
+- 标出平衡风险：高等级下指数伤害成长
 
-SECTIONS MARKED AS INCOMPLETE:
-- "Enemy AI interaction with stagger" (not fully implemented yet)
-- "Weapon variety and scaling" (only sword implemented so far)
+标为未完成的章节（SECTIONS MARKED AS INCOMPLETE）：
+- "Enemy AI interaction with stagger"（尚未完全实现）
+- "Weapon variety and scaling"（目前仅实现剑）
 
-May I write this to design/gdd/combat-system.md?
+是否可以将此文写入 design/gdd/combat-system.md？
 ```
 
-Wait for approval. User may request changes before writing.
+等待批准。用户可能在写入前要求修改。
 
-### 7. Write Document with Metadata
+### 7. 写入文档并带元数据
 
-When approved, write the file with special markers:
+获准后，写入文件并附带标记：
 
 ```markdown
 ---
@@ -166,97 +165,96 @@ date: 2026-02-13
 verified-by: [User name]
 ---
 
-# Combat System Design
+# 战斗系统设计
 
-> **Note**: This document was reverse-engineered from the existing implementation.
-> It captures current behavior and clarified design intent. Some sections may be
-> incomplete where implementation is partial or intent was unclear.
+> **说明**：本文档由现有实现逆向整理而成。
+> 记录当前行为与已澄清的设计意图。在实现不完整或意图不清处，部分章节可能不完整。
 
-[Rest of document...]
+[文档其余部分...]
 ```
 
-### 8. Flag Follow-Up Work
+### 8. 标注后续工作
 
-After writing, suggest next steps:
+写入后，建议下一步：
 
 ```
-✅ Written to design/gdd/combat-system.md
+✅ 已写入 design/gdd/combat-system.md
 
-FOLLOW-UP RECOMMENDED:
-1. Run /balance-check on combat formulas (exponential scaling concern)
-2. Create ADR for stamina system architecture decision
-3. Implement missing edge cases:
+建议后续（FOLLOW-UP RECOMMENDED）：
+1. 对战斗公式运行 /balance-check（指数成长方面的顾虑）
+2. 为体力系统架构决策撰写 ADR
+3. 补全缺失边界情况：
    - Stamina depletion mid-combo behavior
    - Stagger state during dodge
-4. Extend design doc when weapon variety is implemented
+4. 武器种类实现后再扩展设计文档
 
-Would you like me to tackle any of these now?
+是否现在处理其中某一项？
 ```
 
 ---
 
-## Template Selection Logic
+## 模板选择逻辑
 
-| If analyzing... | Use template... | Because... |
+| 若分析… | 使用模板… | 原因… |
 |----------------|-----------------|------------|
-| `src/gameplay/*` | design-doc-from-implementation.md | Gameplay mechanics → GDD |
-| `src/core/*`, `src/ai/*` | architecture-doc-from-code.md | Core systems → ADR |
-| `prototypes/*` | concept-doc-from-prototype.md | Experiments → concept doc |
-| `src/networking/*` | architecture-doc-from-code.md | Technical systems → ADR |
-| `src/ui/*` | design-doc-from-implementation.md | UI/UX → design spec |
+| `src/gameplay/*` | design-doc-from-implementation.md | 玩法机制 → GDD |
+| `src/core/*`, `src/ai/*` | architecture-doc-from-code.md | 核心系统 → ADR |
+| `prototypes/*` | concept-doc-from-prototype.md | 实验 → 概念文档 |
+| `src/networking/*` | architecture-doc-from-code.md | 技术系统 → ADR |
+| `src/ui/*` | design-doc-from-implementation.md | UI/UX → 设计规格 |
 
 ---
 
-## Example Session: Reverse-Document Combat Code
+## 示例会话：对战斗代码做逆向文档
 
 ```
 User: /reverse-document design src/gameplay/combat
 
-Agent: I'll analyze your combat implementation to create a design doc.
-       [Reads code, discovers mechanics, formulas]
+Agent: 将分析你的战斗实现以撰写设计文档。
+       [读代码，归纳机制与公式]
 
-Agent: I've analyzed src/gameplay/combat/. Here's what I found:
-       [Shows mechanics, formulas, unclear areas]
+Agent: 已分析 src/gameplay/combat/。发现如下：
+       [展示机制、公式、模糊点]
 
-       Before drafting, could you clarify:
-       1. Stamina system intent?
-       2. Is stagger a core pillar?
-       3. Damage scaling — intentional or needs tuning?
+       起草前请澄清：
+       1. 体力系统的意图？
+       2. 硬直是否为支柱玩法？
+       3. 伤害成长 — 有意为之还是需要再调？
 
-User: 1. Stamina is for pacing, prevent button mashing
-      2. Stagger is core — I want deliberate combat
-      3. Yeah, exponential is too much, should be linear
+User: 1. 体力用于节奏，防止连按
+      2. 硬直是核心 — 我要的是有意识的战斗
+      3. 指数太强了，应改成线性
 
-Agent: Perfect, that clarifies the vision. Let me draft the design doc.
-       [Shows draft with clarified intent]
+Agent: 好的，愿景已清楚。正在起草设计文档。
+       [展示含澄清意图的草稿]
 
-       May I write this to design/gdd/combat-system.md?
+       是否可以将此文写入 design/gdd/combat-system.md？
 
-User: Yes, write it.
+User: 可以，写吧。
 
-Agent: ✅ Written to design/gdd/combat-system.md
-       ✅ Marked as [REVERSE-DOCUMENTED]
-       ✅ Flagged damage scaling for rebalancing
+Agent: ✅ 已写入 design/gdd/combat-system.md
+       ✅ 已标为 [REVERSE-DOCUMENTED]
+       ✅ 已标出伤害成长需再平衡
 
-       Next steps:
-       - Update damage formula to linear scaling
-       - Run /balance-check to validate progression curve
-       - Document stagger as core pillar in game-pillars.md
+       下一步：
+       - 将伤害公式改为线性成长
+       - 运行 /balance-check 校验成长曲线
+       - 在 game-pillars.md 中将硬直记为支柱玩法
 ```
 
 ---
 
-## Collaborative Protocol
+## 协作协议
 
-This skill follows the collaborative design principle:
+本技能遵循协作式设计原则：
 
-1. **Analyze First**: Read code, understand implementation
-2. **Question Intent**: Ask about "why", not just "what"
-3. **Present Findings**: Show discoveries, highlight unclear areas
-4. **User Clarifies**: Separate intent from accidents
-5. **Draft Document**: Create doc based on reality + intent
-6. **Show Draft**: Display key sections, explain additions
-7. **Get Approval**: "May I write to [filepath]?"
-8. **Flag Follow-Up**: Suggest related work, don't auto-execute
+1. **先分析**：读代码，理解实现
+2. **追问意图**：问「为什么」，不只问「是什么」
+3. **呈现发现**：展示结论，标出模糊处
+4. **用户澄清**：区分意图与偶然实现
+5. **起草文档**：基于现实 + 澄清后的意图
+6. **展示草稿**：展示关键章节，说明增补内容
+7. **取得批准**：「是否可以将此文写入 [filepath]？」
+8. **标注后续**：建议相关工作，不自动执行
 
-**Never assume intent. Always ask before documenting "why".**
+**不要臆测意图。在把「为什么」写进文档前，务必先问。**

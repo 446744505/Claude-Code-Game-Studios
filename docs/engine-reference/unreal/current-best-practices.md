@@ -1,136 +1,136 @@
-# Unreal Engine 5.7 — Current Best Practices
+# Unreal Engine 5.7 — 当前最佳实践
 
-**Last verified:** 2026-02-13
+**最后核对：** 2026-02-13
 
-Modern UE5 patterns that may not be in the LLM's training data.
-These are production-ready recommendations as of UE 5.7.
-
----
-
-## Project Setup
-
-### Use UE 5.7 for New Projects
-- Latest features: Megalights, production-ready Substrate and PCG
-- Better performance and stability
-
-### Choose the Right Rendering Features
-- **Lumen**: Real-time global illumination (RECOMMENDED for most projects)
-- **Nanite**: Virtualized geometry for high-poly meshes (RECOMMENDED for detailed environments)
-- **Megalights**: Millions of dynamic lights (RECOMMENDED for complex lighting)
-- **Substrate**: Modular material system (RECOMMENDED for new projects)
+现代 UE5 模式，可能尚未进入 LLM 训练数据。  
+以下为截至 UE 5.7 的生产级建议。
 
 ---
 
-## C++ Coding
+## 项目搭建
 
-### Use Modern C++ Features (C++20 in UE5.7)
+### 新项目使用 UE 5.7
+- 最新能力：Megalights、可用于生产的 Substrate 与 PCG
+- 更好的性能与稳定性
+
+### 选择合适的渲染特性
+- **Lumen**：实时全局光照（多数项目**推荐**）
+- **Nanite**：高模虚拟化几何（细节环境**推荐**）
+- **Megalights**：海量动态光源（复杂光照**推荐**）
+- **Substrate**：模块化材质系统（新项目**推荐**）
+
+---
+
+## C++ 编码
+
+### 使用现代 C++（UE5.7 为 C++20）
 
 ```cpp
-// ✅ Use TObjectPtr<T> (UE5 type-safe pointers)
+// ✅ 使用 TObjectPtr<T>（UE5 类型安全指针）
 UPROPERTY()
 TObjectPtr<UStaticMeshComponent> MeshComp;
 
-// ✅ Structured bindings
+// ✅ 结构化绑定
 if (auto [bSuccess, Value] = TryGetValue(); bSuccess) {
-    // Use Value
+    // 使用 Value
 }
 
-// ✅ Concepts and constraints (C++20)
+// ✅ Concepts 与约束（C++20）
 template<typename T>
 concept Damageable = requires(T t, float damage) {
     { t.TakeDamage(damage) } -> std::same_as<void>;
 };
 ```
 
-### Use UPROPERTY() for Garbage Collection
+### 使用 UPROPERTY() 参与垃圾回收
 
 ```cpp
-// ✅ UPROPERTY ensures GC doesn't delete this
+// ✅ UPROPERTY 保证 GC 不会误删此引用
 UPROPERTY()
 TObjectPtr<AActor> MyActor;
 
-// ❌ Raw pointers can become dangling
-AActor* MyActor; // Dangerous! May be garbage collected
+// ❌ 裸指针可能变成悬空指针
+AActor* MyActor; // 危险！可能被垃圾回收
 ```
 
-### Use UFUNCTION() for Blueprint Exposure
+### 使用 UFUNCTION() 暴露给 Blueprint
 
 ```cpp
-// ✅ Callable from Blueprint
+// ✅ 可从 Blueprint 调用
 UFUNCTION(BlueprintCallable, Category="Combat")
 void TakeDamage(float Damage);
 
-// ✅ Implementable in Blueprint
+// ✅ 可在 Blueprint 中实现
 UFUNCTION(BlueprintImplementableEvent, Category="Combat")
 void OnDeath();
 ```
 
 ---
 
-## Blueprint Best Practices
+## Blueprint 最佳实践
 
-### Use Blueprint vs C++
+### Blueprint 与 C++ 分工
 
-- **C++**: Core gameplay systems, performance-critical code, low-level engine interaction
-- **Blueprint**: Rapid prototyping, content creation, data-driven logic, designer workflows
+- **C++**：核心玩法系统、性能关键路径、底层引擎交互
+- **Blueprint**：快速原型、内容制作、数据驱动逻辑、策划工作流
 
-### Blueprint Performance Tips
+### Blueprint 性能提示
 
 ```cpp
-// ✅ Use Event Tick sparingly (expensive)
-// Prefer timers or events
+// ✅ 少用 Event Tick（开销大）
+// 优先用 Timer 或事件
 
-// ✅ Use Blueprint Nativization (Blueprints → C++)
-// Project Settings > Packaging > Blueprint Nativization
+// ✅ 使用 Blueprint Nativization（Blueprint → C++）
+// 项目设置 > 打包 > Blueprint Nativization
 
-// ✅ Cache frequently accessed components
-// Don't call GetComponent every tick
+// ✅ 缓存频繁访问的组件
+// 不要在每帧调用 GetComponent
 ```
 
 ---
 
-## Rendering (UE 5.7)
+## 渲染（UE 5.7）
 
-### Use Lumen for Global Illumination
+### 全局光照使用 Lumen
 
 ```cpp
-// Enable: Project Settings > Engine > Rendering > Dynamic Global Illumination Method = Lumen
-// Real-time GI, no lightmap baking needed (RECOMMENDED)
+// 启用：项目设置 > 引擎 > 渲染 > 动态全局光照方法 = Lumen
+// 实时 GI，无需烘焙光照贴图（推荐）
 ```
 
-### Use Nanite for High-Poly Meshes
+### 高模使用 Nanite
 
 ```cpp
-// Enable on Static Mesh: Details > Nanite Settings > Enable Nanite Support
-// Automatically LODs millions of triangles (RECOMMENDED for detailed meshes)
+// 在静态网格体上启用：细节 > Nanite 设置 > 启用 Nanite 支持
+// 自动处理数百万三角形的 LOD（高细节网格推荐）
 ```
 
-### Use Megalights for Complex Lighting (UE 5.5+)
+### 复杂光照使用 Megalights（UE 5.5+）
 
 ```cpp
-// Enable: Project Settings > Engine > Rendering > Megalights = Enabled
-// Supports millions of dynamic lights with minimal cost
+// 启用：项目设置 > 引擎 > 渲染 > Megalights = 已启用
+// 以较低成本支持海量动态光源
 ```
 
-### Use Substrate Materials (Production-Ready in 5.7)
+### 使用 Substrate 材质（5.7 已可用于生产）
 
 ```cpp
-// Enable: Project Settings > Engine > Substrate > Enable Substrate
-// Modular, physically accurate materials (RECOMMENDED for new projects)
+// 启用：项目设置 > 引擎 > Substrate > 启用 Substrate
+// 模块化、物理准确的材质（新项目推荐）
 ```
 
 ---
 
-## Enhanced Input System
+## Enhanced Input 系统
 
-### Setup Enhanced Input
+### 配置 Enhanced Input
 
 ```cpp
-// 1. Create Input Action (IA_Jump)
-// 2. Create Input Mapping Context (IMC_Default)
-// 3. Add mapping: IA_Jump → Space Bar
+// 1. 创建 Input Action（IA_Jump）
+// 2. 创建 Input Mapping Context（IMC_Default）
+// 3. 添加映射：IA_Jump → 空格键
 
-// C++ Setup:
+// C++ 配置：
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 
@@ -160,55 +160,55 @@ void AMyCharacter::Move(const FInputActionValue& Value) {
 
 ---
 
-## Gameplay Ability System (GAS)
+## Gameplay Ability System（GAS）
 
-### Use GAS for Complex Gameplay
+### 复杂玩法使用 GAS
 
 ```cpp
-// ✅ Use GAS for: Abilities, buffs, damage calculation, cooldowns
-// Modular, scalable, multiplayer-ready
+// ✅ GAS 适用于：技能、Buff、伤害计算、冷却等
+// 模块化、可扩展、适合多人
 
-// Install: Enable "Gameplay Abilities" plugin
+// 安装：启用「Gameplay Abilities」插件
 
-// Example Ability:
+// 技能示例：
 UCLASS()
 class UGA_Fireball : public UGameplayAbility {
     GENERATED_BODY()
 
 public:
     virtual void ActivateAbility(...) override {
-        // Ability logic
+        // 技能逻辑
         SpawnFireball();
-        CommitAbility(); // Commit cost/cooldown
+        CommitAbility(); // 提交消耗/冷却
     }
 };
 ```
 
 ---
 
-## World Partition (Large Worlds)
+## World Partition（大世界）
 
-### Use World Partition for Open Worlds
+### 开放世界使用 World Partition
 
 ```cpp
-// Enable: World Settings > Enable World Partition
-// Automatically streams world cells based on player location
+// 启用：世界设置 > 启用 World Partition
+// 根据玩家位置自动流送世界单元
 
-// Data Layers: Organize content (e.g., "Gameplay", "Audio", "Lighting")
-// Runtime Data Layers: Load/unload at runtime
+// Data Layers：组织内容（例如「Gameplay」「Audio」「Lighting」）
+// Runtime Data Layers：运行时加载/卸载
 ```
 
 ---
 
-## Niagara (VFX)
+## Niagara（特效）
 
-### Use Niagara (Not Cascade)
+### 使用 Niagara（不用 Cascade）
 
 ```cpp
-// Create: Content Browser > Right Click > FX > Niagara System
-// GPU-accelerated, node-based particle system (RECOMMENDED)
+// 创建：内容浏览器 > 右键 > FX > Niagara System
+// GPU 加速、基于节点的粒子系统（推荐）
 
-// Spawn particles:
+// 生成粒子：
 UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
     GetWorld(),
     ExplosionSystem,
@@ -218,15 +218,15 @@ UNiagaraComponent* NiagaraComp = UNiagaraFunctionLibrary::SpawnSystemAtLocation(
 
 ---
 
-## MetaSounds (Audio)
+## MetaSounds（音频）
 
-### Use MetaSounds for Procedural Audio
+### 程序化音频使用 MetaSounds
 
 ```cpp
-// Create: Content Browser > Right Click > Sounds > MetaSound Source
-// Node-based audio, replaces Sound Cue for complex logic (RECOMMENDED)
+// 创建：内容浏览器 > 右键 > 声音 > MetaSound Source
+// 基于节点的音频，复杂逻辑下替代 Sound Cue（推荐）
 
-// Play MetaSound:
+// 播放 MetaSound：
 UAudioComponent* AudioComp = UGameplayStatics::SpawnSound2D(
     GetWorld(),
     MetaSoundSource
@@ -235,21 +235,21 @@ UAudioComponent* AudioComp = UGameplayStatics::SpawnSound2D(
 
 ---
 
-## Replication (Multiplayer)
+## Replication（多人）
 
-### Server-Authoritative Pattern
+### 服务器权威模式
 
 ```cpp
-// ✅ Client sends input, server validates and replicates
+// ✅ 客户端发输入，服务器校验并复制
 UFUNCTION(Server, Reliable)
 void Server_Move(FVector Direction);
 
 void AMyCharacter::Server_Move_Implementation(FVector Direction) {
-    // Server validates and applies movement
+    // 服务器校验并应用移动
     AddMovementInput(Direction);
 }
 
-// ✅ Replicate important state
+// ✅ 复制重要状态
 UPROPERTY(Replicated)
 int32 Health;
 
@@ -261,12 +261,12 @@ void AMyCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLife
 
 ---
 
-## Performance Optimization
+## 性能优化
 
-### Use Object Pooling
+### 使用对象池
 
 ```cpp
-// ✅ Reuse objects instead of Spawn/Destroy
+// ✅ 复用对象，避免频繁 Spawn/Destroy
 TArray<AActor*> ProjectilePool;
 
 AActor* GetPooledProjectile() {
@@ -276,16 +276,16 @@ AActor* GetPooledProjectile() {
             return Proj;
         }
     }
-    // Pool exhausted, spawn new
+    // 池耗尽则新建
     return SpawnNewProjectile();
 }
 ```
 
-### Use Instanced Static Meshes
+### 使用实例化静态网格体
 
 ```cpp
-// ✅ Hierarchical Instanced Static Mesh Component (HISM)
-// Render thousands of identical meshes in one draw call
+// ✅ 分层实例化静态网格体组件（HISM）
+// 一次 Draw Call 渲染大量相同网格
 UHierarchicalInstancedStaticMeshComponent* HISM = CreateDefaultSubobject<UHierarchicalInstancedStaticMeshComponent>(TEXT("Trees"));
 for (int i = 0; i < 1000; i++) {
     HISM->AddInstance(FTransform(RandomLocation));
@@ -294,24 +294,24 @@ for (int i = 0; i < 1000; i++) {
 
 ---
 
-## Debugging
+## 调试
 
-### Use Logging
+### 使用日志
 
 ```cpp
-// ✅ Structured logging
+// ✅ 结构化日志
 UE_LOG(LogTemp, Warning, TEXT("Player health: %d"), Health);
 
-// Custom log category
+// 自定义日志分类
 DECLARE_LOG_CATEGORY_EXTERN(LogMyGame, Log, All);
 DEFINE_LOG_CATEGORY(LogMyGame);
 UE_LOG(LogMyGame, Error, TEXT("Critical error!"));
 ```
 
-### Use Visual Logger
+### 使用 Visual Logger
 
 ```cpp
-// ✅ Visual debugging
+// ✅ 可视化调试
 #include "VisualLogger/VisualLogger.h"
 
 UE_VLOG_SEGMENT(this, LogTemp, Log, StartPos, EndPos, FColor::Red, TEXT("Raycast"));
@@ -320,21 +320,21 @@ UE_VLOG_LOCATION(this, LogTemp, Log, TargetLocation, 50.f, FColor::Green, TEXT("
 
 ---
 
-## Summary: UE 5.7 Recommended Stack
+## 小结：UE 5.7 推荐技术栈
 
-| Feature | Use This (2026) | Notes |
+| 特性 | 2026 年选用 | 说明 |
 |---------|------------------|-------|
-| **Lighting** | Lumen + Megalights | Real-time GI, millions of lights |
-| **Geometry** | Nanite | High-poly meshes, automatic LOD |
-| **Materials** | Substrate | Modular, physically accurate |
-| **Input** | Enhanced Input | Rebindable, modular |
-| **VFX** | Niagara | GPU-accelerated |
-| **Audio** | MetaSounds | Procedural audio |
-| **World Streaming** | World Partition | Large open worlds |
-| **Gameplay** | Gameplay Ability System | Complex abilities, buffs |
+| **光照** | Lumen + Megalights | 实时 GI，海量光源 |
+| **几何** | Nanite | 高模，自动 LOD |
+| **材质** | Substrate | 模块化，物理准确 |
+| **输入** | Enhanced Input | 可重绑、模块化 |
+| **特效** | Niagara | GPU 加速 |
+| **音频** | MetaSounds | 程序化音频 |
+| **世界流送** | World Partition | 大型开放世界 |
+| **玩法** | Gameplay Ability System | 复杂技能与 Buff |
 
 ---
 
-**Sources:**
+**参考：**
 - https://docs.unrealengine.com/5.7/en-US/
 - https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-7-release-notes

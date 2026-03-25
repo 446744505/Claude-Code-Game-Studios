@@ -1,62 +1,106 @@
-# What's New in [Version]
+# [版本号] 更新内容
 
-**Release Date**: [Date]
+> **模板说明**：与 `.claude/skills/changelog/SKILL.md` 配套使用。技能会生成**内部版**与**面向玩家版**两份；本文件可作为合并草稿。下方 **技术说明** 及之后为内部专用，**公开发布前整段删除**。面向玩家的正文勿写文件路径、类名或开发者姓名。
 
----
-
-## New Features
-
-- **[Feature Name]**: [Player-friendly description of what they can now do. Focus on the experience, not the implementation. 1-2 sentences.]
-
-- **[Feature Name]**: [Description]
+**发布日期**：[日期]
 
 ---
 
-## Improvements
+## 新功能
 
-- **[Area Improved]**: [How this makes the game better for the player. Be specific.]
+- **[功能名称]**：[面向玩家的说明，写他们现在能做什么。侧重体验，不写实现。1–2 句。]
 
-- **[Area Improved]**: [Description]
-
----
-
-## Balance Changes
-
-- **[What Changed]**: [Old value] -> [New value]. [Brief design reasoning in player terms. Example: "Healing potions now restore 50 HP (up from 30) -- late-game encounters needed more recovery options."]
-
-- **[What Changed]**: [Description]
+- **[功能名称]**：[说明]
 
 ---
 
-## Bug Fixes
+## 改进
 
-- Fixed an issue where [describe the player-visible symptom, not the code fix]
-- Fixed [another player-visible symptom]
-- Fixed [symptom]
+- **[改进领域]**：[这对玩家具体好在哪里。写具体。]
 
----
-
-## Known Issues
-
-- [Issue description in player terms]. [Workaround if one exists.] We're working on a fix.
+- **[改进领域]**：[说明]
 
 ---
 
-## Technical Notes (Internal Only -- Remove Before Publishing)
+## 平衡性调整
 
-### Commits Covered
-- Range: `[first-hash]..[last-hash]`
-- Total commits: [N]
+- **[变更项]**：[旧数值] → [新数值]。[用玩家能懂的话简述设计理由。示例：「治疗药水现在恢复 50 点生命（原为 30）——后期战斗需要更多恢复手段。」]
 
-### Internal Changes
-- [Refactoring, infrastructure, or tooling changes not visible to players]
-
-### Deferred Items
-- [Features or fixes originally planned for this release but moved to next]
-  - Reason: [why deferred]
-  - New target: [version or sprint]
+- **[变更项]**：[说明]
 
 ---
 
-Thank you for playing! Your feedback helps us improve the game.
-Report issues at [support link].
+## 缺陷修复
+
+- 修复了 [描述玩家可见现象，不要写代码层面的修复]
+- 修复了 [另一处玩家可见现象]
+- 修复了 [现象]
+
+---
+
+## 已知问题
+
+- [用玩家能懂的话描述问题]。[若有临时规避办法请写出。] 我们正在修复。
+
+---
+
+## 致谢与支持
+
+感谢游玩！你的反馈帮助我们改进游戏。  
+问题反馈请前往 [支持链接]。
+
+---
+
+## 技术说明（内部专用 —— 发布前整段删除）
+
+### 元数据
+
+- **覆盖冲刺**：[编号或日期范围]
+- **提交范围**：`[首条哈希]..[末条哈希]`
+- **提交总数**：[N]
+
+### 内部：新功能
+
+- **[功能名称]** —— [技术摘要、涉及系统]
+  - 提交：[哈希1]、[哈希2]
+  - 负责人：[谁]
+  - 设计文档：[如有请附链接]
+
+### 内部：改进
+
+- **[改进项]** —— [技术上改了什么、为何改]
+  - 提交：[哈希列表]
+  - 负责人：[谁]
+
+### 内部：缺陷修复
+
+- **[缺陷单号]** [现象与根因]
+  - 修复：[改了什么]
+  - 提交：[哈希列表]
+  - 负责人：[谁]
+
+### 内部：平衡 / 调参
+
+- **[项]** —— [旧 → 新] —— [设计意图]
+  - 负责人：[谁]
+
+### 技术债 / 重构
+
+- [清理了什么、为何清理]
+  - 提交：[哈希列表]
+
+### 已知问题（内部）
+
+- [说明] —— **严重度**：[S0/S1/S2/…] —— **预计修复**（如已知）：[…]
+
+### 顺延项
+
+- [本版未纳入的功能或修复]
+  - 原因：[为何顺延]
+  - 新目标：[版本或冲刺]
+
+### 指标
+
+- 提交总数：[N]
+- 变更文件数：[N]
+- 增删行数：[+N] / [-N]（可选）

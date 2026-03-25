@@ -1,75 +1,72 @@
 ---
 name: bug-report
-description: "Creates a structured bug report from a description, or analyzes code to identify potential bugs. Ensures every bug report has full reproduction steps, severity assessment, and context."
-argument-hint: "[description]
-/bug-report analyze [path-to-file]"
+description: "根据描述创建结构化缺陷报告，或分析代码以识别潜在缺陷。确保每份报告包含完整复现步骤、严重度评估与上下文。"
+argument-hint: "[描述]
+/bug-report analyze [文件路径]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
 
-When invoked with a description:
+在用户提供描述时调用：
 
-1. **Parse the description** for key information.
+1. **解析描述**，提取关键信息。
 
-2. **Search the codebase** for related files using Grep/Glob to add context.
+2. **在代码库中搜索**相关文件（使用 Grep/Glob），补充上下文。
 
-3. **Generate the bug report**:
+3. **生成缺陷报告**：
 
 ```markdown
-# Bug Report
+# 缺陷报告
 
-## Summary
-**Title**: [Concise, descriptive title]
-**ID**: BUG-[NNNN]
-**Severity**: [S1-Critical / S2-Major / S3-Minor / S4-Trivial]
-**Priority**: [P1-Immediate / P2-Next Sprint / P3-Backlog / P4-Wishlist]
-**Status**: Open
-**Reported**: [Date]
-**Reporter**: [Name]
+## 摘要
+**标题**：[简明、可区分的标题]
+**ID**：BUG-[NNNN]
+**严重度**：[S1-致命 / S2-严重 / S3-一般 / S4-轻微]
+**优先级**：[P1-立即 / P2-下一迭代 / P3-待办 / P4-愿望清单]
+**状态**：开放
+**报告日期**：[日期]
+**报告人**：[姓名]
 
-## Classification
-- **Category**: [Gameplay / UI / Audio / Visual / Performance / Crash / Network]
-- **System**: [Which game system is affected]
-- **Frequency**: [Always / Often (>50%) / Sometimes (10-50%) / Rare (<10%)]
-- **Regression**: [Yes/No/Unknown -- was this working before?]
+## 分类
+- **类别**：[玩法 / UI / 音频 / 画面 / 性能 / 崩溃 / 网络]
+- **系统**：[受影响的游戏系统]
+- **频率**：[必现 / 经常（>50%）/ 有时（10–50%）/ 罕见（<10%）]
+- **是否回归**：[是/否/未知 — 此前是否正常？]
 
-## Environment
-- **Build**: [Version or commit hash]
-- **Platform**: [OS, hardware if relevant]
-- **Scene/Level**: [Where in the game]
-- **Game State**: [Relevant state -- inventory, quest progress, etc.]
+## 环境
+- **构建**：[版本号或 commit hash]
+- **平台**：[操作系统，必要时含硬件]
+- **场景/关卡**：[游戏内位置]
+- **游戏状态**：[相关状态 — 背包、任务进度等]
 
-## Reproduction Steps
-**Preconditions**: [Required state before starting]
+## 复现步骤
+**前置条件**：[开始前必须满足的状态]
 
-1. [Exact step 1]
-2. [Exact step 2]
-3. [Exact step 3]
+1. [精确步骤 1]
+2. [精确步骤 2]
+3. [精确步骤 3]
 
-**Expected Result**: [What should happen]
-**Actual Result**: [What actually happens]
+**预期结果**：[应该怎样]
+**实际结果**：[实际怎样]
 
-## Technical Context
-- **Likely affected files**: [List of files based on codebase search]
-- **Related systems**: [What other systems might be involved]
-- **Possible root cause**: [If identifiable from the description]
+## 技术上下文
+- **可能涉及的文件**：[基于代码库搜索列出的文件]
+- **关联系统**：[可能牵涉的其他系统]
+- **可能根因**：[若从描述可推断]
 
-## Evidence
-- **Logs**: [Relevant log output if available]
-- **Visual**: [Description of visual evidence]
+## 证据
+- **日志**：[如有，贴相关日志]
+- **画面**：[画面/表现上的证据描述]
 
-## Related Issues
-- [Links to related bugs or design documents]
+## 关联问题
+- [关联缺陷或设计文档链接]
 
-## Notes
-[Any additional context or observations]
+## 备注
+[其他说明或观察]
 ```
 
-When invoked with `analyze`:
+在用户使用 `analyze` 调用时：
 
-1. **Read the target file(s)**.
-2. **Identify potential bugs**: null references, off-by-one errors, race
-   conditions, unhandled edge cases, resource leaks, incorrect state
-   transitions.
-3. **For each potential bug**, generate a bug report with the likely trigger
-   scenario and recommended fix.
+1. **读取目标文件**。
+2. **识别潜在缺陷**：空引用、差一错误、竞态条件、未处理的边界情况、资源泄漏、错误的状态迁移等。
+3. **对每一处潜在缺陷**，生成一份报告，写明可能的触发场景与建议修复方向。

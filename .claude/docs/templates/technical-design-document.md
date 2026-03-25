@@ -1,82 +1,82 @@
-# Technical Design: [System Name]
+# 技术设计：[系统名称]
 
-## Document Status
-- **Version**: 1.0
-- **Last Updated**: [Date]
-- **Author**: [Agent/Person]
-- **Reviewer**: lead-programmer
-- **Related ADR**: [ADR-XXXX if applicable]
-- **Related Design Doc**: [Link to game design doc this implements]
+## 文档状态
+- **版本**：1.0
+- **最后更新**：[日期]
+- **作者**：[Agent/人员]
+- **审阅者**：lead-programmer
+- **相关 ADR**：[如适用则填写 ADR-XXXX]
+- **相关设计文档**：[指向本实现所依据的游戏设计文档的链接]
 
-## Overview
-[2-3 sentence summary of what this system does and why it exists]
+## 概述
+[用 2–3 句话概括本系统做什么、为何存在]
 
-## Requirements
-### Functional Requirements
-- [FR-1]: [Description]
-- [FR-2]: [Description]
+## 需求
+### 功能需求
+- [FR-1]：[描述]
+- [FR-2]：[描述]
 
-### Non-Functional Requirements
-- **Performance**: [Budget — e.g., "< 1ms per frame"]
-- **Memory**: [Budget — e.g., "< 50MB at peak"]
-- **Scalability**: [Limits — e.g., "Support up to 1000 entities"]
-- **Thread Safety**: [Requirements]
+### 非功能需求
+- **性能**：[预算 — 例如「< 每帧 1ms」]
+- **内存**：[预算 — 例如「峰值 < 50MB」]
+- **可扩展性**：[上限 — 例如「最多支持 1000 个实体」]
+- **线程安全**：[要求]
 
-## Architecture
+## 架构
 
-### System Diagram
+### 系统示意图
 ```
-[ASCII diagram showing components and data flow]
-```
-
-### Component Breakdown
-| Component | Responsibility | Owns |
-| --------- | -------------- | ---- |
-| [Name] | [What it does] | [What data it owns] |
-
-### Public API
-```
-[Interface/API definition in pseudocode or target language]
+[展示组件与数据流的 ASCII 示意图]
 ```
 
-### Data Structures
+### 组件拆解
+| 组件 | 职责 | 数据归属 |
+| ---- | ---- | -------- |
+| [名称] | [做什么] | [持有哪些数据] |
+
+### 公共 API
 ```
-[Key data structures with field descriptions]
+[以伪代码或目标语言给出的接口/API 定义]
 ```
 
-### Data Flow
-[Step by step: how data moves through the system during a typical frame]
+### 数据结构
+```
+[关键数据结构及字段说明]
+```
 
-## Implementation Plan
+### 数据流
+[逐步说明：在典型一帧内数据如何流经本系统]
 
-### Phase 1: [Core Functionality]
-- [ ] [Task 1]
-- [ ] [Task 2]
+## 实现计划
 
-### Phase 2: [Extended Features]
-- [ ] [Task 3]
-- [ ] [Task 4]
+### 阶段 1：[核心功能]
+- [ ] [任务 1]
+- [ ] [任务 2]
 
-### Phase 3: [Optimization/Polish]
-- [ ] [Task 5]
+### 阶段 2：[扩展功能]
+- [ ] [任务 3]
+- [ ] [任务 4]
 
-## Dependencies
-| Depends On | For What |
-| ---------- | -------- |
-| [System] | [Reason] |
+### 阶段 3：[优化/打磨]
+- [ ] [任务 5]
 
-| Depended On By | For What |
-| -------------- | -------- |
-| [System] | [Reason] |
+## 依赖
+| 依赖于 | 用途 |
+| ------ | ---- |
+| [系统] | [原因] |
 
-## Testing Strategy
-- **Unit Tests**: [What to test at unit level]
-- **Integration Tests**: [Cross-system tests needed]
-- **Performance Tests**: [Benchmarks to create]
-- **Edge Cases**: [Specific scenarios to test]
+| 被依赖方 | 用途 |
+| -------- | ---- |
+| [系统] | [原因] |
 
-## Known Limitations
-[What this design intentionally does NOT support and why]
+## 测试策略
+- **单元测试**：[单元层要测什么]
+- **集成测试**：[需要的跨系统测试]
+- **性能测试**：[要建立的基准]
+- **边界情况**：[要覆盖的具体场景]
 
-## Future Considerations
-[What might need to change if requirements evolve — but do NOT build for this now]
+## 已知局限
+[本设计有意不支持的点及原因]
+
+## 后续考量
+[若需求演进可能需要调整什么 — 但当前不要为此预先实现]

@@ -1,25 +1,23 @@
-# Coding Standards
+# 编码规范
 
-- All game code must include doc comments on public APIs
-- Every system must have a corresponding architecture decision record in `docs/architecture/`
-- Gameplay values must be data-driven (external config), never hardcoded
-- All public methods must be unit-testable (dependency injection over singletons)
-- Commits must reference the relevant design document or task ID
-- **Verification-driven development**: Write tests first when adding gameplay systems.
-  For UI changes, verify with screenshots. Compare expected output to actual output
-  before marking work complete. Every implementation should have a way to prove it works.
+- 所有游戏代码必须为 public API 编写 doc comments
+- 每个系统必须在 `docs/architecture/` 中有对应的 architecture decision record
+- gameplay 数值必须 data-driven（外部 config），不得 hardcode
+- 所有 public method 必须可 unit test（优先 dependency injection，而非 singleton）
+- commits 必须引用相关 design document 或 task ID
+- **Verification-driven development**：新增 gameplay system 时先写 tests。UI 变更须用 screenshots 验证。在标记工作完成前，将预期输出与 actual output 对比。每项实现都应有可证明其可用的方式。
 
-# Design Document Standards
+# 设计文档规范
 
-- All design docs use Markdown
-- Each mechanic has a dedicated document in `design/gdd/`
-- Documents must include these 8 required sections:
-  1. **Overview** -- one-paragraph summary
-  2. **Player Fantasy** -- intended feeling and experience
-  3. **Detailed Rules** -- unambiguous mechanics
-  4. **Formulas** -- all math defined with variables
-  5. **Edge Cases** -- unusual situations handled
-  6. **Dependencies** -- other systems listed
-  7. **Tuning Knobs** -- configurable values identified
-  8. **Acceptance Criteria** -- testable success conditions
-- Balance values must link to their source formula or rationale
+- 所有 design docs 使用 Markdown
+- 每个 mechanic 在 `design/gdd/` 中有独立文档
+- 文档必须包含以下 8 个必填章节：
+  1. **Overview** — 单段摘要
+  2. **Player Fantasy** — 预期感受与体验
+  3. **Detailed Rules** — 无歧义的机制说明
+  4. **Formulas** — 全部数学关系以变量定义
+  5. **Edge Cases** — 异常情形处理
+  6. **Dependencies** — 列出其他相关系统
+  7. **Tuning Knobs** — 标出可配置项
+  8. **Acceptance Criteria** — 可验证的成功条件
+- balance 数值必须链接到其来源 formula 或 rationale

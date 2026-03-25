@@ -1,75 +1,70 @@
 ---
 name: asset-audit
-description: "Audits game assets for compliance with naming conventions, file size budgets, format standards, and pipeline requirements. Identifies orphaned assets, missing references, and standard violations."
-argument-hint: "[category|all]"
+description: "审计游戏资源是否符合命名约定、文件体积预算、格式标准与管线要求。识别孤立资源、缺失引用与规范违反项。"
+argument-hint: "[类别|全部]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 ---
 
-When this skill is invoked:
+在调用本技能时：
 
-1. **Read the art bible or asset standards** from the relevant design docs and
-   the CLAUDE.md naming conventions.
+1. **阅读美术圣经或资源标准**：从相关设计文档与 CLAUDE.md 中的命名约定获取依据。
 
-2. **Scan the target asset directory** using Glob:
-   - `assets/art/**/*` for art assets
-   - `assets/audio/**/*` for audio assets
-   - `assets/vfx/**/*` for VFX assets
-   - `assets/shaders/**/*` for shaders
-   - `assets/data/**/*` for data files
+2. **使用 Glob 扫描目标资源目录**：
+   - `assets/art/**/*`：美术资源
+   - `assets/audio/**/*`：音频资源
+   - `assets/vfx/**/*`：特效资源
+   - `assets/shaders/**/*`：着色器
+   - `assets/data/**/*`：数据文件
 
-3. **Check naming conventions**:
-   - Art: `[category]_[name]_[variant]_[size].[ext]`
-   - Audio: `[category]_[context]_[name]_[variant].[ext]`
-   - All files must be lowercase with underscores
+3. **检查命名约定**：
+   - 美术：`[category]_[name]_[variant]_[size].[ext]`
+   - 音频：`[category]_[context]_[name]_[variant].[ext]`
+   - 所有文件名须为小写并使用下划线
 
-4. **Check file standards**:
-   - Textures: Power-of-two dimensions, correct format (PNG for UI, compressed
-     for 3D), within size budget
-   - Audio: Correct sample rate, format (OGG for SFX, OGG/MP3 for music),
-     within duration limits
-   - Data: Valid JSON/YAML, schema-compliant
+4. **检查文件标准**：
+   - 贴图：尺寸为 2 的幂、格式正确（UI 用 PNG，3D 用压缩格式）、在体积预算内
+   - 音频：采样率与格式正确（音效 OGG，音乐 OGG/MP3）、在时长限制内
+   - 数据：JSON/YAML 有效且符合 schema
 
-5. **Check for orphaned assets** by searching code for references to each
-   asset file.
+5. **检查孤立资源**：在代码中搜索对每个资源文件的引用。
 
-6. **Check for missing assets** by searching code for asset references and
-   verifying the files exist.
+6. **检查缺失资源**：在代码中搜索资源引用并确认对应文件存在。
 
-7. **Output the audit**:
+7. **输出审计结果**：
 
 ```markdown
-# Asset Audit Report -- [Category] -- [Date]
+# 资源审计报告 -- [Category] -- [Date]
 
-## Summary
-- **Total assets scanned**: [N]
-- **Naming violations**: [N]
-- **Size violations**: [N]
-- **Format violations**: [N]
-- **Orphaned assets**: [N]
-- **Missing assets**: [N]
-- **Overall health**: [CLEAN / MINOR ISSUES / NEEDS ATTENTION]
+## 摘要
+- **已扫描资源总数**：[N]
+- **命名违规**：[N]
+- **体积违规**：[N]
+- **格式违规**：[N]
+- **孤立资源**：[N]
+- **缺失资源**：[N]
+- **整体健康度**：[干净 / 轻微问题 / 需关注]
 
-## Naming Violations
-| File | Expected Pattern | Issue |
-|------|-----------------|-------|
+## 命名违规
+| 文件 | 期望模式 | 问题 |
+|------|----------|------|
 
-## Size Violations
-| File | Budget | Actual | Overage |
-|------|--------|--------|---------|
+## 体积违规
+| 文件 | 预算 | 实际 | 超出量 |
+|------|------|------|--------|
 
-## Format Violations
-| File | Expected Format | Actual Format |
-|------|----------------|---------------|
+## 格式违规
+| 文件 | 期望格式 | 实际格式 |
+|------|----------|----------|
 
-## Orphaned Assets (no code references found)
-| File | Last Modified | Size | Recommendation |
-|------|-------------|------|---------------|
+## 孤立资源（代码中未发现引用）
+| 文件 | 最后修改 | 大小 | 建议 |
+|------|----------|------|------|
 
-## Missing Assets (referenced but not found)
-| Reference Location | Expected Path |
-|-------------------|---------------|
+## 缺失资源（有引用但文件不存在）
+| 引用位置 | 期望路径 |
+|----------|----------|
 
-## Recommendations
-[Prioritized list of fixes]
+## 建议
+[按优先级排列的修复项]
 ```

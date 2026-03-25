@@ -1,70 +1,70 @@
-# Godot — Breaking Changes
+# Godot — 破坏性变更
 
-Last verified: 2026-02-12
+上次核对：2026-02-12
 
-Changes between Godot versions, focused on post-LLM-cutoff changes (4.4+).
+各 Godot 版本之间的变更，侧重 LLM 训练截止之后的改动（4.4+）。
 
-## 4.5 → 4.6 (Jan 2026 — POST-CUTOFF, HIGH RISK)
+## 4.5 → 4.6（2026 年 1 月 — 截止后，高风险）
 
-| Subsystem | Change | Details |
+| 子系统 | 变更 | 说明 |
 |-----------|--------|---------|
-| Physics | Jolt is now the DEFAULT 3D physics engine | New projects use Jolt automatically. Existing projects keep their setting. Some HingeJoint3D properties (like `damp`) only work with GodotPhysics. |
-| Rendering | Glow processes BEFORE tonemapping | Was after tonemapping. Scenes with glow will look different. Adjust intensity/blend in WorldEnvironment. |
-| Rendering | D3D12 default on Windows | Was Vulkan. For better driver compatibility. |
-| Rendering | AgX tonemapper new controls | White point and contrast parameters added. |
-| Core | Quaternion initializes to identity | Was zero. Unlikely to affect most code but technically breaking. |
-| UI | Dual-focus system | Mouse/touch focus now separate from keyboard/gamepad focus. Visual feedback differs by input method. |
-| Animation | IK system fully restored | CCDIK, FABRIK, Jacobian IK, Spline IK, TwoBoneIK via SkeletonModifier3D nodes. |
-| Editor | New "Modern" theme default | Grayscale replaces blue-tint. Restore: Editor Settings → Interface → Theme → Style: Classic |
-| Editor | "Select Mode" keybind changed | New "Select Mode" (v key) prevents accidental transforms. Old mode renamed "Transform Mode" (q key). |
-| 2D | TileMapLayer scene tile rotation | Scene tiles can now be rotated like atlas tiles. |
-| Localization | CSV plural form support | No longer requires Gettext for plurals. Context columns added. |
-| C# | Automatic string extraction | Translation strings auto-extracted from C# code. |
-| Plugins | New EditorDock class | Specialized container for plugin docks with layout control. |
+| 物理 | Jolt 现为默认 3D 物理引擎 | 新项目默认使用 Jolt。已有项目保留原设置。部分 HingeJoint3D 属性（如 `damp`）仅在 GodotPhysics 下生效。 |
+| 渲染 | Glow 在 tonemapping 之前处理 | 此前在 tonemapping 之后。带 glow 的场景观感会不同。请在 WorldEnvironment 中调整强度/混合。 |
+| 渲染 | Windows 上默认 D3D12 | 此前为 Vulkan。旨在改善驱动兼容性。 |
+| 渲染 | AgX tonemapper 新增控件 | 增加白点与对比度参数。 |
+| 核心 | Quaternion 默认初始化为单位四元数 | 此前为零四元数。多数代码不受影响，但属技术性破坏性变更。 |
+| UI | 双焦点系统 | 鼠标/触摸焦点与键盘/手柄焦点分离。不同输入方式的视觉反馈不同。 |
+| 动画 | IK 系统完整恢复 | 通过 SkeletonModifier3D 节点提供 CCDIK、FABRIK、Jacobian IK、Spline IK、TwoBoneIK。 |
+| 编辑器 | 新「Modern」主题为默认 | 灰阶取代蓝灰色调。恢复方式：Editor Settings → Interface → Theme → Style: Classic |
+| 编辑器 | 「Select Mode」快捷键变更 | 新「Select Mode」（v 键）减少误操作变换。原模式更名为「Transform Mode」（q 键）。 |
+| 2D | TileMapLayer 场景图块旋转 | 场景图块现可像 atlas 图块一样旋转。 |
+| 本地化 | CSV 复数形式支持 | 复数不再依赖 Gettext。新增 context 列。 |
+| C# | 自动字符串抽取 | 从 C# 代码自动抽取翻译字符串。 |
+| 插件 | 新增 EditorDock 类 | 用于插件 dock 的专用容器，可控制布局。 |
 
-## 4.4 → 4.5 (Late 2025 — POST-CUTOFF, HIGH RISK)
+## 4.4 → 4.5（2025 年末 — 截止后，高风险）
 
-| Subsystem | Change | Details |
+| 子系统 | 变更 | 说明 |
 |-----------|--------|---------|
-| GDScript | Variadic arguments added | Functions can accept `...` arbitrary params — new language feature |
-| GDScript | `@abstract` decorator | Abstract classes and methods now enforceable |
-| GDScript | Script backtracing | Detailed call stacks available even in Release builds |
-| Rendering | Stencil buffer support | New capability for advanced visual effects |
-| Rendering | SMAA 1x antialiasing | New post-processing AA option |
-| Rendering | Shader Baker | Pre-compiles shaders — reportedly 20x faster startup on some demos |
-| Rendering | Bent normal maps, specular occlusion | New material features |
-| Accessibility | Screen reader support | Control nodes work with accessibility tools via AccessKit |
-| Editor | Live translation preview | Test GUI layouts in different languages in-editor |
-| Physics | 3D interpolation rearchitected | Moved from RenderingServer to SceneTree. API unchanged but internals differ. |
-| Animation | BoneConstraint3D | New: AimModifier3D, CopyTransformModifier3D, ConvertTransformModifier3D |
-| Resources | `duplicate_deep()` added | New explicit method for deep duplication of nested resources |
-| Navigation | Dedicated 2D navigation server | No longer a proxy to 3D navigation; smaller export for 2D games |
-| UI | FoldableContainer node | New accordion-style container for collapsible UI sections |
-| UI | Recursive Control behavior | Disable mouse/focus interactions across entire node hierarchies |
-| Platform | visionOS export support | New platform target |
-| Platform | SDL3 gamepad driver | Delegated gamepad handling to SDL library |
-| Platform | Android 16KB page support | Required for Google Play targeting Android 15+ |
+| GDScript | 新增可变参数 | 函数可接受 `...` 任意参数 — 新语言特性 |
+| GDScript | `@abstract` 装饰器 | 抽象类与方法现可强制约束 |
+| GDScript | 脚本回溯 | Release 构建也可获得详细调用栈 |
+| 渲染 | Stencil buffer 支持 | 高级视觉效果的新能力 |
+| 渲染 | SMAA 1x 抗锯齿 | 新的后处理 AA 选项 |
+| 渲染 | Shader Baker | 预编译 shader — 据称部分 demo 启动快约 20 倍 |
+| 渲染 | Bent normal maps、specular occlusion | 新的材质特性 |
+| 无障碍 | 屏幕阅读器支持 | Control 节点通过 AccessKit 与无障碍工具协作 |
+| 编辑器 | 实时翻译预览 | 在编辑器内用不同语言测试 GUI 布局 |
+| 物理 | 3D 插值架构调整 | 从 RenderingServer 迁至 SceneTree。API 未变，内部实现不同。 |
+| 动画 | BoneConstraint3D | 新增：AimModifier3D、CopyTransformModifier3D、ConvertTransformModifier3D |
+| 资源 | 新增 `duplicate_deep()` | 嵌套资源深拷贝的显式方法 |
+| 导航 | 专用 2D 导航服务器 | 不再代理到 3D 导航；2D 游戏导出体积更小 |
+| UI | FoldableContainer 节点 | 可折叠 UI 区块的手风琴式新容器 |
+| UI | Control 递归行为 | 可禁用整棵节点树的鼠标/焦点交互 |
+| 平台 | visionOS 导出支持 | 新平台目标 |
+| 平台 | SDL3 手柄驱动 | 手柄处理委托给 SDL |
+| 平台 | Android 16KB 页支持 | 面向 Android 15+ 的 Google Play 要求 |
 
-## 4.3 → 4.4 (Mid 2025 — NEAR CUTOFF, VERIFY)
+## 4.3 → 4.4（2025 年中 — 接近截止，请核实）
 
-| Subsystem | Change | Details |
+| 子系统 | 变更 | 说明 |
 |-----------|--------|---------|
-| Core | `FileAccess.store_*` return `bool` | Was `void`. Methods: `store_8`, `store_16`, `store_32`, `store_64`, `store_buffer`, `store_csv_line`, `store_double`, `store_float`, `store_half`, `store_line`, `store_pascal_string`, `store_real`, `store_string`, `store_var` |
-| Core | `OS.execute_with_pipe` | Added optional `blocking` parameter |
-| Core | `RegEx.compile/create_from_string` | Added optional `show_error` parameter |
-| Rendering | `RenderingDevice.draw_list_begin` | Many parameters removed; `breadcrumb` parameter added |
-| Rendering | Shader texture types | Parameter/return types changed from `Texture2D` to `Texture` |
-| Particles | `.restart()` method | Added optional `keep_seed` parameter (CPU/GPU 2D/3D) |
-| GUI | `RichTextLabel.push_meta` | Added optional `tooltip` parameter |
-| GUI | `GraphEdit.connect_node` | Added optional `keep_alive` parameter |
+| 核心 | `FileAccess.store_*` 返回 `bool` | 此前为 `void`。涉及方法：`store_8`、`store_16`、`store_32`、`store_64`、`store_buffer`、`store_csv_line`、`store_double`、`store_float`、`store_half`、`store_line`、`store_pascal_string`、`store_real`、`store_string`、`store_var` |
+| 核心 | `OS.execute_with_pipe` | 新增可选参数 `blocking` |
+| 核心 | `RegEx.compile/create_from_string` | 新增可选参数 `show_error` |
+| 渲染 | `RenderingDevice.draw_list_begin` | 移除大量参数；新增 `breadcrumb` 参数 |
+| 渲染 | Shader 纹理类型 | 参数/返回类型由 `Texture2D` 改为 `Texture` |
+| 粒子 | `.restart()` 方法 | 新增可选参数 `keep_seed`（CPU/GPU 2D/3D） |
+| GUI | `RichTextLabel.push_meta` | 新增可选参数 `tooltip` |
+| GUI | `GraphEdit.connect_node` | 新增可选参数 `keep_alive` |
 
-## 4.2 → 4.3 (In Training Data — LOW RISK)
+## 4.2 → 4.3（训练数据内 — 低风险）
 
-| Subsystem | Change | Details |
+| 子系统 | 变更 | 说明 |
 |-----------|--------|---------|
-| Animation | `Skeleton3D.add_bone` returns `int32` | Was `void` |
-| Animation | `bone_pose_updated` signal | Replaced by `skeleton_updated` |
-| TileMap | `TileMapLayer` replaces `TileMap` | One node per layer instead of multi-layer single node |
-| Navigation | `NavigationRegion2D` | Removed `avoidance_layers`, `constrain_avoidance` properties |
-| Editor | `EditorSceneFormatImporterFBX` | Renamed to `EditorSceneFormatImporterFBX2GLTF` |
-| Animation | AnimationMixer base class | AnimationPlayer and AnimationTree now extend AnimationMixer |
+| 动画 | `Skeleton3D.add_bone` 返回 `int32` | 此前为 `void` |
+| 动画 | `bone_pose_updated` 信号 | 由 `skeleton_updated` 取代 |
+| TileMap | `TileMapLayer` 取代 `TileMap` | 每层一个节点，而非单层多图层节点 |
+| 导航 | `NavigationRegion2D` | 移除 `avoidance_layers`、`constrain_avoidance` 属性 |
+| 编辑器 | `EditorSceneFormatImporterFBX` | 重命名为 `EditorSceneFormatImporterFBX2GLTF` |
+| 动画 | AnimationMixer 基类 | AnimationPlayer 与 AnimationTree 现继承 AnimationMixer |

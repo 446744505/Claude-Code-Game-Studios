@@ -1,58 +1,58 @@
-# Risk: [Short Title]
+# 风险：[简短标题]
 
-## Identification
+## 识别
 
-- **ID**: RISK-[NNNN]
-- **Identified By**: [Agent or person]
-- **Date Identified**: [Date]
-- **Category**: [Technical | Design | Schedule | Resource | External | Quality]
+- **ID**：RISK-[NNNN]
+- **识别者**：[Agent 或人员]
+- **识别日期**：[日期]
+- **类别**：[技术 | 设计 | 进度 | 资源 | 外部 | 质量]
 
-## Assessment
+## 评估
 
-- **Probability**: [Very Low | Low | Medium | High | Very High]
-- **Impact**: [Minimal | Minor | Moderate | Major | Critical]
-- **Risk Score**: [Probability x Impact = Low / Medium / High / Critical]
+- **发生概率**：[极低 | 低 | 中 | 高 | 极高]
+- **影响**：[可忽略 | 轻微 | 中等 | 重大 | 严重]
+- **风险分值**：[概率 × 影响 = 低 / 中 / 高 / 严重]
 
-## Description
+## 描述
 
-[Detailed description of the risk. What could go wrong? Under what conditions?]
+[对风险的详细说明。可能出什么问题？在什么条件下？]
 
-## Trigger Conditions
+## 触发条件
 
-[What observable conditions would indicate this risk is materializing?]
+[哪些可观察到的迹象表明该风险正在兑现？]
 
-- [Condition 1]
-- [Condition 2]
+- [条件 1]
+- [条件 2]
 
-## Impact Analysis
+## 影响分析
 
-### If This Risk Materializes
+### 若风险成真
 
-- **Schedule Impact**: [How many days/weeks of delay]
-- **Quality Impact**: [What quality degradation]
-- **Scope Impact**: [What features affected]
-- **Cost Impact**: [Resource cost of dealing with it]
+- **进度影响**：[延误天数/周数]
+- **质量影响**：[质量如何下降]
+- **范围影响**：[哪些功能受影响]
+- **成本影响**：[应对所需的资源成本]
 
-### Affected Systems/Features
+### 受影响的系统/功能
 
-- [System 1]
-- [System 2]
+- [系统 1]
+- [系统 2]
 
-## Mitigation Strategy
+## 缓解策略
 
-### Prevention (reduce probability)
+### 预防（降低发生概率）
 
-- [Action to prevent this risk from occurring]
-- [Owner and deadline for prevention action]
+- [用于防止该风险发生的行动]
+- [预防行动的负责人与截止日]
 
-### Contingency (reduce impact if it occurs)
+### 预案（若发生则降低影响）
 
-- [Action to take if this risk materializes]
-- [Owner responsible for contingency execution]
+- [风险兑现时采取的行动]
+- [负责执行预案的负责人]
 
-## Current Status
+## 当前状态
 
-- **Status**: [Open | Mitigating | Occurred | Closed]
-- **Last Reviewed**: [Date]
-- **Trend**: [Increasing | Stable | Decreasing]
-- **Notes**: [Any updates]
+- **状态**：[开放 | 缓解中 | 已发生 | 已关闭]
+- **上次复核**：[日期]
+- **趋势**：[上升 | 稳定 | 下降]
+- **备注**：[任何更新]

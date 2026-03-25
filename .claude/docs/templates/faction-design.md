@@ -1,166 +1,162 @@
-# Faction Design: [Faction Name]
+# 派系设计：[派系名称]
 
-*Created: [Date]*
-*Owner: world-builder*
-*Status: [Draft / Approved / Implemented]*
+*创建：[日期]*  
+*负责 Agent：world-builder*  
+*状态：[草案 / 已定稿 / 已实现]*
 
 ---
 
-## Identity
+## 身份标识
 
-| Aspect | Detail |
+| 维度 | 内容 |
 | ---- | ---- |
-| **Full Name** | [Official faction name] |
-| **Common Name** | [What people call them] |
-| **Type** | [Nation / Guild / Cult / Corporation / Tribe / etc.] |
-| **Alignment** | [Not D&D alignment — their moral complexity in 1 sentence] |
-| **Symbol** | [Description of their emblem/flag/sigil] |
-| **Colors** | [Primary and secondary colors associated with this faction] |
-| **Motto** | [Their defining phrase or creed] |
+| **正式名称** | [官方全名] |
+| **通称** | [民间/他族常用称呼] |
+| **类型** | [国家 / 行会 / 教团 / 企业 / 部落 / 等] |
+| **立场与道德** | [勿用 D&D 九宫格对齐；用一句话概括其道德复杂度与灰度] |
+| **象征** | [纹章、旗帜、印记等的描述] |
+| **代表色** | [主色与辅色及使用情境] |
+| **格言/信条** | [定义性口号或核心信条] |
 
 ---
 
-## Overview
+## 总览
 
-[2-3 paragraphs describing who this faction is, what they want, and why they
-matter to the game world. Write as if briefing someone who knows nothing.]
-
----
-
-## History
-
-### Origin
-[How did this faction form? What event or need brought them together?]
-
-### Key Historical Events
-1. **[Event Name]** ([Date/Era]): [What happened and how it shaped the faction]
-2. **[Event Name]** ([Date/Era]): [Impact]
-3. **[Event Name]** ([Date/Era]): [Impact]
-
-### Current State
-[Where is this faction now? Are they ascendant, declining, stable, fractured?]
+[用 2～3 段说明：该派系是谁、要什么、在世界中为何重要。面向完全不了解设定的读者撰写。]
 
 ---
 
-## Beliefs and Values
+## 历史
 
-### Core Beliefs
-- [Belief 1 — what they hold as fundamental truth]
-- [Belief 2]
-- [Belief 3]
+### 起源
+[如何形成？何种事件或需求使他们凝聚在一起？]
 
-### What They Value
-- [Value 1 — what they reward and respect]
-- [Value 2]
+### 关键历史节点
+1. **[事件名]**（[年代/纪年]）：[经过及对派系的影响]
+2. **[事件名]**（[年代/纪年]）：[影响]
+3. **[事件名]**（[年代/纪年]）：[影响]
 
-### What They Despise
-- [Thing 1 — what they punish or reject]
-- [Thing 2]
+### 当前态势
+[上升期、衰落期、稳定期还是内部分裂？与故事「现在」的关系。]
 
 ---
 
-## Structure and Leadership
+## 信念与价值观
 
-### Hierarchy
-[How is the faction organized? Military ranks? Council of elders? Meritocracy?
-Describe the power structure.]
+### 核心信念
+- [信念 1——被视为根本真理的内容]
+- [信念 2]
+- [信念 3]
 
-### Key Figures
-| Name | Role | Personality | Motivation |
+### 推崇什么
+- [价值 1——受奖赏与尊重的行为或品质]
+- [价值 2]
+
+### 憎恶什么
+- [对象 1——受惩罚或排斥的行为或观念]
+- [对象 2]
+
+---
+
+## 结构与领导
+
+### 权力结构
+[如何组织？军阶、长老会、贤能制？描述决策链与权力来源。]
+
+### 关键人物
+
+| 姓名 | 职务 | 性格要点 | 动机 |
 | ---- | ---- | ---- | ---- |
-| [Leader] | [Title] | [2-3 adjectives] | [What drives them] |
-| [Second] | [Title] | [Personality] | [Motivation] |
-| [Notable] | [Title] | [Personality] | [Motivation] |
+| [领袖] | [头衔] | [2～3 个形容词级描述] | [驱动其行动的诉求] |
+| [二号] | [头衔] | [性格] | [动机] |
+| [要角] | [头衔] | [性格] | [动机] |
 
-### Membership
-- **How to join**: [Birth? Initiation? Purchase? Invitation?]
-- **How to leave**: [Can they? What happens?]
-- **Population**: [Rough size and composition]
-
----
-
-## Territory and Resources
-
-### Holdings
-[Where does this faction control territory? What are their key locations?]
-
-### Resources
-- **Primary resource**: [What they have abundance of]
-- **Scarcity**: [What they lack and need]
-- **Trade goods**: [What they export/sell]
-
-### Military Strength
-[How powerful are they? Standing army? Special forces? Magical capabilities?
-Technology level?]
+### 成员制度
+- **如何加入**：[出身？入教仪式？购买资格？邀请？]
+- **如何退出**：[能否脱离？后果是什么？]
+- **规模与构成**：[大致人数、族群/阶层构成]
 
 ---
 
-## Relationships
+## 地盘与资源
 
-| Faction | Relationship | Reason | Trend |
+### 控制范围
+[控制哪些地域？关键据点、首都、前线、圣地等。]
+
+### 资源
+- **主要资源**：[充裕之物]
+- **稀缺项**：[缺乏且需对外获取之物]
+- **贸易品**：[出口/外销的代表性商品或服务]
+
+### 军力与实力
+[常规军、精锐、特殊战力？魔法或科技水平？与他派相比的定位。]
+
+---
+
+## 对外关系
+
+| 派系 | 关系 | 原因 | 趋势 |
 | ---- | ---- | ---- | ---- |
-| [Faction A] | [Allied / Friendly / Neutral / Tense / Hostile / War] | [Why] | [Improving / Stable / Deteriorating] |
-| [Faction B] | [Relationship] | [Why] | [Trend] |
-| [Player] | [Starting disposition] | [Why] | [Player-influenced] |
+| [派系 A] | [同盟 / 友好 / 中立 / 紧张 / 敌对 / 交战] | [为何如此] | [改善 / 稳定 / 恶化] |
+| [派系 B] | [关系] | [原因] | [趋势] |
+| [玩家] | [初始态度] | [原因] | [受玩家选择影响] |
 
 ---
 
-## Reputation System (if applicable)
+## 声望系统（如适用）
 
-| Tier | Points | Benefits | Requirements |
+| 等级 | 分数区间 | 权益 | 达成/跌落条件 |
 | ---- | ---- | ---- | ---- |
-| Hostile | [-1000 to -500] | [Attacked on sight] | [Betrayal, war crimes] |
-| Unfriendly | [-500 to -100] | [No services, higher prices] | [Opposing actions] |
-| Neutral | [-100 to 100] | [Basic services] | [Default] |
-| Friendly | [100 to 500] | [Discounts, quests] | [Complete tasks] |
-| Honored | [500 to 1000] | [Unique items, areas, abilities] | [Major questline] |
-| Exalted | [1000+] | [Best rewards, title, housing] | [Full faction commitment] |
+| 敌对 | [-1000 ～ -500] | [例如见即战] | [背叛、战争罪行等] |
+| 冷淡 | [-500 ～ -100] | [无服务、加价等] | [对立行为] |
+| 中立 | [-100 ～ 100] | [基础服务] | [默认] |
+| 友好 | [100 ～ 500] | [折扣、任务等] | [完成任务等] |
+| 尊敬 | [500 ～ 1000] | [独特物品、区域、能力等] | [大型任务线] |
+| 崇敬 | [1000+ ] | [最高档奖励、称号、居所等] | [完整派系承诺线] |
 
 ---
 
-## Gameplay Role
+## 玩法角色
 
-### Player Interaction
-[How does the player encounter and interact with this faction? Quests?
-Trading? Combat? Diplomacy?]
+### 玩家交互
+[玩家如何遭遇该派系？任务、贸易、战斗、外交？]
 
-### Unique Mechanics
-[Does this faction introduce any unique gameplay mechanics? Crafting recipes?
-Combat styles? Magic systems?]
+### 独特机制
+[是否引入专属玩法？配方、战斗风格、魔法分支等。]
 
-### Questlines
-[Brief overview of the major questlines associated with this faction.]
+### 相关任务线
+[与该派系绑定的主要任务线概要。]
 
 ---
 
-## Aesthetic Guide
+## 美学指引
 
-### Architecture
-[What do their buildings look like? Materials, shapes, scale.]
+### 建筑
+[建筑材料、体量、轮廓、与城市/自然的关系。]
 
-### Clothing/Armor
-[What do members wear? Identifying visual elements.]
+### 服饰与装备
+[成员着装特征、识别性视觉元素。]
 
-### Technology/Magic Level
-[What tools, weapons, and abilities do they use?]
+### 科技与魔法水平
+[常用工具、武器、能力的表现层级。]
 
-### Audio Palette
-[What sounds are associated with this faction? Musical themes, ambient sounds.]
-
----
-
-## Lore Consistency Notes
-
-- **Canon level**: [Core / Extended / Flavor — how important is this to the main story?]
-- **Contradictions to watch**: [Any potential conflicts with other lore]
-- **Open questions**: [Things not yet decided about this faction]
-- **Off-limits**: [Things that must NOT be true about this faction]
+### 听感与音乐
+[主题动机、环境声、战斗/仪式音效倾向。]
 
 ---
 
-## Dependencies
+## 设定一致性备忘
 
-- Related factions: [List factions that interact with this one]
-- Related areas: [Levels/regions where this faction appears]
-- Related questlines: [Story arcs involving this faction]
-- Affects: [economy, combat encounters, narrative branches]
+- **正史层级**：[核心 / 扩展 / 风味——对主线的关键程度]
+- **易冲突点**：[与其他设定可能打架之处]
+- **未决问题**：[尚未敲定的设定空白]
+- **禁止项**：[绝对不能成立的设定]
+
+---
+
+## 依赖与关联
+
+- 相关派系：[与本派系强互动的其他派系]
+- 相关区域：[出现的关卡/区域]
+- 相关任务线：[涉及的故事弧]
+- 影响面：[经济、战斗遭遇、叙事分支等]

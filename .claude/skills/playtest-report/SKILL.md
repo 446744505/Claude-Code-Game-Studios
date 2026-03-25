@@ -1,77 +1,76 @@
 ---
 name: playtest-report
-description: "Generates a structured playtest report template or analyzes existing playtest notes into a structured format. Use this to standardize playtest feedback collection and analysis."
+description: "生成结构化的试玩报告模板，或将现有试玩笔记分析整理为结构化格式。用于统一试玩反馈的收集与分析方式。"
 argument-hint: "[new|analyze path-to-notes]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write
 ---
 
-When invoked with `new`, generate this template:
+使用 `new` 调用时，生成以下模板：
 
 ```markdown
-# Playtest Report
+# 试玩报告
 
-## Session Info
-- **Date**: [Date]
-- **Build**: [Version/Commit]
-- **Duration**: [Time played]
-- **Tester**: [Name/ID]
-- **Platform**: [PC/Console/Mobile]
-- **Input Method**: [KB+M / Gamepad / Touch]
-- **Session Type**: [First time / Returning / Targeted test]
+## 场次信息
+- **日期**: [Date]
+- **构建**: [Version/Commit]
+- **时长**: [Time played]
+- **测试者**: [Name/ID]
+- **平台**: [PC/Console/Mobile]
+- **输入方式**: [KB+M / Gamepad / Touch]
+- **场次类型**: [首次 / 回访 / 定向测试]
 
-## Test Focus
-[What specific features or flows were being tested]
+## 测试重点
+[本次具体测了哪些功能或流程]
 
-## First Impressions (First 5 minutes)
-- **Understood the goal?** [Yes/No/Partially]
-- **Understood the controls?** [Yes/No/Partially]
-- **Emotional response**: [Engaged/Confused/Bored/Frustrated/Excited]
-- **Notes**: [Observations]
+## 第一印象（前 5 分钟）
+- **是否理解目标？** [是/否/部分]
+- **是否理解操作？** [是/否/部分]
+- **情绪反应**: [投入/困惑/无聊/受挫/兴奋]
+- **备注**: [观察记录]
 
-## Gameplay Flow
-### What worked well
-- [Observation 1]
-- [Observation 2]
+## 玩法流程
+### 顺畅之处
+- [观察 1]
+- [观察 2]
 
-### Pain points
-- [Issue 1 -- Severity: High/Medium/Low]
-- [Issue 2 -- Severity: High/Medium/Low]
+### 痛点
+- [问题 1 — 严重度：高/中/低]
+- [问题 2 — 严重度：高/中/低]
 
-### Confusion points
-- [Where the player was confused and why]
+### 困惑点
+- [玩家在何处困惑、原因是什么]
 
-### Moments of delight
-- [What surprised or pleased the player]
+### 高光时刻
+- [让玩家惊喜或愉悦之处]
 
-## Bugs Encountered
-| # | Description | Severity | Reproducible |
-|---|-------------|----------|-------------|
+## 遇到的 Bug
+| # | 描述 | 严重度 | 可复现 |
+|---|------|--------|--------|
 
-## Feature-Specific Feedback
-### [Feature 1]
-- **Understood purpose?** [Yes/No]
-- **Found engaging?** [Yes/No]
-- **Suggestions**: [Tester suggestions]
+## 功能专项反馈
+### [功能 1]
+- **是否理解用途？** [是/否]
+- **是否觉得有趣？** [是/否]
+- **建议**: [测试者建议]
 
-## Quantitative Data (if available)
-- **Deaths**: [Count and locations]
-- **Time per area**: [Breakdown]
-- **Items used**: [What and when]
-- **Features discovered vs missed**: [List]
+## 量化数据（若有）
+- **死亡次数**: [次数与位置]
+- **各区域耗时**: [拆分]
+- **道具使用**: [用了什么、何时用]
+- **发现与错过的功能**: [列表]
 
-## Overall Assessment
-- **Would play again?** [Yes/No/Maybe]
-- **Difficulty**: [Too Easy / Just Right / Too Hard]
-- **Pacing**: [Too Slow / Good / Too Fast]
-- **Session length preference**: [Shorter / Good / Longer]
+## 总体评价
+- **是否愿意再玩？** [是/否/可能]
+- **难度**: [太简单 / 刚好 / 太难]
+- **节奏**: [太慢 / 合适 / 太快]
+- **期望单次时长**: [更短 / 合适 / 更长]
 
-## Top 3 Priorities from this session
-1. [Most important finding]
-2. [Second priority]
-3. [Third priority]
+## 本场 Top 3 优先级
+1. [最重要发现]
+2. [第二优先级]
+3. [第三优先级]
 ```
 
-When invoked with `analyze`, read the raw notes, cross-reference with existing
-design documents, and fill in the template above with structured findings.
-Flag any playtest observations that conflict with design intent.
+使用 `analyze` 调用时，阅读原始笔记，对照现有设计文档，用结构化结论填入上述模板。
+标出与**设计意图**相冲突的试玩观察。

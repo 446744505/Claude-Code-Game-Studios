@@ -1,163 +1,145 @@
 ---
 name: estimate
-description: "Estimates task effort by analyzing complexity, dependencies, historical velocity, and risk factors. Produces a structured estimate with confidence levels."
-argument-hint: "[task-description]"
+description: "通过分析复杂度、依赖关系、历史速率与风险因素估算任务工作量，并产出带置信度等级的结构化估算。"
+argument-hint: "[任务描述]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 ---
 
-When this skill is invoked:
+当本技能被调用时：
 
-1. **Read the task description** from the argument. If the description is too
-   vague to estimate meaningfully, ask for clarification before proceeding.
+1. **阅读任务描述**：从参数中读取。若描述过于模糊、无法有意义地估算，先澄清再继续。
 
-2. **Read CLAUDE.md** for project context: tech stack, coding standards,
-   architectural patterns, and any estimation guidelines.
+2. **阅读 CLAUDE.md**：获取项目上下文——技术栈、编码规范、架构模式及任何与估算相关的指引。
 
-3. **Read relevant design documents** from `design/gdd/` if the task relates
-   to a documented feature or system.
+3. **阅读相关设计文档**：若任务涉及已记录的功能或系统，从 `design/gdd/` 读取。
 
-4. **Scan the codebase** to understand the systems affected by this task:
-   - Identify files and modules that would need to change
-   - Assess the complexity of those files (size, dependency count, cyclomatic
-     complexity)
-   - Identify integration points with other systems
-   - Check for existing test coverage in the affected areas
+4. **扫描代码库**，了解本任务影响的系统：
+   - 找出可能需要修改的文件与模块
+   - 评估这些文件的复杂度（体量、依赖数量、圈复杂度）
+   - 识别与其他系统的集成点
+   - 检查受影响区域是否已有测试覆盖
 
-5. **Read past sprint data** from `production/sprints/` if available:
-   - Look for similar completed tasks and their actual effort
-   - Calculate historical velocity (planned vs actual)
-   - Identify any estimation bias patterns (consistently over or under)
+5. **阅读历史冲刺数据**（若存在）：来自 `production/sprints/`
+   - 查找类似已完成任务及其实际工作量
+   - 计算历史速率（计划 vs 实际）
+   - 识别估算偏差模式（系统性偏高或偏低）
 
-6. **Analyze the following factors**:
+6. **分析以下因素**：
 
-   **Code Complexity**:
-   - Lines of code in affected files
-   - Number of dependencies and coupling level
-   - Whether this touches core/engine code vs leaf/feature code
-   - Whether existing patterns can be followed or new patterns are needed
+   **代码复杂度**：
+   - 受影响文件的代码行数
+   - 依赖数量与耦合程度
+   - 是否触及核心/引擎代码 vs 叶子/功能代码
+   - 能否沿用既有模式，还是需要新模式
 
-   **Scope**:
-   - Number of systems touched
-   - New code vs modification of existing code
-   - Amount of new test coverage required
-   - Data migration or configuration changes needed
+   **范围**：
+   - 涉及的系统数量
+   - 新代码 vs 修改既有代码
+   - 需要新增多少测试覆盖
+   - 是否需要数据迁移或配置变更
 
-   **Risk**:
-   - New technology or unfamiliar libraries
-   - Unclear or ambiguous requirements
-   - Dependencies on unfinished work
-   - Cross-system integration complexity
-   - Performance sensitivity
+   **风险**：
+   - 新技术或不熟悉的库
+   - 需求不清或存在歧义
+   - 依赖未完成的工作
+   - 跨系统集成复杂度
+   - 性能敏感程度
 
-7. **Generate the estimate**:
+7. **生成估算**：
 
 ```markdown
-## Task Estimate: [Task Name]
-Generated: [Date]
+## 任务估算：[任务名称]
+生成日期：[日期]
 
-### Task Description
-[Restate the task clearly in 1-2 sentences]
+### 任务描述
+[用 1–2 句话清晰重述任务]
 
-### Complexity Assessment
+### 复杂度评估
 
-| Factor | Assessment | Notes |
+| 因素 | 评估 | 备注 |
 |--------|-----------|-------|
-| Systems affected | [List] | [Core, gameplay, UI, etc.] |
-| Files likely modified | [Count] | [Key files listed below] |
-| New code vs modification | [Ratio, e.g., 70% new / 30% modification] | |
-| Integration points | [Count] | [Which systems interact] |
-| Test coverage needed | [Low / Medium / High] | [Unit, integration, manual] |
-| Existing patterns available | [Yes / Partial / No] | [Can follow existing code or new ground] |
+| 受影响系统 | [列表] | [核心、玩法、UI 等] |
+| 可能修改的文件 | [数量] | [关键文件见下] |
+| 新代码 vs 修改 | [比例，如 70% 新 / 30% 改] | |
+| 集成点 | [数量] | [哪些系统交互] |
+| 所需测试覆盖 | [低 / 中 / 高] | [单元、集成、手工] |
+| 既有模式可用性 | [是 / 部分 / 否] | [可沿用既有代码或需新探路] |
 
-**Key files likely affected:**
-- `[path/to/file1]` -- [what changes here]
-- `[path/to/file2]` -- [what changes here]
-- `[path/to/file3]` -- [what changes here]
+**可能受影响的关键文件：**
+- `[path/to/file1]` -- [此处变更内容]
+- `[path/to/file2]` -- [此处变更内容]
+- `[path/to/file3]` -- [此处变更内容]
 
-### Effort Estimate
+### 工作量估算
 
-| Scenario | Days | Assumption |
+| 情景 | 人天 | 假设 |
 |----------|------|------------|
-| Optimistic | [X] | Everything goes right, no surprises, requirements are clear |
-| Expected | [Y] | Normal pace, minor issues, one round of review feedback |
-| Pessimistic | [Z] | Significant unknowns surface, blocked for a day, requirements change |
+| 乐观 | [X] | 一切顺利、无意外、需求明确 |
+| 预期 | [Y] | 正常节奏、小问题、一轮评审反馈 |
+| 悲观 | [Z] | 重大未知浮现、阻塞一天、需求变更 |
 
-**Recommended budget: [Y days]**
+**建议预算：[Y 人天]**
 
-[If historical data is available: "Based on [N] similar tasks that averaged
-[X] days actual vs [Y] days estimated, a [correction factor] adjustment has
-been applied."]
+[若有历史数据：「基于 [N] 个类似任务，实际平均 [X] 人天 vs 估算 [Y] 人天，已应用 [修正系数] 调整。」]
 
-### Confidence: [High / Medium / Low]
+### 置信度：[高 / 中 / 低]
 
-**High** -- Clear requirements, familiar systems, follows existing patterns,
-similar tasks completed before.
+**高** — 需求清晰、系统熟悉、遵循既有模式，曾有类似任务完成。
 
-**Medium** -- Some unknowns, touches moderately complex systems, partial
-precedent from previous work.
+**中** — 存在一定未知、触及中等复杂系统、仅有部分先例。
 
-**Low** -- Significant unknowns, new technology, unclear requirements, or
-cross-cutting concerns across many systems.
+**低** — 重大未知、新技术、需求不清，或跨多系统的横切关切。
 
-[Explain which factors drive the confidence level for this specific task.]
+[说明本任务置信度由哪些因素决定。]
 
-### Risk Factors
+### 风险因素
 
-| Risk | Likelihood | Impact | Mitigation |
+| 风险 | 可能性 | 影响 | 缓解 |
 |------|-----------|--------|------------|
-| [Specific risk] | [High/Med/Low] | [Days added if realized] | [How to reduce] |
-| [Another risk] | [Likelihood] | [Impact] | [Mitigation] |
+| [具体风险] | [高/中/低] | [若发生约增加人天] | [如何降低] |
+| [另一风险] | [可能性] | [影响] | [缓解措施] |
 
-### Dependencies
+### 依赖
 
-| Dependency | Status | Impact if Delayed |
+| 依赖项 | 状态 | 若延期影响 |
 |-----------|--------|-------------------|
-| [What must be done first] | [Done / In Progress / Not Started] | [How it affects this task] |
+| [须先完成项] | [已完成 / 进行中 / 未开始] | [对本任务的影响] |
 
-### Suggested Breakdown
+### 建议拆分
 
-| # | Sub-task | Estimate | Notes |
+| # | 子任务 | 估算 | 备注 |
 |---|----------|----------|-------|
-| 1 | [Research / spike] | [X days] | [If unknowns need investigation first] |
-| 2 | [Core implementation] | [X days] | [The main work] |
-| 3 | [Integration with system X] | [X days] | [Connecting to existing code] |
-| 4 | [Testing and validation] | [X days] | [Writing tests, manual verification] |
-| 5 | [Code review and iteration] | [X days] | [Review feedback, fixes] |
-| | **Total** | **[Y days]** | |
+| 1 | [调研 / spike] | [X 人天] | [若需先澄清未知] |
+| 2 | [核心实现] | [X 人天] | [主体工作] |
+| 3 | [与系统 X 集成] | [X 人天] | [对接既有代码] |
+| 4 | [测试与验证] | [X 人天] | [写测试、手工验证] |
+| 5 | [代码评审与迭代] | [X 人天] | [评审反馈、修复] |
+| | **合计** | **[Y 人天]** | |
 
-### Historical Comparison
-[If similar tasks exist in sprint history:]
+### 历史对比
+[若冲刺历史中存在类似任务：]
 
-| Similar Task | Estimated | Actual | Relevant Difference |
+| 类似任务 | 估算 | 实际 | 相关差异 |
 |-------------|-----------|--------|-------------------|
-| [Past task 1] | [X days] | [Y days] | [What makes it similar/different] |
-| [Past task 2] | [X days] | [Y days] | [What makes it similar/different] |
+| [历史任务 1] | [X 人天] | [Y 人天] | [相似/不同点] |
+| [历史任务 2] | [X 人天] | [Y 人天] | [相似/不同点] |
 
-### Notes and Assumptions
-- [Key assumption that affects the estimate]
-- [Another assumption]
-- [Any caveats about scope boundaries -- what is included vs excluded]
-- [Recommendations: e.g., "Consider a spike first if requirement X is unclear"]
+### 备注与假设
+- [影响估算的关键假设]
+- [另一假设]
+- [范围边界说明 — 包含与排除项]
+- [建议：例如「若需求 X 不清，可先考虑 spike」]
 ```
 
-8. **Output the estimate** to the user with a brief summary: recommended
-   budget, confidence level, and the single biggest risk factor.
+8. **向用户输出估算**，附简短摘要：建议预算、置信度、以及最大单一风险因素。
 
-### Guidelines
+### 指引
 
-- Always give a range (optimistic / expected / pessimistic), never a single
-  number. Single-point estimates create false precision.
-- The recommended budget should be the expected estimate, not the optimistic
-  one. Padding is not dishonest -- it is realistic.
-- If confidence is Low, recommend a time-boxed spike or prototype before
-  committing to the full estimate.
-- Be explicit about what is included and excluded. Scope ambiguity is the
-  most common source of estimation error.
-- Round to half-day increments. Estimating in hours implies false precision
-  for tasks longer than a day.
-- If the task is too large to estimate confidently (more than 10 days
-  expected), recommend breaking it into smaller tasks and estimating those
-  individually.
-- Do not pad estimates silently. If risk exists, call it out explicitly in
-  the risk factors section so the team can decide how to handle it.
+- 始终给出区间（乐观 / 预期 / 悲观），不要只给一个数。单点估算会造成虚假精确。
+- 建议预算应为**预期**估算，而非乐观值。适当留余量不是不诚实，而是贴近现实。
+- 若置信度为低，建议在承诺完整估算前先安排限时 spike 或原型。
+- 明确写出包含与排除项。范围模糊是最常见的估算误差来源。
+- 以半天为粒度取整。对超过一天的任务按小时估算会暗示虚假精确。
+- 若任务过大、难以有把握估算（预期超过约 10 人天），建议拆成更小任务分别估算。
+- 不要悄悄加码。若存在风险，在风险因素表中明确写出，由团队决定如何应对。

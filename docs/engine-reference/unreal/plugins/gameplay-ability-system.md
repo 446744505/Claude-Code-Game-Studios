@@ -1,57 +1,55 @@
-# Unreal Engine 5.7 — Gameplay Ability System (GAS)
+# Unreal Engine 5.7 — Gameplay Ability System（GAS）
 
-**Last verified:** 2026-02-13
-**Status:** Production-Ready
-**Plugin:** `GameplayAbilities` (built-in, enable in Plugins)
-
----
-
-## Overview
-
-**Gameplay Ability System (GAS)** is a modular framework for building abilities, attributes,
-effects, and gameplay mechanics. It's the standard for RPGs, MOBAs, shooters with abilities,
-and any game with complex ability systems.
-
-**Use GAS for:**
-- Character abilities (spells, skills, attacks)
-- Attributes (health, mana, stamina, stats)
-- Buffs/debuffs (temporary effects)
-- Cooldowns and costs
-- Damage calculation
-- Multiplayer-ready ability replication
+**上次核对：** 2026-02-13  
+**状态：** 生产就绪  
+**插件：** `GameplayAbilities`（内置，在 Plugins 中启用）
 
 ---
 
-## Core Concepts
+## 概述
 
-### 1. **Ability System Component** (ASC)
-- The main component that owns abilities, attributes, and effects
-- Added to Characters or PlayerStates
+**Gameplay Ability System（GAS）** 是一套模块化框架，用于构建技能、属性、效果与玩法机制。它是 RPG、MOBA、带技能的射击类，以及任何需要复杂技能体系的游戏的常用方案。
+
+**适合用 GAS 做：**
+- 角色技能（法术、技能、攻击）
+- 属性（生命、法力、体力、数值等）
+- Buff/Debuff（临时效果）
+- 冷却与消耗
+- 伤害计算
+- 面向多人的技能复制（Replication）
+
+---
+
+## 核心概念
+
+### 1. **Ability System Component**（ASC）
+- 持有技能、属性与效果的主组件
+- 挂在 Character 或 PlayerState 上
 
 ### 2. **Gameplay Abilities**
-- Individual skills/actions (fireball, heal, dash, etc.)
-- Activated, committed (cost/cooldown), and can be cancelled
+- 单个技能/动作（火球、治疗、冲刺等）
+- 可激活、提交（扣费/进冷却），并可被取消
 
-### 3. **Attributes & Attribute Sets**
-- Stats that can be modified (Health, Mana, Stamina, Strength, etc.)
-- Stored in Attribute Sets
+### 3. **Attributes 与 Attribute Sets**
+- 可被修改的数值（生命、法力、体力、力量等）
+- 存放在 Attribute Set 中
 
 ### 4. **Gameplay Effects**
-- Modify attributes (damage, healing, buffs, debuffs)
-- Can be instant, duration-based, or infinite
+- 修改属性（伤害、治疗、Buff、Debuff）
+- 可为瞬时、持续时长或无限
 
 ### 5. **Gameplay Tags**
-- Hierarchical tags for ability logic (e.g., `Ability.Attack.Melee`, `Status.Stunned`)
+- 用于技能逻辑的分层标签（例如 `Ability.Attack.Melee`、`Status.Stunned`）
 
 ---
 
-## Setup
+## 配置步骤
 
-### 1. Enable Plugin
+### 1. 启用插件
 
 `Edit > Plugins > Gameplay Abilities > Enabled > Restart`
 
-### 2. Add Ability System Component
+### 2. 添加 Ability System Component
 
 ```cpp
 #include "AbilitySystemComponent.h"
@@ -63,12 +61,12 @@ class AMyCharacter : public ACharacter {
 
 public:
     AMyCharacter() {
-        // Create ASC
+        // 创建 ASC
         AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
         AbilitySystemComponent->SetIsReplicated(true);
         AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
-        // Create Attribute Set
+        // 创建 Attribute Set
         AttributeSet = CreateDefaultSubobject<UMyAttributeSet>(TEXT("AttributeSet"));
     }
 
@@ -81,13 +79,13 @@ protected:
 };
 ```
 
-### 3. Initialize ASC (Important for Multiplayer)
+### 3. 初始化 ASC（多人游戏尤其重要）
 
 ```cpp
 void AMyCharacter::PossessedBy(AController* NewController) {
     Super::PossessedBy(NewController);
 
-    // Server: Initialize ASC
+    // 服务端：初始化 ASC
     if (AbilitySystemComponent) {
         AbilitySystemComponent->InitAbilityActorInfo(this, this);
         GiveDefaultAbilities();
@@ -97,7 +95,7 @@ void AMyCharacter::PossessedBy(AController* NewController) {
 void AMyCharacter::OnRep_PlayerState() {
     Super::OnRep_PlayerState();
 
-    // Client: Initialize ASC
+    // 客户端：初始化 ASC
     if (AbilitySystemComponent) {
         AbilitySystemComponent->InitAbilityActorInfo(this, this);
     }
@@ -106,9 +104,9 @@ void AMyCharacter::OnRep_PlayerState() {
 
 ---
 
-## Attributes & Attribute Sets
+## Attributes 与 Attribute Sets
 
-### Create Attribute Set
+### 创建 Attribute Set
 
 ```cpp
 #include "AttributeSet.h"
@@ -121,7 +119,7 @@ class UMyAttributeSet : public UAttributeSet {
 public:
     UMyAttributeSet();
 
-    // Health
+    // 生命
     UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Health)
     FGameplayAttributeData Health;
     ATTRIBUTE_ACCESSORS(UMyAttributeSet, Health)
@@ -130,7 +128,7 @@ public:
     FGameplayAttributeData MaxHealth;
     ATTRIBUTE_ACCESSORS(UMyAttributeSet, MaxHealth)
 
-    // Mana
+    // 法力
     UPROPERTY(BlueprintReadOnly, Category = "Attributes", ReplicatedUsing = OnRep_Mana)
     FGameplayAttributeData Mana;
     ATTRIBUTE_ACCESSORS(UMyAttributeSet, Mana)
@@ -149,13 +147,13 @@ protected:
 };
 ```
 
-### Implement Attribute Set
+### 实现 Attribute Set
 
 ```cpp
 #include "Net/UnrealNetwork.h"
 
 UMyAttributeSet::UMyAttributeSet() {
-    // Default values
+    // 默认值
     Health = 100.0f;
     MaxHealth = 100.0f;
     Mana = 50.0f;
@@ -173,14 +171,14 @@ void UMyAttributeSet::OnRep_Health(const FGameplayAttributeData& OldHealth) {
     GAMEPLAYATTRIBUTE_REPNOTIFY(UMyAttributeSet, Health, OldHealth);
 }
 
-// Implement other OnRep functions similarly...
+// 其余 OnRep 函数同理实现……
 ```
 
 ---
 
 ## Gameplay Abilities
 
-### Create Gameplay Ability
+### 创建 Gameplay Ability
 
 ```cpp
 #include "Abilities/GameplayAbility.h"
@@ -191,11 +189,11 @@ class UGA_Fireball : public UGameplayAbility {
 
 public:
     UGA_Fireball() {
-        // Ability config
+        // 技能配置
         InstancingPolicy = EGameplayAbilityInstancingPolicy::InstancedPerActor;
         NetExecutionPolicy = EGameplayAbilityNetExecutionPolicy::ServerInitiated;
 
-        // Tags
+        // 标签
         AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Attack.Fireball")));
     }
 
@@ -203,43 +201,43 @@ public:
         const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override {
 
         if (!CommitAbility(Handle, ActorInfo, ActivationInfo)) {
-            // Failed to commit (not enough mana, on cooldown, etc.)
+            // 提交失败（法力不足、冷却中等）
             EndAbility(Handle, ActorInfo, ActivationInfo, true, true);
             return;
         }
 
-        // Spawn fireball projectile
+        // 生成火球投射物
         SpawnFireball();
 
-        // End ability
+        // 结束技能
         EndAbility(Handle, ActorInfo, ActivationInfo, true, false);
     }
 
     void SpawnFireball() {
-        // Spawn fireball logic
+        // 生成火球逻辑
     }
 };
 ```
 
-### Grant Abilities to Character
+### 向角色授予技能
 
 ```cpp
 void AMyCharacter::GiveDefaultAbilities() {
     if (!HasAuthority() || !AbilitySystemComponent) return;
 
-    // Grant abilities
+    // 授予技能
     AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(UGA_Fireball::StaticClass(), 1, INDEX_NONE, this));
     AbilitySystemComponent->GiveAbility(FGameplayAbilitySpec(UGA_Heal::StaticClass(), 1, INDEX_NONE, this));
 }
 ```
 
-### Activate Ability
+### 激活技能
 
 ```cpp
-// Activate by class
+// 按类激活
 AbilitySystemComponent->TryActivateAbilityByClass(UGA_Fireball::StaticClass());
 
-// Activate by tag
+// 按标签激活
 FGameplayTagContainer TagContainer;
 TagContainer.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Attack.Fireball")));
 AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
@@ -249,36 +247,36 @@ AbilitySystemComponent->TryActivateAbilitiesByTag(TagContainer);
 
 ## Gameplay Effects
 
-### Create Gameplay Effect (Damage)
+### 创建 Gameplay Effect（伤害）
 
 ```cpp
-// Create Blueprint: Content Browser > Gameplay > Gameplay Effect
+// 在蓝图中创建：Content Browser > Gameplay > Gameplay Effect
 
-// OR in C++:
+// 或在 C++ 中：
 UCLASS()
 class UGE_Damage : public UGameplayEffect {
     GENERATED_BODY()
 
 public:
     UGE_Damage() {
-        // Instant damage
+        // 瞬时伤害
         DurationPolicy = EGameplayEffectDurationType::Instant;
 
-        // Modifier: Reduce Health
+        // 修改器：减少生命
         FGameplayModifierInfo ModifierInfo;
         ModifierInfo.Attribute = UMyAttributeSet::GetHealthAttribute();
         ModifierInfo.ModifierOp = EGameplayModOp::Additive;
-        ModifierInfo.ModifierMagnitude = FScalableFloat(-25.0f); // -25 health
+        ModifierInfo.ModifierMagnitude = FScalableFloat(-25.0f); // -25 生命
 
         Modifiers.Add(ModifierInfo);
     }
 };
 ```
 
-### Apply Gameplay Effect
+### 应用 Gameplay Effect
 
 ```cpp
-// Apply damage to target
+// 对目标施加伤害
 if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(Target)) {
     FGameplayEffectContextHandle EffectContext = AbilitySystemComponent->MakeEffectContext();
     EffectContext.AddSourceObject(this);
@@ -296,11 +294,11 @@ if (UAbilitySystemComponent* TargetASC = UAbilitySystemBlueprintLibrary::GetAbil
 
 ## Gameplay Tags
 
-### Define Tags
+### 定义标签
 
 `Project Settings > Project > Gameplay Tags > Gameplay Tag List`
 
-Example hierarchy:
+层级示例：
 ```
 Ability
   ├─ Ability.Attack
@@ -315,7 +313,7 @@ Status
   └─ Status.Silenced
 ```
 
-### Use Tags in Abilities
+### 在技能中使用标签
 
 ```cpp
 UCLASS()
@@ -324,16 +322,16 @@ class UGA_MeleeAttack : public UGameplayAbility {
 
 public:
     UGA_MeleeAttack() {
-        // This ability has these tags
+        // 本技能携带的标签
         AbilityTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Attack.Melee")));
 
-        // Block these tags while active
+        // 激活期间阻止带这些标签的技能
         BlockAbilitiesWithTag.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Attack")));
 
-        // Cancel these abilities when activated
+        // 激活时取消带这些标签的技能
         CancelAbilitiesWithTag.AddTag(FGameplayTag::RequestGameplayTag(FName("Ability.Defend")));
 
-        // Can't activate if target has these tags
+        // 若目标带有这些标签则无法激活
         ActivationBlockedTags.AddTag(FGameplayTag::RequestGameplayTag(FName("Status.Stunned")));
     }
 };
@@ -341,34 +339,34 @@ public:
 
 ---
 
-## Cooldowns & Costs
+## 冷却与消耗
 
-### Add Cooldown
+### 添加冷却
 
 ```cpp
-// In Ability Blueprint or C++:
-// Create Gameplay Effect with Duration = Cooldown time
-// Assign to Ability > Cooldown Gameplay Effect Class
+// 在技能蓝图或 C++ 中：
+// 创建 Duration = 冷却时间的 Gameplay Effect
+// 指定到 Ability > Cooldown Gameplay Effect Class
 ```
 
-### Add Cost (Mana)
+### 添加消耗（法力）
 
 ```cpp
-// Create Gameplay Effect that reduces Mana
-// Assign to Ability > Cost Gameplay Effect Class
+// 创建减少法力的 Gameplay Effect
+// 指定到 Ability > Cost Gameplay Effect Class
 ```
 
 ---
 
-## Common Patterns
+## 常见用法
 
-### Get Current Attribute Value
+### 读取当前属性值
 
 ```cpp
 float CurrentHealth = AbilitySystemComponent->GetNumericAttribute(UMyAttributeSet::GetHealthAttribute());
 ```
 
-### Listen for Attribute Changes
+### 监听属性变化
 
 ```cpp
 AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(UMyAttributeSet::GetHealthAttribute())
@@ -381,6 +379,6 @@ void AMyCharacter::OnHealthChanged(const FOnAttributeChangeData& Data) {
 
 ---
 
-## Sources
+## 参考来源
 - https://docs.unrealengine.com/5.7/en-US/gameplay-ability-system-for-unreal-engine/
-- https://github.com/tranek/GASDocumentation (community guide)
+- https://github.com/tranek/GASDocumentation（社区指南）

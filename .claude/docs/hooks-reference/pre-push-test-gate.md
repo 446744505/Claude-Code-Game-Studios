@@ -1,26 +1,23 @@
-# Hook: pre-push-test-gate
+# Hook：pre-push-test-gate
 
-## Trigger
+## 触发时机
 
-Runs before any push to a remote branch. Mandatory for pushes to `develop`
-and `main`.
+在任意 push 到远端分支之前运行。对推送到 `develop` 与 `main` 为强制。
 
-## Purpose
+## 目的
 
-Ensures the build compiles, unit tests pass, and critical smoke tests pass
-before code reaches shared branches. This is the last automated quality gate
-before code affects other developers.
+在代码进入共享分支之前，确保 build 可编译、unit tests 通过，且关键 smoke tests 通过。这是代码影响其他开发者之前的最后一道自动化 quality gate。
 
-## Implementation
+## 实现
 
 ```bash
 #!/bin/bash
-# Pre-push hook: Build and test gate
+# Pre-push hook：构建与测试门禁
 
 REMOTE="$1"
 URL="$2"
 
-# Only enforce full gate for develop and main
+# 仅对 develop 与 main 强制执行完整 quality gate
 PROTECTED_BRANCHES="develop main"
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 
@@ -36,7 +33,7 @@ echo "=== Pre-Push Quality Gate ==="
 
 # Step 1: Build
 echo "Building..."
-# Adapt to your build system:
+# 按你的 build system 适配：
 # make build || exit 1
 # dotnet build || exit 1
 # cargo build || exit 1
@@ -44,14 +41,14 @@ echo "Build: PASS"
 
 # Step 2: Unit tests
 echo "Running unit tests..."
-# Adapt to your test framework:
+# 按你的 test framework 适配：
 # python -m pytest tests/unit/ -x || exit 1
 # dotnet test tests/unit/ || exit 1
 # cargo test || exit 1
 echo "Unit tests: PASS"
 
 if [ "$FULL_GATE" = true ]; then
-    # Step 3: Integration tests (only for protected branches)
+    # Step 3: Integration tests（仅 protected branches）
     echo "Running integration tests..."
     # python -m pytest tests/integration/ -x || exit 1
     echo "Integration tests: PASS"
@@ -61,7 +58,7 @@ if [ "$FULL_GATE" = true ]; then
     # python -m pytest tests/playtest/smoke/ -x || exit 1
     echo "Smoke tests: PASS"
 
-    # Step 5: Performance regression check
+    # Step 5: Performance regression 检查
     echo "Checking performance baselines..."
     # python tools/ci/perf_check.py || exit 1
     echo "Performance: PASS"
@@ -71,10 +68,9 @@ echo "=== All gates passed ==="
 exit 0
 ```
 
-## Agent Integration
+## Agent 集成
 
-When this hook fails:
-1. Build failure: invoke `lead-programmer` to diagnose
-2. Unit test failure: invoke `qa-tester` to identify the failing test and
-   `gameplay-programmer` or relevant programmer to fix
-3. Performance regression: invoke `performance-analyst` to analyze
+当本 hook 失败时：
+1. Build 失败：调用 `lead-programmer` 诊断
+2. Unit test 失败：调用 `qa-tester` 定位失败用例，并由 `gameplay-programmer` 或相关 programmer 修复
+3. Performance regression：调用 `performance-analyst` 分析

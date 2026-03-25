@@ -1,204 +1,203 @@
-# [System Name] — Design Document
+# [系统名称] — 设计文档
 
 ---
-**Status**: Reverse-Documented
-**Source**: `[path to implementation code]`
-**Date**: [YYYY-MM-DD]
-**Verified By**: [User name or "pending review"]
-**Implementation Status**: [Fully implemented | Partially implemented | Needs extension]
+**状态**：逆向成文
+**来源**：`[实现代码路径]`
+**日期**：[YYYY-MM-DD]
+**核验人**：[用户名或「待审」]
+**实现状态**：[已完整实现 | 部分实现 | 待扩展]
 ---
 
-> **⚠️ Reverse-Documentation Notice**
+> **注意：逆向成文说明**
 >
-> This design document was created **after** the implementation already existed.
-> It captures current behavior and clarified design intent based on code analysis
-> and user consultation. Some sections may be incomplete where implementation is
-> partial or design intent was unclear during reverse-engineering.
+> 本设计文档在**实现已存在之后**整理而成。
+> 记录当前行为，以及基于代码分析与用户沟通所澄清的设计意图。
+> 若实现不完整或逆向时意图不清，部分章节可能留白。
 
 ---
 
-## 1. Overview
+## 1. 概述
 
-**Purpose**: [What problem does this system solve?]
+**目的**：[本系统解决什么问题？]
 
-**Scope**: [What is included/excluded from this system?]
+**范围**：[包含 / 不包含哪些内容？]
 
-**Current Implementation**: [Brief description of what exists in code]
+**当前实现**：[代码中已有内容简述]
 
-**Design Intent** (clarified):
-- [Intent 1 — why this feature exists]
-- [Intent 2 — what player experience it creates]
-- [Intent 3 — how it fits into overall game pillars]
+**设计意图**（已澄清）：
+- [意图 1 — 该功能为何存在]
+- [意图 2 — 为玩家创造何种体验]
+- [意图 3 — 如何契合整体游戏支柱]
 
 ---
 
-## 2. Detailed Design
+## 2. 详细设计
 
-### 2.1 Core Mechanics
+### 2.1 核心机制
 
-[Describe the mechanics as implemented, organized clearly]
+[按条理描述已实现机制]
 
-**[Mechanic 1 Name]**:
-- **Description**: [What it does]
-- **Implementation**: [How it works in code]
-- **Design Rationale**: [Why it exists — from user clarification]
-- **Player-Facing**: [How players experience this]
+**[机制 1 名称]**：
+- **说明**：[做什么]
+- **实现**：[代码中如何运作]
+- **设计理由**：[为何如此 — 来自用户澄清]
+- **玩家侧**：[玩家如何感知]
 
-**[Mechanic 2 Name]**:
-- **Description**: [What it does]
-- **Implementation**: [How it works]
-- **Design Rationale**: [Why it exists]
-- **Player-Facing**: [Player experience]
+**[机制 2 名称]**：
+- **说明**：[做什么]
+- **实现**：[如何运作]
+- **设计理由**：[为何存在]
+- **玩家侧**：[体验描述]
 
-### 2.2 Rules and Formulas
+### 2.2 规则与公式
 
-**Formulas Discovered in Code**:
+**代码中发现的公式**：
 
-| Formula | Expression | Purpose | Verified? |
-|---------|-----------|---------|-----------|
-| [Formula 1] | `[mathematical expression]` | [What it calculates] | ✅ / ⚠️ needs tuning |
-| [Formula 2] | `[expression]` | [Purpose] | ✅ / ⚠️ needs tuning |
+| 公式 | 表达式 | 用途 | 已核实？ |
+|------|--------|------|----------|
+| [公式 1] | `[数学表达式]` | [计算什么] | 是 / 需复核与调参 |
+| [公式 2] | `[表达式]` | [用途] | 是 / 需复核与调参 |
 
-**Clarifications**:
-- [Formula X]: Originally [value/approach], user clarified intent is [corrected intent]
-- [Formula Y]: Implemented as [X], but should be [Y] — flagged for update
+**澄清记录**：
+- [公式 X]：原先为 [数值/做法]，用户澄清意图应为 [修正后的意图]
+- [公式 Y]：实现为 [X]，但应为 [Y] — 已标出待改
 
-### 2.3 State and Data
+### 2.3 状态与数据
 
-**Data Structures** (from code):
-- [Data structure 1]: `[fields/properties]`
-- [Data structure 2]: `[fields/properties]`
+**数据结构**（来自代码）：
+- [结构 1]：`[字段/属性]`
+- [结构 2]：`[字段/属性]`
 
-**State Machines** (if applicable):
+**状态机**（如适用）：
 ```
-[State diagram or list of states and transitions]
+[状态图或状态与转移列表]
 ```
 
-**Persistence**:
-- Saved: [What is saved to player save file]
-- Not saved: [What is session-only or recalculated]
+**持久化**：
+- 会存档：[写入玩家存档的内容]
+- 不存档：[仅会话内或每次重算的内容]
 
-### 2.4 Integration Points
+### 2.4 对接与集成
 
-**Dependencies** (systems this depends on):
-- [System 1]: [What it provides]
-- [System 2]: [What it provides]
+**依赖**（本系统依赖谁）：
+- [系统 1]：[提供什么]
+- [系统 2]：[提供什么]
 
-**Dependents** (systems that depend on this):
-- [System 3]: [How it uses this system]
-- [System 4]: [How it uses this system]
+**被依赖**（谁依赖本系统）：
+- [系统 3]：[如何使用本系统]
+- [系统 4]：[如何使用本系统]
 
-**API Surface** (public interface):
-- [Method/Function 1]: [Purpose]
-- [Method/Function 2]: [Purpose]
-
----
-
-## 3. Edge Cases
-
-**Handled in Code**:
-- ✅ [Edge case 1]: [How it's handled]
-- ✅ [Edge case 2]: [How it's handled]
-
-**Not Yet Handled** (discovered during analysis):
-- ⚠️ [Edge case 3]: [What happens? Needs implementation]
-- ⚠️ [Edge case 4]: [What happens? Needs implementation]
-
-**Unclear** (need user clarification):
-- ❓ [Edge case 5]: [What should happen? Pending decision]
+**对外接口**（公开 API）：
+- [方法/函数 1]：[用途]
+- [方法/函数 2]：[用途]
 
 ---
 
-## 4. Dependencies
+## 3. 边界情况
 
-**Technical Dependencies**:
-- [Dependency 1]: [Why needed]
-- [Dependency 2]: [Why needed]
+**代码已处理**：
+- （已处理）[边界 1]：[如何处理]
+- （已处理）[边界 2]：[如何处理]
 
-**Design Dependencies** (other design docs):
-- [System X Design]: [How they interact]
-- [System Y Design]: [How they interact]
+**尚未处理**（分析中发现）：
+- （待实现）[边界 3]：[当前会怎样？需补实现]
+- （待实现）[边界 4]：[当前会怎样？需补实现]
 
-**Content Dependencies**:
-- [Asset type]: [What's needed]
-- [Data files]: [Required config/balance data]
-
----
-
-## 5. Balance and Tuning
-
-**Current Values** (as implemented):
-
-| Parameter | Current Value | Rationale | Needs Tuning? |
-|-----------|--------------|-----------|---------------|
-| [Param 1] | [value] | [Why this value] | ✅ / ⚠️ / ❌ |
-| [Param 2] | [value] | [Why this value] | ✅ / ⚠️ / ❌ |
-
-**Balance Concerns Identified**:
-- ⚠️ [Concern 1]: [What's wrong, suggested fix]
-- ⚠️ [Concern 2]: [What's wrong, suggested fix]
-
-**Recommended Balance Pass**:
-- Run `/balance-check` on [specific aspect]
-- Playtest with focus on [specific scenario]
+**不明确**（需用户拍板）：
+- （待澄清）[边界 5]：[应怎样处理？待定]
 
 ---
 
-## 6. Acceptance Criteria
+## 4. 依赖关系
 
-**What Exists** (implemented):
-- ✅ [Criterion 1]
-- ✅ [Criterion 2]
-- ⚠️ [Criterion 3] — partially implemented
+**技术依赖**：
+- [依赖 1]：[为何需要]
+- [依赖 2]：[为何需要]
 
-**What's Missing** (not yet implemented):
-- ❌ [Criterion 4] — flagged for future work
-- ❌ [Criterion 5] — flagged for future work
+**设计依赖**（其他设计文档）：
+- [系统 X 设计]：[如何交互]
+- [系统 Y 设计]：[如何交互]
 
-**Definition of Done** (when is this system "complete"?):
-- [ ] [Requirement 1]
-- [ ] [Requirement 2]
-- [ ] [Requirement 3]
+**内容依赖**：
+- [资源类型]：[需要什么]
+- [数据文件]：[所需配置/平衡数据]
 
 ---
 
-## 7. Open Questions and Follow-Up Work
+## 5. 平衡与调参
 
-### Questions Needing User Decision
-1. **[Question 1]**: [What needs to be decided?]
-   - Option A: [Approach A]
-   - Option B: [Approach B]
+**当前数值**（按实现）：
 
-2. **[Question 2]**: [What needs to be decided?]
+| 参数 | 当前值 | 理由 | 需再调？ |
+|------|--------|------|----------|
+| [参数 1] | [值] | [为何取该值] | 否 / 是 / 待评 |
+| [参数 2] | [值] | [为何取该值] | 否 / 是 / 待评 |
 
-### Flagged Follow-Up Work
-- [ ] **Update [Formula X]**: Change from exponential to linear (per user clarification)
-- [ ] **Implement [Edge Case Y]**: Handle scenario not in current code
-- [ ] **Create ADR**: Document why [architectural decision] was chosen
-- [ ] **Balance pass**: Run `/balance-check` on progression curve
-- [ ] **Extend design doc**: When [related feature] is implemented, update this doc
+**已识别的平衡风险**：
+- （注意）[风险 1]：[问题与建议]
+- （注意）[风险 2]：[问题与建议]
 
----
-
-## 8. Version History
-
-| Date | Author | Changes |
-|------|--------|---------|
-| [Date] | Claude (reverse-doc) | Initial reverse-documentation from `[source path]` |
-| [Date] | [User] | Clarified design intent, corrected [X] |
+**建议的平衡 pass**：
+- 对 [具体方面] 运行 `/balance-check`
+- 试玩时重点观察 [具体场景]
 
 ---
 
-**Next Steps**:
-1. [Priority 1 task based on gaps identified]
-2. [Priority 2 task]
-3. [Priority 3 task]
+## 6. 验收标准
 
-**Related Skills**:
-- `/balance-check` — Validate formulas and progression
-- `/architecture-decision` — Document technical decisions
-- `/code-review` — Ensure code matches clarified design
+**已有**（已实现）：
+- （已有）[标准 1]
+- （已有）[标准 2]
+- （部分）[标准 3] — 部分实现
+
+**缺失**（未实现）：
+- （未实现）[标准 4] — 标为后续工作
+- （未实现）[标准 5] — 标为后续工作
+
+**完成定义**（何时算「系统完成」？）：
+- [ ] [要求 1]
+- [ ] [要求 2]
+- [ ] [要求 3]
 
 ---
 
-*This document was generated by `/reverse-document design [path]`*
+## 7. 开放问题与后续工作
+
+### 需用户决策的问题
+1. **[问题 1]**：[要决定什么？]
+   - 方案 A：[做法 A]
+   - 方案 B：[做法 B]
+
+2. **[问题 2]**：[要决定什么？]
+
+### 已标出的后续工作
+- [ ] **更新 [公式 X]**：按用户说明由指数改为线性
+- [ ] **实现 [边界情况 Y]**：处理当前代码未覆盖的场景
+- [ ] **撰写 ADR**：记录 [架构决策] 的选型原因
+- [ ] **平衡 pass**：对成长曲线运行 `/balance-check`
+- [ ] **扩展设计文档**：当 [相关功能] 落地后更新本文
+
+---
+
+## 8. 版本历史
+
+| 日期 | 作者 | 变更 |
+|------|------|------|
+| [日期] | Claude（逆向成文） | 自 `[来源路径]` 首次逆向整理 |
+| [日期] | [用户] | 澄清设计意图，修正 [X] |
+
+---
+
+**下一步**：
+1. [根据缺口识别的优先任务 1]
+2. [优先任务 2]
+3. [优先任务 3]
+
+**相关技能**：
+- `/balance-check` — 校验公式与成长
+- `/architecture-decision` — 记录技术决策
+- `/code-review` — 核对代码与澄清后的设计是否一致
+
+---
+
+*本文档由 `/reverse-document design [路径]` 生成*

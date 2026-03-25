@@ -1,74 +1,71 @@
 ---
 name: team-combat
-description: "Orchestrate the combat team: coordinates game-designer, gameplay-programmer, ai-programmer, technical-artist, sound-designer, and qa-tester to design, implement, and validate a combat feature end-to-end."
-argument-hint: "[combat feature description]"
+description: "编排战斗团队：协调 game-designer、gameplay-programmer、ai-programmer、technical-artist、sound-designer 与 qa-tester，端到端设计、实现并验证一项战斗特性。"
+argument-hint: "[战斗特性描述]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
 ---
-When this skill is invoked, orchestrate the combat team through a structured pipeline.
+本技能被调用时，通过结构化流水线编排战斗团队。
 
-**Decision Points:** At each phase transition, use `AskUserQuestion` to present
-the user with the subagent's proposals as selectable options. Write the agent's
-full analysis in conversation, then capture the decision with concise labels.
-The user must approve before moving to the next phase.
+**决策点：** 在每个阶段切换时，使用 `AskUserQuestion` 将子智能体的方案以可选项形式呈现给用户。在对话中写出该智能体的完整分析，再用简短标签记录决策。进入下一阶段前须获得用户批准。
 
-## Team Composition
-- **game-designer** — Design the mechanic, define formulas and edge cases
-- **gameplay-programmer** — Implement the core gameplay code
-- **ai-programmer** — Implement NPC/enemy AI behavior for the feature
-- **technical-artist** — Create VFX, shader effects, and visual feedback
-- **sound-designer** — Define audio events, impact sounds, and ambient combat audio
-- **qa-tester** — Write test cases and validate the implementation
+## 团队构成
+- **game-designer** — 设计机制，定义公式与边界情况
+- **gameplay-programmer** — 实现核心玩法代码
+- **ai-programmer** — 为该特性实现 NPC/敌人 AI 行为
+- **technical-artist** — 制作 VFX、着色器效果与视觉反馈
+- **sound-designer** — 定义音频事件、打击音效与战斗环境音
+- **qa-tester** — 编写测试用例并验证实现
 
-## How to Delegate
+## 如何委派
 
-Use the Task tool to spawn each team member as a subagent:
-- `subagent_type: game-designer` — Design the mechanic, define formulas and edge cases
-- `subagent_type: gameplay-programmer` — Implement the core gameplay code
-- `subagent_type: ai-programmer` — Implement NPC/enemy AI behavior
-- `subagent_type: technical-artist` — Create VFX, shader effects, visual feedback
-- `subagent_type: sound-designer` — Define audio events, impact sounds, ambient audio
-- `subagent_type: qa-tester` — Write test cases and validate implementation
+使用 `Task` 工具将每位成员作为子智能体启动：
+- `subagent_type: game-designer` — 设计机制，定义公式与边界情况
+- `subagent_type: gameplay-programmer` — 实现核心玩法代码
+- `subagent_type: ai-programmer` — 实现 NPC/敌人 AI 行为
+- `subagent_type: technical-artist` — 制作 VFX、着色器效果、视觉反馈
+- `subagent_type: sound-designer` — 定义音频事件、打击音效、环境音
+- `subagent_type: qa-tester` — 编写测试用例并验证实现
 
-Always provide full context in each agent's prompt (design doc path, relevant code files, constraints). Launch independent agents in parallel where the pipeline allows it (e.g., Phase 3 agents can run simultaneously).
+在每位智能体的提示词中提供完整上下文（设计文档路径、相关代码文件、约束）。在流水线允许时并行启动相互独立的智能体（例如第 3 阶段中的智能体可同时运行）。
 
-## Pipeline
+## 流水线
 
-### Phase 1: Design
-Delegate to **game-designer**:
-- Create or update the design document in `design/gdd/` covering: mechanic overview, player fantasy, detailed rules, formulas with variable definitions, edge cases, dependencies, tuning knobs with safe ranges, and acceptance criteria
-- Output: completed design document
+### 第 1 阶段：设计
+委派给 **game-designer**：
+- 在 `design/gdd/` 中创建或更新设计文档，涵盖：机制概览、玩家角色幻想（player fantasy）、详细规则、带变量定义的公式、边界情况、依赖关系、可调参数与安全范围，以及验收标准
+- 产出：已完成的设计文档
 
-### Phase 2: Architecture
-Delegate to **gameplay-programmer** (with **ai-programmer** if AI is involved):
-- Review the design document
-- Design the code architecture: class structure, interfaces, data flow
-- Identify integration points with existing systems
-- Output: architecture sketch with file list and interface definitions
+### 第 2 阶段：架构
+委派给 **gameplay-programmer**（若涉及 AI，则同时委派 **ai-programmer**）：
+- 审阅设计文档
+- 设计代码架构：类结构、接口、数据流
+- 标出与现有系统的集成点
+- 产出：架构草图、文件清单与接口定义
 
-### Phase 3: Implementation (parallel where possible)
-Delegate in parallel:
-- **gameplay-programmer**: Implement core combat mechanic code
-- **ai-programmer**: Implement AI behaviors (if the feature involves NPC reactions)
-- **technical-artist**: Create VFX and shader effects
-- **sound-designer**: Define audio event list and mixing notes
+### 第 3 阶段：实现（在可能时并行）
+并行委派：
+- **gameplay-programmer**：实现核心战斗机制代码
+- **ai-programmer**：实现 AI 行为（若特性涉及 NPC 反应）
+- **technical-artist**：制作 VFX 与着色器效果
+- **sound-designer**：定义音频事件列表与混音说明
 
-### Phase 4: Integration
-- Wire together gameplay code, AI, VFX, and audio
-- Ensure all tuning knobs are exposed and data-driven
-- Verify the feature works with existing combat systems
+### 第 4 阶段：集成
+- 将玩法代码、AI、VFX 与音频串联起来
+- 确保所有可调参数已暴露且数据驱动
+- 验证该特性与现有战斗系统协同正常
 
-### Phase 5: Validation
-Delegate to **qa-tester**:
-- Write test cases from the acceptance criteria
-- Test all edge cases documented in the design
-- Verify performance impact is within budget
-- File bug reports for any issues found
+### 第 5 阶段：验证
+委派给 **qa-tester**：
+- 根据验收标准编写测试用例
+- 测试设计中记录的所有边界情况
+- 确认性能影响在预算内
+- 对发现的问题提交缺陷报告
 
-### Phase 6: Sign-off
-- Collect results from all team members
-- Report feature status: COMPLETE / NEEDS WORK / BLOCKED
-- List any outstanding issues and their assigned owners
+### 第 6 阶段：签收
+- 汇总各团队成员结果
+- 报告特性状态：COMPLETE / NEEDS WORK / BLOCKED
+- 列出未决问题及其负责人
 
-## Output
-A summary report covering: design completion status, implementation status per team member, test results, and any open issues.
+## 产出
+一份摘要报告，涵盖：设计完成度、各成员实现情况、测试结果，以及未关闭问题。

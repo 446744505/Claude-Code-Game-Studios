@@ -1,21 +1,20 @@
-# Godot Audio — Quick Reference
+# Godot 音频 — 速查
 
-Last verified: 2026-02-12 | Engine: Godot 4.6
+上次核对：2026-02-12 | 引擎：Godot 4.6
 
-## What Changed Since ~4.3 (LLM Cutoff)
+## 相对约 4.3（LLM 训练截止）以来的变化
 
-No major breaking changes to the audio API in 4.4–4.6. The core audio system
-remains stable. Key updates are workflow improvements:
+4.4–4.6 中音频 API 无重大破坏性变更。核心音频系统保持稳定。主要更新集中在工作流改进：
 
-### 4.6 Changes
-- **No audio-specific breaking changes** in this release
+### 4.6 变更
+- 本版本**无音频相关的破坏性变更**
 
-### 4.5 Changes
-- **No audio-specific breaking changes** in this release
+### 4.5 变更
+- 本版本**无音频相关的破坏性变更**
 
-## Current API Patterns
+## 当前 API 用法
 
-### Playing Audio
+### 播放音频
 ```gdscript
 @onready var sfx_player: AudioStreamPlayer = %SFXPlayer
 @onready var music_player: AudioStreamPlayer = %MusicPlayer
@@ -33,7 +32,7 @@ func play_music(stream: AudioStream, fade_time: float = 1.0) -> void:
     music_player.play()
 ```
 
-### 3D Spatial Audio
+### 3D 空间音频
 ```gdscript
 @onready var audio_3d: AudioStreamPlayer3D = %AudioPlayer3D
 
@@ -43,19 +42,19 @@ func _ready() -> void:
     audio_3d.unit_size = 10.0
 ```
 
-### Audio Buses
+### 音频总线（Audio Buses）
 ```gdscript
-# Set bus volumes
+# 设置总线音量
 AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"Music"), volume_db)
 AudioServer.set_bus_volume_db(AudioServer.get_bus_index(&"SFX"), volume_db)
 
-# Mute a bus
+# 静音某条总线
 AudioServer.set_bus_mute(AudioServer.get_bus_index(&"Music"), true)
 ```
 
-### Object Pooling for SFX
+### 音效对象池
 ```gdscript
-# Pre-create multiple AudioStreamPlayer nodes for concurrent sounds
+# 预先创建多个 AudioStreamPlayer 节点以并发播放音效
 var _sfx_pool: Array[AudioStreamPlayer] = []
 
 func _ready() -> void:
@@ -73,7 +72,7 @@ func play_pooled(stream: AudioStream) -> void:
             return
 ```
 
-## Common Mistakes
-- Creating new AudioStreamPlayer nodes at runtime instead of pooling
-- Not using audio buses for volume categories (Music, SFX, UI, Voice)
-- Using `_process()` for audio timing instead of signals (`finished`)
+## 常见错误
+- 运行时不断新建 AudioStreamPlayer 节点，而不是用对象池
+- 不按类别（音乐、音效、UI、语音）使用音频总线控制音量
+- 用 `_process()` 做音频时序，而不是用信号（如 `finished`）

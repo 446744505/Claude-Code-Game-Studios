@@ -1,73 +1,73 @@
 ---
 name: scope-check
-description: "Analyze a feature or sprint for scope creep by comparing current scope against the original plan. Flags additions, quantifies bloat, and recommends cuts."
-argument-hint: "[feature-name or sprint-N]"
+description: "通过将当前范围与原始计划对比，分析功能或冲刺是否存在范围蔓延。标出新增项、量化膨胀并建议删减。"
+argument-hint: "[功能名或 sprint-N]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep
 context: |
   !git diff --stat HEAD~20 2>/dev/null
 ---
-When this skill is invoked:
+当本技能被调用时：
 
-1. **Read the original plan** — Find the relevant document:
-   - If a feature name: read the design doc from `design/gdd/`
-   - If a sprint number: read the sprint plan from `production/sprints/`
-   - If a milestone: read the milestone definition from `production/milestones/`
+1. **阅读原始计划** — 找到相关文档：
+   - 若为功能名：从 `design/gdd/` 读取设计文档
+   - 若为冲刺编号：从 `production/sprints/` 读取冲刺计划
+   - 若为里程碑：从 `production/milestones/` 读取里程碑定义
 
-2. **Read the current state** — Check what has actually been implemented or is in progress:
-   - Scan the codebase for files related to the feature/sprint
-   - Read git log for commits related to this work
-   - Check for TODO comments that indicate unfinished scope additions
+2. **阅读当前状态** — 查看实际已实现或进行中的内容：
+   - 扫描代码库中与该功能/冲刺相关的文件
+   - 阅读与本工作相关的 git 提交记录
+   - 检查 TODO 注释是否暗示未完成的范围追加
 
-3. **Compare original vs current scope**:
+3. **对比原始范围与当前范围**：
 
    ```markdown
-   ## Scope Check: [Feature/Sprint Name]
-   Generated: [Date]
+   ## 范围检查：[功能/冲刺名称]
+   生成时间：[日期]
 
-   ### Original Scope
-   [List of items from the original plan]
+   ### 原始范围
+   [来自原始计划的条目列表]
 
-   ### Current Scope
-   [List of items currently implemented or in progress]
+   ### 当前范围
+   [当前已实现或进行中的条目列表]
 
-   ### Scope Additions (not in original plan)
-   | Addition | Who Added | When | Justified? | Effort |
-   |----------|-----------|------|------------|--------|
-   | [item] | [commit/person] | [date] | [Yes/No/Unclear] | [S/M/L] |
+   ### 范围追加（不在原始计划中）
+   | 追加项 | 谁引入 | 时间 | 是否合理 | 工作量 |
+   |--------|--------|------|----------|--------|
+   | [条目] | [提交/人员] | [日期] | [是/否/不明] | [小/中/大] |
 
-   ### Scope Removals (in original but dropped)
-   | Removed Item | Reason | Impact |
-   |-------------|--------|--------|
-   | [item] | [why removed] | [what's affected] |
+   ### 范围删减（原计划有但已放弃）
+   | 删减项 | 原因 | 影响 |
+   |--------|------|------|
+   | [条目] | [为何删减] | [受影响面] |
 
-   ### Bloat Score
-   - Original items: [N]
-   - Current items: [N]
-   - Items added: [N] (+[X]%)
-   - Items removed: [N]
-   - Net scope change: [+/-N] ([X]%)
+   ### 膨胀评分
+   - 原始条目数：[N]
+   - 当前条目数：[N]
+   - 新增条目：[N]（+[X]%）
+   - 删减条目：[N]
+   - 净范围变化：[+/-N]（[X]%）
 
-   ### Risk Assessment
-   - **Schedule Risk**: [Low/Medium/High] — [explanation]
-   - **Quality Risk**: [Low/Medium/High] — [explanation]
-   - **Integration Risk**: [Low/Medium/High] — [explanation]
+   ### 风险评估
+   - **进度风险**：[低/中/高] — [说明]
+   - **质量风险**：[低/中/高] — [说明]
+   - **集成风险**：[低/中/高] — [说明]
 
-   ### Recommendations
-   1. **Cut**: [Items that should be removed to stay on schedule]
-   2. **Defer**: [Items that can move to a future sprint/version]
-   3. **Keep**: [Additions that are genuinely necessary]
-   4. **Flag**: [Items that need a decision from producer/creative-director]
+   ### 建议
+   1. **砍掉**：[为保进度应移除的条目]
+   2. **延后**：[可移到未来冲刺/版本的条目]
+   3. **保留**：[确有必要的新增]
+   4. **上报决策**：[需要制作人/创意总监拍板的条目]
    ```
 
-4. **Output the scope check** with a clear verdict:
-   - **On Track**: Scope within 10% of original
-   - **Minor Creep**: 10-25% scope increase — manageable with adjustments
-   - **Significant Creep**: 25-50% scope increase — need to cut or extend timeline
-   - **Out of Control**: >50% scope increase — stop and re-plan
+4. **输出范围检查结论**，给出明确判定：
+   - **正常推进**：与原始计划相比，范围偏差在 10% 以内
+   - **轻度蔓延**：范围增加 10%–25% — 可通过调整消化
+   - **明显蔓延**：范围增加 25%–50% — 需要删减或延长排期
+   - **失控**：范围增加超过 50% — 应暂停并重新规划
 
-### Rules
-- Scope creep is additions without corresponding cuts or timeline extensions
-- Not all additions are bad — some are discovered requirements. But they must be acknowledged and accounted for.
-- When recommending cuts, prioritize preserving the core player experience over nice-to-haves
-- Always quantify scope changes — "it feels bigger" is not actionable, "+35% items" is
+### 规则
+- 范围蔓延指：在没有对应删减或排期延长的情况下追加内容
+- 并非所有新增都坏 — 有些属于发现型需求，但必须被记录并纳入核算
+- 建议删减时，优先保住核心玩家体验，再考虑锦上添花
+- 始终量化范围变化 —「感觉变大了」无法行动，「+35% 条目」才可以

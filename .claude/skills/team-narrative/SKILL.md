@@ -1,67 +1,64 @@
 ---
 name: team-narrative
-description: "Orchestrate the narrative team: coordinates narrative-director, writer, world-builder, and level-designer to create cohesive story content, world lore, and narrative-driven level design."
-argument-hint: "[narrative content description]"
+description: "编排叙事团队：协调 `narrative-director`、`writer`、`world-builder` 与 `level-designer`，产出连贯的故事内容、世界观设定，以及由叙事驱动的关卡设计。"
+argument-hint: "[叙事内容描述]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Task, AskUserQuestion, TodoWrite
 ---
-When this skill is invoked, orchestrate the narrative team through a structured pipeline.
+当本技能被调用时，通过结构化流水线编排叙事团队。
 
-**Decision Points:** At each phase transition, use `AskUserQuestion` to present
-the user with the subagent's proposals as selectable options. Write the agent's
-full analysis in conversation, then capture the decision with concise labels.
-The user must approve before moving to the next phase.
+**决策点：** 在每个阶段切换时，使用 `AskUserQuestion` 将子智能体的方案以可选项形式呈现给用户。在对话中写出智能体的完整分析，再用简短标签记录决策。用户批准后方可进入下一阶段。
 
-## Team Composition
-- **narrative-director** — Story arcs, character design, dialogue strategy, narrative vision
-- **writer** — Dialogue writing, lore entries, item descriptions, in-game text
-- **world-builder** — World rules, faction design, history, geography, environmental storytelling
-- **level-designer** — Level layouts that serve the narrative, pacing, environmental storytelling beats
+## 团队构成
+- `narrative-director` — 故事弧线、角色设计、对白策略、叙事愿景
+- `writer` — 对白撰写、设定条目、物品描述、游戏内文案
+- `world-builder` — 世界规则、派系设计、历史、地理、环境叙事
+- `level-designer` — 服务于叙事的关卡布局、节奏、环境叙事节拍
 
-## How to Delegate
+## 如何委派
 
-Use the Task tool to spawn each team member as a subagent:
-- `subagent_type: narrative-director` — Story arcs, character design, narrative vision
-- `subagent_type: writer` — Dialogue writing, lore entries, in-game text
-- `subagent_type: world-builder` — World rules, faction design, history, geography
-- `subagent_type: level-designer` — Level layouts that serve the narrative, pacing
+使用 Task 工具将每位成员作为子智能体启动：
+- `subagent_type: narrative-director` — 故事弧线、角色设计、叙事愿景
+- `subagent_type: writer` — 对白撰写、设定条目、游戏内文案
+- `subagent_type: world-builder` — 世界规则、派系设计、历史、地理
+- `subagent_type: level-designer` — 服务于叙事的关卡布局、节奏
 
-Always provide full context in each agent's prompt (narrative brief, lore dependencies, character profiles). Launch independent agents in parallel where the pipeline allows it (e.g., Phase 2 agents can run simultaneously).
+在每位智能体的提示中提供完整上下文（叙事简报、设定依赖、角色档案）。在流水线允许时并行启动相互独立的智能体（例如第二阶段可同时进行）。
 
-## Pipeline
+## 流水线
 
-### Phase 1: Narrative Direction
-Delegate to **narrative-director**:
-- Define the narrative purpose of this content: what story beat does it serve?
-- Identify characters involved, their motivations, and how this fits the overall arc
-- Set the emotional tone and pacing targets
-- Specify any lore dependencies or new lore this introduces
-- Output: narrative brief with story requirements
+### 第一阶段：叙事方向
+委派给 `narrative-director`：
+- 明确本段内容的叙事目的：要推进哪一故事节拍？
+- 列出涉及角色、其动机，以及与本作整体弧线的关系
+- 设定情绪基调与节奏目标
+- 标明设定依赖，或本段引入的新设定
+- 产出：含故事需求的叙事简报
 
-### Phase 2: World Foundation (parallel)
-Delegate in parallel:
-- **world-builder**: Create or update lore entries for factions, locations, and history relevant to this content. Cross-reference against existing lore for contradictions. Set canon level for new entries.
-- **writer**: Draft character dialogue using voice profiles. Ensure all lines are under 120 characters, use named placeholders for variables, and are localization-ready.
+### 第二阶段：世界基底（并行）
+并行委派：
+- `world-builder`：为本段内容相关的派系、地点与历史创建或更新设定条目。对照既有设定排查矛盾。为新条目标注正典层级。
+- `writer`：按声线档案起草角色对白。确保每行不超过 120 个字符，变量使用具名占位符，并满足本地化就绪要求。
 
-### Phase 3: Level Narrative Integration
-Delegate to **level-designer**:
-- Review the narrative brief and lore foundation
-- Design environmental storytelling elements in the level
-- Place narrative triggers, dialogue zones, and discovery points
-- Ensure pacing serves both gameplay and story
+### 第三阶段：关卡与叙事整合
+委派给 `level-designer`：
+- 审阅叙事简报与设定基底
+- 在关卡中设计环境叙事元素
+- 布置叙事触发器、对白区域与发现点
+- 确保节奏同时服务于玩法与故事
 
-### Phase 4: Review and Consistency
-Delegate to **narrative-director**:
-- Review all dialogue against character voice profiles
-- Verify lore consistency across new and existing entries
-- Confirm narrative pacing aligns with level design
-- Check that all mysteries have documented "true answers"
+### 第四阶段：审阅与一致性
+委派给 `narrative-director`：
+- 对照角色声线档案审阅全部对白
+- 核对新旧设定条目之间的设定一致性
+- 确认叙事节奏与关卡设计一致
+- 检查所有谜团是否都有文档化的「真相答案」
 
-### Phase 5: Polish
-- Writer reviews all text for localization readiness
-- Verify no line exceeds dialogue box constraints
-- Confirm all text uses string keys (localization pipeline ready)
-- World-builder finalizes canon levels for all new lore
+### 第五阶段：打磨
+- `writer` 通读全部文案，检查本地化就绪度
+- 确认没有行超出对话框限制
+- 确认全部文案使用字符串键（本地化管线就绪）
+- `world-builder` 为所有新设定最终确定正典层级
 
-## Output
-A summary report covering: narrative brief status, lore entries created/updated, dialogue lines written, level narrative integration points, consistency review results, and any unresolved contradictions.
+## 产出
+一份摘要报告，涵盖：叙事简报状态、创建/更新的设定条目、撰写的对白行数、关卡叙事整合要点、一致性审阅结果，以及任何尚未解决的矛盾。

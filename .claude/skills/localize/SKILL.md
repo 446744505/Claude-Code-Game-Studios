@@ -1,70 +1,70 @@
 ---
 name: localize
-description: "Run the localization workflow: extract strings, validate localization readiness, check for hardcoded text, and generate translation-ready string tables."
+description: "执行本地化工作流：抽取字符串、校验本地化就绪度、检查硬编码文案，并生成可供翻译的字符串表。"
 argument-hint: "[scan|extract|validate|status]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Bash
 ---
-When this skill is invoked:
+调用本技能时：
 
-1. **Parse the subcommand** from the argument:
-   - `scan` — Scan for localization issues (hardcoded strings, missing keys)
-   - `extract` — Extract new strings and generate/update string tables
-   - `validate` — Validate existing translations for completeness and format
-   - `status` — Report overall localization status
+1. **从参数解析子命令**：
+   - `scan` — 扫描本地化问题（硬编码字符串、缺失键）
+   - `extract` — 抽取新字符串并生成/更新字符串表
+   - `validate` — 校验现有翻译的完整性与格式
+   - `status` — 汇总整体本地化状态
 
-2. **For `scan`**:
-   - Search `src/` for hardcoded user-facing strings:
-     - String literals in UI code that are not wrapped in a localization function
-     - Concatenated strings that should be parameterized
-     - Strings with positional placeholders (`%s`, `%d`) instead of named ones (`{playerName}`)
-   - Search for localization anti-patterns:
-     - Date/time formatting not using locale-aware functions
-     - Number formatting without locale awareness
-     - Text embedded in images or textures (flag asset files)
-     - Strings that assume left-to-right text direction
-   - Report all findings with file paths and line numbers
+2. **执行 `scan` 时**：
+   - 在 `src/` 中搜索硬编码的面向用户字符串：
+     - UI 代码中未包在本地化函数里的字符串字面量
+     - 应改为参数化的拼接字符串
+     - 使用位置占位符（`%s`、`%d`）而非命名占位符（`{playerName}`）的字符串
+   - 搜索本地化反模式：
+     - 日期/时间格式化未使用区域感知函数
+     - 数字格式化未考虑区域
+     - 嵌入在图片或贴图中的文字（标记相关资源文件）
+     - 假设从左到右排版的字符串
+   - 列出所有发现项，附文件路径与行号
 
-3. **For `extract`**:
-   - Scan all source files for localized string references
-   - Compare against the existing string table (if any) in `assets/data/`
-   - Generate new entries for strings that don't have keys yet
-   - Suggest key names following the convention: `[category].[subcategory].[description]`
-   - Output a diff of new strings to add to the string table
+3. **执行 `extract` 时**：
+   - 扫描全部源文件中的本地化字符串引用
+   - 与 `assets/data/` 中已有字符串表（如有）对比
+   - 为尚无键的字符串生成新条目
+   - 按约定建议键名：`[category].[subcategory].[description]`
+   - 输出待加入字符串表的新字符串 diff
 
-4. **For `validate`**:
-   - Read all string table files in `assets/data/`
-   - Check each entry for:
-     - Missing translations (key exists but no translation for a locale)
-     - Placeholder mismatches (source has `{name}` but translation is missing it)
-     - String length violations (exceeds character limits for UI elements)
-     - Orphaned keys (translation exists but nothing references the key in code)
-   - Report validation results grouped by locale and severity
+4. **执行 `validate` 时**：
+   - 读取 `assets/data/` 下所有字符串表文件
+   - 逐项检查：
+     - 缺失翻译（键存在但某区域无译文）
+     - 占位符不一致（源文有 `{name}` 但译文缺少）
+     - 字符串长度违规（超出 UI 元素字符上限）
+     - 孤立键（有译文但代码中无引用）
+   - 按区域与严重级别汇总校验结果
 
-5. **For `status`**:
-   - Count total localizable strings
-   - Per locale: count translated, untranslated, and stale (source changed since translation)
-   - Generate a coverage matrix:
+5. **执行 `status` 时**：
+   - 统计可本地化字符串总数
+   - 按区域统计：已译、未译、陈旧（源文自翻译后已变更）
+   - 生成覆盖率矩阵：
 
    ```markdown
-   ## Localization Status
-   Generated: [Date]
+   ## 本地化状态
+   生成时间：[Date]
 
-   | Locale | Total | Translated | Missing | Stale | Coverage |
-   |--------|-------|-----------|---------|-------|----------|
+   | 区域 (Locale) | 总数 | 已译 | 缺失 | 陈旧 | 覆盖率 |
+   |---------------|------|------|------|------|--------|
    | en (source) | [N] | [N] | 0 | 0 | 100% |
    | [locale] | [N] | [N] | [N] | [N] | [X]% |
 
-   ### Issues
-   - [N] hardcoded strings found in source code
-   - [N] strings exceeding character limits
-   - [N] placeholder mismatches
-   - [N] orphaned keys (can be cleaned up)
+   ### 问题
+   - [N] 在源码中发现硬编码字符串
+   - [N] 超出字符上限的字符串
+   - [N] 占位符不一致
+   - [N] 孤立键（可清理）
    ```
 
-### Rules
-- English (en) is always the source locale
-- Every string table entry must include a translator comment explaining context
-- Never modify translation files directly — generate diffs for review
-- Character limits must be defined per-UI-element and enforced automatically
-- Right-to-left (RTL) language support should be considered from the start, not bolted on later
+### 规则
+- 英语（en）始终作为源区域语言
+- 每条字符串表条目须含译者注释，说明上下文
+- 不得直接修改翻译文件 — 只生成 diff 供审阅
+- 字符上限须按 UI 元素定义，并尽量自动校验
+- 从项目开始即考虑从右到左（RTL）语言支持，而非事后补丁

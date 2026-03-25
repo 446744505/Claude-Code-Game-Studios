@@ -3,13 +3,13 @@ paths:
   - "src/networking/**"
 ---
 
-# Network Code Rules
+# 网络代码规则
 
-- Server is AUTHORITATIVE for all gameplay-critical state — never trust the client
-- All network messages must be versioned for forward/backward compatibility
-- Client predicts locally, reconciles with server — implement rollback for mispredictions
-- Handle disconnection, reconnection, and host migration gracefully
-- Rate-limit all network logging to prevent log flooding
-- All networked values must specify replication strategy: reliable/unreliable, frequency, interpolation
-- Bandwidth budget: define and track per-message-type bandwidth usage
-- Security: validate all incoming packet sizes and field ranges
+- 服务端对所有玩法关键状态拥有权威（authoritative）——切勿信任客户端
+- 所有网络消息必须带版本号，以支持前向/后向兼容
+- 客户端本地预测，并与服务端校对；对预测错误须实现回滚
+- 妥善处理断线、重连与主机迁移
+- 对所有网络相关日志做限流，避免日志洪泛
+- 所有需同步的数值须明确复制策略：可靠/不可靠、频率、插值
+- 带宽预算：按消息类型定义并跟踪带宽占用
+- 安全：校验所有入站数据包大小与字段取值范围

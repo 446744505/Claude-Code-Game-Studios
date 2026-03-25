@@ -3,13 +3,13 @@ paths:
   - "src/ai/**"
 ---
 
-# AI Code Rules
+# AI 代码规范
 
-- AI update budget: 2ms per frame maximum — profile to verify
-- All AI parameters must be tunable from data files (behavior tree weights, perception ranges, timers)
-- AI must be debuggable: implement visualization hooks for all AI state (paths, perception cones, decision trees)
-- AI should telegraph intentions — players need time to read and react
-- Prefer utility-based or behavior tree approaches over hard-coded if/else chains
-- Group AI must support formation, flanking, and role assignment from data
-- All AI state machines must log transitions for debugging
-- Never trust AI input from the network without validation
+- AI 更新预算：每 frame 至多 2ms——须通过 profiling 验证
+- 所有 AI 参数须可通过数据文件调节（行为树权重、感知范围、计时器）
+- AI 必须可调试：为全部 AI 状态实现可视化 debug hooks（路径、感知锥、决策树）
+- AI 应提前明示意图，让玩家有时间读懂并做出反应
+- 优先采用 utility-based 或行为树实现，避免冗长的硬编码 if/else 链
+- 群体 AI 须支持由数据驱动的阵型、侧翼包抄与角色分配
+- 所有 AI 状态机在调试时须记录状态转移（transition）日志
+- 未经校验，切勿信任来自网络的 AI 相关输入

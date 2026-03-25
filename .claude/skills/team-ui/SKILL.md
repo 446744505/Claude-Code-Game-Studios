@@ -1,70 +1,67 @@
 ---
 name: team-ui
-description: "Orchestrate the UI team: coordinates ux-designer, ui-programmer, and art-director to design, implement, and polish a user interface feature from wireframe to final."
-argument-hint: "[UI feature description]"
+description: "编排 UI 团队：协调 ux-designer、ui-programmer 与 art-director，从线框到终稿完成一项用户界面功能的设计、实现与打磨。"
+argument-hint: "[UI 功能描述]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
 ---
-When this skill is invoked, orchestrate the UI team through a structured pipeline.
+本技能被调用时，通过结构化流水线编排 UI 团队。
 
-**Decision Points:** At each phase transition, use `AskUserQuestion` to present
-the user with the subagent's proposals as selectable options. Write the agent's
-full analysis in conversation, then capture the decision with concise labels.
-The user must approve before moving to the next phase.
+**决策点：** 在每个阶段切换时，使用 `AskUserQuestion` 将子 agent 的方案以可选项形式呈现给用户。在对话中写出该 agent 的完整分析，再用简短标签记录决策。进入下一阶段前须获得用户批准。
 
-## Team Composition
-- **ux-designer** — User flows, wireframes, accessibility, input handling
-- **ui-programmer** — UI framework, screens, widgets, data binding, implementation
-- **art-director** — Visual style, layout polish, consistency with art bible
+## 团队构成
+- **`ux-designer`** — 用户流程、线稿、无障碍、输入处理
+- **`ui-programmer`** — UI 框架、界面、控件、数据绑定、实现
+- **`art-director`** — 视觉风格、版式打磨、与美术圣经一致
 
-## How to Delegate
+## 如何委派
 
-Use the Task tool to spawn each team member as a subagent:
-- `subagent_type: ux-designer` — User flows, wireframes, accessibility, input handling
-- `subagent_type: ui-programmer` — UI framework, screens, widgets, data binding
-- `subagent_type: art-director` — Visual style, layout polish, art bible consistency
+使用 Task 工具将每位成员作为子 agent 拉起：
+- `subagent_type: ux-designer` — 用户流程、线稿、无障碍、输入处理
+- `subagent_type: ui-programmer` — UI 框架、界面、控件、数据绑定
+- `subagent_type: art-director` — 视觉风格、版式打磨、与美术圣经一致
 
-Always provide full context in each agent's prompt (feature requirements, existing UI patterns, platform targets). Launch independent agents in parallel where the pipeline allows it (e.g., Phase 4 review agents can run simultaneously).
+每次在 agent 的 prompt 中提供完整上下文（功能需求、既有 UI 模式、目标平台）。在流水线允许时并行启动相互独立的 agent（例如第 4 阶段的审阅 agent 可同时运行）。
 
-## Pipeline
+## 流水线
 
-### Phase 1: UX Design
-Delegate to **ux-designer**:
-- Define the user flow for this feature (entry points, states, exit points)
-- Create wireframes for each screen/state
-- Specify interaction patterns: how does keyboard/mouse AND gamepad navigate this?
-- Define accessibility requirements: text sizes, contrast, colorblind safety
-- Identify data the UI needs to display (what game state does it read?)
-- Output: UX spec with wireframes and interaction map
+### 第 1 阶段：UX 设计
+委派给 **`ux-designer`**：
+- 定义本功能的用户流程（入口、状态、出口）
+- 为每个界面/状态制作线稿
+- 明确交互模式：键盘/鼠标与手柄如何在本 UI 中导航？
+- 定义无障碍要求：字号、对比度、色觉安全
+- 标出 UI 需要展示的数据（读取哪些游戏状态？）
+- 产出：含线稿与交互图的 UX 规格说明
 
-### Phase 2: Visual Design
-Delegate to **art-director**:
-- Review wireframes against the art bible
-- Define visual treatment: colors, typography, spacing, animations
-- Specify asset requirements (icons, backgrounds, decorative elements)
-- Ensure consistency with existing UI screens
-- Output: visual design spec with style notes
+### 第 2 阶段：视觉设计
+委派给 **`art-director`**：
+- 对照美术圣经审阅线稿
+- 定义视觉处理：色彩、字体、间距、动效
+- 明确资源需求（图标、背景、装饰元素）
+- 与既有 UI 界面保持一致
+- 产出：含风格说明的视觉设计规格
 
-### Phase 3: Implementation
-Delegate to **ui-programmer**:
-- Implement the UI following the UX spec and visual design
-- Ensure UI NEVER owns or modifies game state — display only, events for actions
-- All text through localization system — no hardcoded strings
-- Support both input methods (keyboard/mouse + gamepad)
-- Implement accessibility features (text scaling, colorblind mode support)
-- Wire up data binding to game state
-- Output: implemented UI feature
+### 第 3 阶段：实现
+委派给 **`ui-programmer`**：
+- 按 UX 规格与视觉设计实现 UI
+- UI 不得拥有或修改游戏状态 —— 仅展示，动作用事件上报
+- 所有文案走本地化系统 —— 禁止硬编码字符串
+- 同时支持两种输入方式（键盘/鼠标 + 手柄）
+- 实现无障碍能力（文字缩放、色觉模式支持等）
+- 将数据绑定接到游戏状态
+- 产出：已实现的 UI 功能
 
-### Phase 4: Review (parallel)
-Delegate in parallel:
-- **ux-designer**: Verify implementation matches wireframes and interaction spec. Test keyboard-only and gamepad-only navigation. Check accessibility.
-- **art-director**: Verify visual consistency with art bible. Check at minimum and maximum supported resolutions.
+### 第 4 阶段：审阅（并行）
+并行委派：
+- **`ux-designer`**：核对实现是否与线稿与交互规格一致。分别用纯键盘与纯手柄导航测试。检查无障碍。
+- **`art-director`**：核对与美术圣经的视觉一致性。至少在最小与最大支持分辨率下检查。
 
-### Phase 5: Polish
-- Address review feedback
-- Verify animations are skippable and respect motion preferences
-- Confirm UI sounds trigger through audio event system
-- Test at all supported resolutions and aspect ratios
+### 第 5 阶段：打磨
+- 处理审阅反馈
+- 确认动效可跳过并尊重动态偏好设置
+- 确认 UI 音效经音频事件系统触发
+- 在所有支持的分辨率与宽高比下测试
 
-## Output
-A summary report covering: UX spec status, visual design status, implementation status, accessibility compliance, input method support, and any outstanding issues.
+## 产出
+一份摘要报告，涵盖：UX 规格状态、视觉设计状态、实现状态、无障碍符合度、输入方式支持，以及未决问题。

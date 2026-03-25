@@ -1,108 +1,107 @@
 ---
 name: sprint-plan
-description: "Generates a new sprint plan or updates an existing one based on the current milestone, completed work, and available capacity. Pulls context from production documents and design backlogs."
-argument-hint: "[new|update|status]"
+description: "根据当前里程碑、已完成工作与可用容量生成新的 sprint 计划，或更新已有计划。从生产文档与设计 backlog 拉取上下文。"
+argument-hint: "[new|update|status]（新建计划 | 更新 | 状态报告）"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit
 context: |
   !ls production/sprints/ 2>/dev/null
 ---
 
-When this skill is invoked:
+调用本技能时：
 
-1. **Read the current milestone** from `production/milestones/`.
+1. **读取当前里程碑**：自 `production/milestones/`。
 
-2. **Read the previous sprint** (if any) from `production/sprints/` to
-   understand velocity and carryover.
+2. **读取上一轮 sprint**（如有）：自 `production/sprints/`，以了解速度与结转项。
 
-3. **Scan design documents** in `design/gdd/` for features tagged as ready
-   for implementation.
+3. **扫描设计文档**：在 `design/gdd/` 中查找已标记为可实施的功能。
 
-4. **Check the risk register** at `production/risk-register/`.
+4. **查看风险登记**：`production/risk-register/`。
 
-For `new`:
+针对 `new`：
 
-5. **Generate a sprint plan** following this format:
+5. **生成 sprint 计划**，采用以下格式：
 
 ```markdown
-# Sprint [N] -- [Start Date] to [End Date]
+# Sprint [N] -- [开始日期] 至 [结束日期]
 
-## Sprint Goal
-[One sentence describing what this sprint achieves toward the milestone]
+## Sprint 目标
+[一句话说明本 sprint 为达成里程碑所完成的事项]
 
-## Capacity
-- Total days: [X]
-- Buffer (20%): [Y days reserved for unplanned work]
-- Available: [Z days]
+## 容量
+- 总人天：[X]
+- 缓冲（20%）：[Y 天，预留给计划外工作]
+- 可用：[Z 天]
 
-## Tasks
+## 任务
 
-### Must Have (Critical Path)
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
+### 必备（关键路径）
+| ID | 任务 | Agent/负责人 | 估时（天） | 依赖 | 验收标准 |
 |----|------|-------------|-----------|-------------|-------------------|
 
-### Should Have
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
+### 应有
+| ID | 任务 | Agent/负责人 | 估时（天） | 依赖 | 验收标准 |
 |----|------|-------------|-----------|-------------|-------------------|
 
-### Nice to Have
-| ID | Task | Agent/Owner | Est. Days | Dependencies | Acceptance Criteria |
+### 可选
+| ID | 任务 | Agent/负责人 | 估时（天） | 依赖 | 验收标准 |
 |----|------|-------------|-----------|-------------|-------------------|
 
-## Carryover from Previous Sprint
-| Task | Reason | New Estimate |
+## 上一轮 Sprint 结转
+| 任务 | 原因 | 新估算 |
 |------|--------|-------------|
 
-## Risks
-| Risk | Probability | Impact | Mitigation |
+## 风险
+| 风险 | 可能性 | 影响 | 缓解措施 |
 |------|------------|--------|------------|
 
-## Dependencies on External Factors
-- [List any external dependencies]
+## 对外部因素的依赖
+- [列出任何外部依赖]
 
-## Definition of Done for this Sprint
-- [ ] All Must Have tasks completed
-- [ ] All tasks pass acceptance criteria
-- [ ] No S1 or S2 bugs in delivered features
-- [ ] Design documents updated for any deviations
-- [ ] Code reviewed and merged
+## 本 Sprint 的完成定义（Definition of Done）
+- [ ] 所有「必备」任务已完成
+- [ ] 所有任务满足验收标准
+- [ ] 交付功能中无 S1 或 S2 级缺陷
+- [ ] 如有偏离设计，已更新设计文档
+- [ ] 代码已评审并合并
 ```
 
-For `status`:
+针对 `status`：
 
-5. **Generate a status report**:
+5. **生成状态报告**：
 
 ```markdown
-# Sprint [N] Status -- [Date]
+# Sprint [N] 状态 -- [日期]
 
-## Progress: [X/Y tasks complete] ([Z%])
+## 进度：[X/Y 项任务完成]（[Z%]）
 
-### Completed
-| Task | Completed By | Notes |
+### 已完成
+| 任务 | 完成人 | 备注 |
 |------|-------------|-------|
 
-### In Progress
-| Task | Owner | % Done | Blockers |
+### 进行中
+| 任务 | 负责人 | 完成度 | 阻塞项 |
 |------|-------|--------|----------|
 
-### Not Started
-| Task | Owner | At Risk? | Notes |
+### 未开始
+| 任务 | 负责人 | 有风险？ | 备注 |
 |------|-------|----------|-------|
 
-### Blocked
-| Task | Blocker | Owner of Blocker | ETA |
+### 已阻塞
+| 任务 | 阻塞原因 | 阻塞方负责人 | 预计解除时间 |
 |------|---------|-----------------|-----|
 
-## Burndown Assessment
-[On track / Behind / Ahead]
-[If behind: What is being cut or deferred]
+## 燃尽评估
+[正常 / 落后 / 超前]
+[若落后：正在砍掉或延后什么]
 
-## Emerging Risks
-- [Any new risks identified this sprint]
+## 新出现的风险
+- [本 sprint 内识别出的新风险]
 ```
 
-### Agent Consultation
+### 咨询其他 Agent
 
-For comprehensive sprint planning, consider consulting:
-- `producer` agent for capacity planning, risk assessment, and cross-department coordination
-- `game-designer` agent for feature prioritization and design readiness assessment
+若要更完整的 sprint 规划，可考虑咨询：
+
+- `producer`：容量规划、风险评估与跨部门协调
+- `game-designer`：功能优先级与设计就绪度评估

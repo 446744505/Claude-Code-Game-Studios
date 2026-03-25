@@ -1,111 +1,108 @@
-# Character: [Name]
+# 角色：[姓名]
 
-## Quick Reference
+## 速查
 
-- **Full Name**: [Name]
-- **Role in Story**: [Protagonist / Antagonist / Ally / Mentor / etc.]
-- **Role in Gameplay**: [Playable / NPC / Boss / Merchant / Quest Giver / etc.]
-- **First Appearance**: [Level/Area/Quest]
-- **Status**: [Canon Level: Established / Provisional / Under Review]
+- **全名**：[姓名]
+- **在故事中的角色**：[主角 / 反派 / 盟友 / 导师 / 等]
+- **在玩法中的角色**：[可玩 / NPC / Boss / 商人 / 任务发布者 / 等]
+- **首次登场**：[关卡/区域/任务]
+- **状态**：[设定层级：已定稿 / 暂定 / 审阅中]
 
-## Concept
+## 概念
 
-[One paragraph describing who this character is, what they want, and why the
-player should care about them.]
+[一段话：说明该角色是谁、想要什么，以及玩家为何应关心他们。]
 
-## Appearance
+## 外观
 
-[Physical description sufficient for the art team to create concept art.
-Reference the art bible for style constraints.]
+[足以供美术团队绘制概念图的形体描述。参照美术圣经中的风格约束。]
 
-- **Build**: [Body type, height relative to player]
-- **Distinguishing Features**: [What makes them visually recognizable at a distance]
-- **Color Palette**: [Key colors associated with this character]
-- **Costume/Armor**: [What they wear and why it makes sense for them]
+- **体型**：[体型、相对玩家的身高]
+- **辨识特征**：[远距离即可认出的视觉特点]
+- **主色调**：[与该角色关联的关键颜色]
+- **服装/护甲**：[穿着什么，以及为何符合其人设]
 
-## Personality
+## 性格
 
-### Core Traits
+### 核心特质
 
-- [Trait 1 -- e.g., Loyal to a fault]
-- [Trait 2 -- e.g., Distrusts authority]
-- [Trait 3 -- e.g., Dark sense of humor]
+- [特质 1 —— 例如：忠诚到近乎盲目]
+- [特质 2 —— 例如：不信任权威]
+- [特质 3 —— 例如：黑色幽默]
 
-### Voice Profile
+### 声线档案
 
-- **Speech Pattern**: [Formal/casual, verbose/terse, accent/dialect notes]
-- **Vocabulary Level**: [Simple/educated/archaic/technical]
-- **Verbal Tics**: [Any recurring phrases or speech habits]
-- **Tone Reference**: [Reference character from another work, if helpful]
+- **说话方式**：[正式/随意，啰嗦/简练，口音/方言说明]
+- **用词层次**：[浅显/有学识/古雅/技术向]
+- **口癖**：[反复出现的用语或说话习惯]
+- **语气参照**：[如有帮助，可参照其他作品中的角色]
 
-### Emotional Range
+### 情绪幅度
 
-| Emotion | Trigger | Expression | Example Line |
-|---------|---------|-----------|-------------|
+| 情绪 | 触发 | 表现 | 示例台词 |
+|------|------|------|----------|
 
-## Motivation and Arc
+## 动机与弧光
 
-### Primary Motivation
+### 主要动机
 
-[What does this character want more than anything? This drives every scene.]
+[该角色最渴望的是什么？这驱动每场戏。]
 
-### Character Arc
+### 人物弧光
 
-| Phase | State | Turning Point |
-|-------|-------|---------------|
-| Introduction | [Who they are when the player meets them] | [What event starts their arc] |
-| Development | [How they change through the middle] | [Key moment of growth/change] |
-| Resolution | [Who they become by the end] | [Final transformative event] |
+| 阶段 | 状态 | 转折点 |
+|------|------|--------|
+| 引入 | [玩家初见时的他们] | [开启其弧光的事件] |
+| 发展 | [中段如何变化] | [成长/转变的关键时刻] |
+| 收束 | [结局时的他们] | [最终转变性事件] |
 
-### Internal Conflict
+### 内在冲突
 
-[What contradictory desires or beliefs create internal tension?]
+[哪些相互矛盾的欲望或信念造成内在张力？]
 
-## Relationships
+## 关系
 
-| Character | Relationship | Dynamic | Player Can Affect? |
-|-----------|-------------|---------|-------------------|
+| 角色 | 关系 | 互动方式 | 玩家能否影响？ |
+|------|------|----------|----------------|
 
-## Gameplay Function
+## 玩法功能
 
-### What This Character Provides to the Player
+### 为玩家提供什么
 
-- [Services: shop, training, quests, etc.]
-- [Information: lore, hints, quest objectives]
-- [Mechanical interactions: buffs, unlocks, gates]
+- [服务：商店、训练、任务等]
+- [信息：背景、提示、任务目标]
+- [机制互动：增益、解锁、关卡门槛]
 
-### Encounter Design Notes
+### 遭遇设计备注
 
-[If this character is fought as an enemy or boss, include combat design notes
-or reference the relevant combat design document.]
+[若该角色作为敌人或 Boss 被战斗，请写入战斗设计备注，或引用相关战斗设计文档。]
 
-## Dialogue Notes
+## 对白备注
 
-### Topics This Character Can Discuss
+### 可谈论的话题
 
-- [Topic 1 -- what they know and their perspective]
-- [Topic 2]
+- [话题 1 —— 他们知道什么、持何立场]
+- [话题 2]
 
-### Topics This Character Avoids or Lies About
+### 回避或撒谎的话题
 
-- [Topic -- and why]
+- [话题 —— 以及原因]
 
-### Dialogue State Dependencies
+### 对白状态依赖
 
-[What game states affect this character's dialogue?]
+[哪些游戏状态会影响该角色的对白？]
 
-| Game State | Dialogue Change |
-|-----------|----------------|
+| 游戏状态 | 对白变化 |
+|----------|----------|
 
-## Lore Connections
+## 背景关联
 
-- [Connection to world history]
-- [Connection to factions]
-- [Connection to locations]
+- [与世界历史的关联]
+- [与派系的关联]
+- [与地点的关联]
 
-## Cross-References
+## 交叉引用
 
-- **Design Doc**: [Link to relevant gameplay design]
-- **Quest Doc**: [Link to quests involving this character]
-- **Art Reference**: [Link to concept art or art bible section]
-- **Audio Reference**: [Link to voice/theme direction]
+- **设计文档**：[相关玩法设计链接]
+- **任务文档**：[涉及该角色的任务链接]
+- **美术参考**：[概念图或美术圣经章节链接]
+- **音频参考**：[配音/主题方向链接]

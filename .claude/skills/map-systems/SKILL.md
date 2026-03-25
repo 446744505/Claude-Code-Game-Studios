@@ -1,292 +1,262 @@
 ---
 name: map-systems
-description: "Decompose a game concept into individual systems, map dependencies, prioritize design order, and create the systems index."
-argument-hint: "[optional: 'next' to pick highest-priority undesigned system, or a system name to hand off to /design-system]"
+description: "将游戏概念拆成独立系统、梳理依赖关系、排定设计顺序，并生成系统索引。"
+argument-hint: "[可选：'next' 选取优先级最高的未设计系统，或填写系统名以交给 /design-system]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, AskUserQuestion, TodoWrite
 ---
 
-When this skill is invoked:
+当本 skill 被调用时：
 
-## 1. Parse Arguments
+## 1. 解析参数
 
-Two modes:
+两种模式：
 
-- **No argument**: `/map-systems` — Run the full decomposition workflow (Phases 1-5)
-  to create or update the systems index.
-- **`next`**: `/map-systems next` — Pick the highest-priority undesigned system
-  from the index and hand off to `/design-system` (Phase 6).
+- **无参数**：`/map-systems` — 运行完整拆解流程（阶段 1–5），创建或更新系统索引。
+- **`next`**：`/map-systems next` — 从索引中选取优先级最高的未设计系统，并交接给 `/design-system`（阶段 6）。
 
 ---
 
-## 2. Phase 1: Read Concept (Required Context)
+## 2. 阶段 1：阅读概念（必需上下文）
 
-Read the game concept and any existing design work. This provides the raw material
-for systems decomposition.
+阅读游戏概念及已有设计产出，作为系统拆解的原始材料。
 
-**Required:**
-- Read `design/gdd/game-concept.md` — **fail with a clear message if missing**:
-  > "No game concept found at `design/gdd/game-concept.md`. Run `/brainstorm` first
-  > to create one, then come back to decompose it into systems."
+**必需：**
+- 阅读 `design/gdd/game-concept.md` — **若缺失则明确报错**：
+  > 在 `design/gdd/game-concept.md` 未找到游戏概念。请先运行 `/brainstorm`
+  > 创建概念文档，再回来将其拆解为系统。
 
-**Optional (read if they exist):**
-- Read `design/gdd/game-pillars.md` — pillars constrain priority and scope
-- Read `design/gdd/systems-index.md` — if exists, **resume** from where it left off
-  (update, don't recreate from scratch)
-- Glob `design/gdd/*.md` — check which system GDDs already exist
+**可选（若存在则阅读）：**
+- 阅读 `design/gdd/game-pillars.md` — 支柱约束优先级与范围
+- 阅读 `design/gdd/systems-index.md` — 若已存在，则从其进度**接续**（更新，勿从零重写）
+- 使用 Glob 匹配 `design/gdd/*.md` — 查看已有哪些系统 GDD
 
-**If the systems index already exists:**
-- Read it and present current status to the user
-- Use `AskUserQuestion` to ask:
-  "The systems index already exists with [N] systems ([M] designed, [K] not started).
-  What would you like to do?"
-  - Options: "Update the index with new systems", "Design the next undesigned system",
-    "Review and revise priorities"
+**若系统索引已存在：**
+- 阅读并向用户展示当前状态
+- 使用 `AskUserQuestion` 询问：
+  "系统索引已存在，共 [N] 个系统（[M] 个已设计，[K] 个未开始）。
+  你希望怎么做？"
+  - 选项："用新系统更新索引"、"设计下一个未设计系统"、"审阅并调整优先级"
 
 ---
 
-## 3. Phase 2: Systems Enumeration (Collaborative)
+## 3. 阶段 2：系统枚举（协作）
 
-Extract and identify all systems the game needs. This is the creative core of the
-skill — it requires human judgment because concept docs rarely enumerate every
-system explicitly.
+提取并识别游戏所需的全部系统。这是本 skill 的创意核心 — 需要人工判断，因为概念文档很少逐条列出每个系统。
 
-### Step 2a: Extract Explicit Systems
+### 步骤 2a：提取显式系统
 
-Scan the game concept for directly mentioned systems and mechanics:
-- Core Mechanics section (most explicit)
-- Core Loop section (implies what systems drive each loop tier)
-- Technical Considerations section (networking, procedural generation, etc.)
-- MVP Definition section (required features = required systems)
+在概念文档中扫描直接提到的系统与机制：
+- 核心机制（最直接）
+- 核心循环（暗示各层循环由哪些系统驱动）
+- 技术考量（联网、程序化生成等）
+- MVP 定义（必需功能 = 必需系统）
 
-### Step 2b: Identify Implicit Systems
+### 步骤 2b：识别隐式系统
 
-For each explicit system, identify the **hidden systems** it implies. Games always
-need more systems than the concept doc mentions. Use this inference pattern:
+对每个显式系统，找出其**隐含系统**。实际需要的系统往往多于概念文档所写。可用下列推断模式：
 
-- "Inventory" implies: item database, equipment slots, weight/capacity rules,
-  inventory UI, item serialization for save/load
-- "Combat" implies: damage calculation, health system, hit detection, status effects,
-  enemy AI, combat UI (health bars, damage numbers), death/respawn
-- "Open world" implies: streaming/chunking, LOD system, fast travel, map/minimap,
-  point of interest tracking, world state persistence
-- "Multiplayer" implies: networking layer, lobby/matchmaking, state synchronization,
-  anti-cheat, network UI (ping, player list)
-- "Crafting" implies: recipe database, ingredient gathering, crafting UI,
-  success/failure mechanics, recipe discovery/learning
-- "Dialogue" implies: dialogue tree system, dialogue UI, choice tracking, NPC
-  state management, localization hooks
-- "Progression" implies: XP system, level-up mechanics, skill tree, unlock
-  tracking, progression UI, progression save data
+- 「背包」隐含：物品数据库、装备槽、重量/容量规则、背包 UI、存档读写的物品序列化
+- 「战斗」隐含：伤害计算、生命系统、命中判定、状态效果、敌人 AI、战斗 UI（血条、伤害数字）、死亡/重生
+- 「开放世界」隐含：流式/分块、LOD、快速旅行、地图/小地图、兴趣点追踪、世界状态持久化
+- 「多人」隐含：网络层、大厅/匹配、状态同步、反作弊、网络 UI（延迟、玩家列表）
+- 「合成」隐含：配方数据库、材料收集、合成 UI、成功/失败机制、配方发现/学习
+- 「对话」隐含：对话树、对话 UI、选项记录、NPC 状态管理、本地化挂钩
+- 「成长」隐含：经验系统、升级机制、技能树、解锁追踪、成长 UI、成长存档数据
 
-Explain in conversation text why each implicit system is needed (with examples).
+在对话中说明每个隐式系统为何需要（可举例）。
 
-### Step 2c: User Review
+### 步骤 2c：用户审阅
 
-Present the enumeration organized by category. For each system, show:
-- Name
-- Category
-- Brief description (1 sentence)
-- Whether it was explicit (from concept) or implicit (inferred)
+按类别展示枚举。每个系统给出：
+- 名称
+- 类别
+- 一句话简介
+- 显式（来自概念）或隐式（推断）
 
-Then use `AskUserQuestion` to capture feedback:
-- "Are there systems missing from this list?"
-- "Should any of these be combined or split?"
-- "Are there systems listed that this game does NOT need?"
+然后用 `AskUserQuestion` 收集反馈：
+- "列表中是否还有遗漏的系统？"
+- "是否有系统应合并或拆分？"
+- "是否有列出的系统其实本游戏不需要？"
 
-Iterate until the user approves the enumeration.
+迭代直至用户认可枚举。
 
 ---
 
-## 4. Phase 3: Dependency Mapping (Collaborative)
+## 4. 阶段 3：依赖映射（协作）
 
-For each system, determine what it depends on. A system "depends on" another if
-it cannot function without that other system existing first.
+为每个系统确定其依赖。若系统 A 在系统 B 不存在时无法工作，则 A 依赖 B。
 
-### Step 3a: Map Dependencies
+### 步骤 3a：列出依赖
 
-For each system, list its dependencies. Use these dependency heuristics:
-- **Input/output dependencies**: System A produces data System B needs
-- **Structural dependencies**: System A provides the framework System B plugs into
-- **UI dependencies**: Every gameplay system has a corresponding UI system that
-  depends on it (but UI is designed after the gameplay system)
+为每个系统列出依赖。可用下列启发式：
+- **输入/输出依赖**：系统 A 产出系统 B 所需的数据
+- **结构依赖**：系统 A 提供框架，系统 B 接入其中
+- **UI 依赖**：每个玩法系统通常有对应 UI 系统依赖它（但 UI 在玩法系统之后设计）
 
-### Step 3b: Sort by Dependency Order
+### 步骤 3b：按依赖排序分层
 
-Arrange systems into layers:
-1. **Foundation**: Systems with zero dependencies (designed and built first)
-2. **Core**: Systems depending only on Foundation systems
-3. **Feature**: Systems depending on Core systems
-4. **Presentation**: UI and feedback systems that wrap gameplay systems
-5. **Polish**: Meta-systems, tutorials, analytics, accessibility
+将系统排成层次：
+1. **基础层**：零依赖的系统（最先设计与实现）
+2. **核心层**：仅依赖基础层的系统
+3. **功能层**：依赖核心层的系统
+4. **表现层**：包裹玩法系统的 UI 与反馈
+5. **打磨层**：元系统、教程、分析、无障碍等
 
-### Step 3c: Detect Circular Dependencies
+### 步骤 3c：检测循环依赖
 
-Check for cycles in the dependency graph. If found:
-- Highlight them to the user
-- Propose resolutions (interface abstraction, simultaneous design, breaking the
-  cycle by defining a contract between the two systems)
+检查依赖图中是否有环。若存在：
+- 向用户标出
+- 提出化解方案（接口抽象、同步设计、通过两系统间契约打破环）
 
-### Step 3d: Present to User
+### 步骤 3d：向用户展示
 
-Show the dependency map as a layered list. Highlight:
-- Any circular dependencies
-- Any "bottleneck" systems (many others depend on them — these are high-risk)
-- Any systems with no dependents (leaf nodes — lower risk, can be designed late)
+以分层列表展示依赖图。标出：
+- 任何循环依赖
+- 任何「瓶颈」系统（许多系统依赖它们 — 风险高）
+- 无任何依赖者的系统（叶节点 — 风险较低，可较晚设计）
 
-Use `AskUserQuestion` to ask: "Does this dependency ordering look right? Any
-dependencies I'm missing or that should be removed?"
+使用 `AskUserQuestion` 询问："依赖顺序是否合理？是否有遗漏或应删除的依赖？"
 
 ---
 
-## 5. Phase 4: Priority Assignment (Collaborative)
+## 5. 阶段 4：优先级分配（协作）
 
-Assign each system to a priority tier based on what milestone it's needed for.
+按各系统所属里程碑为其分配优先级档位。
 
-### Step 4a: Auto-Assign Based on Concept
+### 步骤 4a：根据概念自动初分
 
-Use these heuristics for initial assignment:
-- **MVP**: Systems mentioned in the concept's "Required for MVP" section, plus their
-  Foundation-layer dependencies
-- **Vertical Slice**: Systems needed for a complete experience in one area
-- **Alpha**: All remaining gameplay systems
-- **Full Vision**: Polish, meta, and nice-to-have systems
+初始分配可用下列启发式：
+- **MVP**：概念中「MVP 所需」提到的系统，及其在基础层的依赖
+- **Vertical Slice**：在单一区域内构成完整体验所需的系统
+- **Alpha**：其余玩法系统
+- **Full Vision**：打磨、元系统、锦上添花类系统
 
-### Step 4b: User Review
+### 步骤 4b：用户审阅
 
-Present the priority assignments in a table. For each tier, explain why systems
-were placed there.
+以表格展示优先级分配，并说明每层为何放入这些系统。
 
-Use `AskUserQuestion` to ask: "Do these priority assignments match your vision?
-Which systems should be higher or lower priority?"
+使用 `AskUserQuestion` 询问："这些优先级是否符合你的设想？哪些系统应调高或调低？"
 
-Explain reasoning in conversation: "I placed [system] in MVP because the core loop
-requires it — without [system], the 30-second loop can't function."
+在对话中解释理由："我将 [system] 放在 MVP，因为核心循环离不开它 — 没有 [system]，30 秒循环无法成立。"
 
-### Step 4c: Determine Design Order
+### 步骤 4c：确定设计顺序
 
-Combine dependency sort + priority tier to produce the final design order:
-1. MVP Foundation systems first
-2. MVP Core systems second
-3. MVP Feature systems third
-4. Vertical Slice Foundation/Core systems
-5. ...and so on
+合并依赖排序与优先级档位，得到最终设计顺序：
+1. 先做 MVP 基础层系统
+2. 其次 MVP 核心层
+3. 再次 MVP 功能层
+4. Vertical Slice 的基础/核心层
+5. …依此类推
 
-This is the order the team should write GDDs in.
+即团队撰写各系统 GDD 的推荐顺序。
 
 ---
 
-## 6. Phase 5: Create Systems Index (Write)
+## 6. 阶段 5：创建系统索引（写入）
 
-### Step 5a: Draft the Document
+### 步骤 5a：起草文档
 
-Using the template at `.claude/docs/templates/systems-index.md`, populate the
-systems index with all data from Phases 2-4:
-- Fill the enumeration table
-- Fill the dependency map
-- Fill the recommended design order
-- Fill the high-risk systems
-- Fill progress tracker (all systems "Not Started" initially, unless GDDs already exist)
+使用 `.claude/docs/templates/systems-index.md` 中的模板，用阶段 2–4 的全部数据填充系统索引：
+- 填枚举表
+- 填依赖图
+- 填推荐设计顺序
+- 填高风险系统
+- 填进度追踪（初始均为「未开始」，除非已有 GDD）
 
-### Step 5b: Approval
+### 步骤 5b：审批
 
-Present a summary of the document:
-- Total systems count by category
-- MVP system count
-- First 3 systems in the design order
-- Any high-risk items
+展示文档摘要：
+- 按类别的系统总数
+- MVP 系统数量
+- 设计顺序中的前 3 个系统
+- 任何高风险项
 
-Ask: "May I write the systems index to `design/gdd/systems-index.md`?"
+询问："是否允许我将系统索引写入 `design/gdd/systems-index.md`？"
 
-Wait for approval. Write the file only after "yes."
+等待批准。仅在得到肯定答复后写入文件。
 
-### Step 5c: Update Session State
+### 步骤 5c：更新会话状态
 
-After writing, update `production/session-state/active.md` with:
-- Task: Systems decomposition
-- Status: Systems index created
-- File: design/gdd/systems-index.md
-- Next: Design individual system GDDs
-
----
-
-## 7. Phase 6: Design Individual Systems (Handoff to /design-system)
-
-This phase is entered when:
-- The user says "yes" to designing systems after creating the index
-- The user invokes `/map-systems [system-name]`
-- The user invokes `/map-systems next`
-
-### Step 6a: Select the System
-
-- If a system name was provided, find it in the systems index
-- If `next` was used, pick the highest-priority undesigned system (by design order)
-- If the user just finished the index, ask:
-  "Would you like to start designing individual systems now? The first system in
-  the design order is [name]. Or would you prefer to stop here and come back later?"
-
-Use `AskUserQuestion` for: "Start designing [system-name] now, pick a different
-system, or stop here?"
-
-### Step 6b: Hand Off to /design-system
-
-Once a system is selected, invoke the `/design-system [system-name]` skill.
-
-The `/design-system` skill handles the full GDD authoring process:
-- Gathers context from game concept, systems index, and dependency GDDs
-- Creates a file skeleton immediately
-- Walks through all 8 required sections one at a time (collaborative, incremental)
-- Cross-references existing docs to prevent contradictions
-- Routes to specialist agents for domain expertise
-- Writes each section to file as soon as it's approved
-- Runs `/design-review` when complete
-- Updates the systems index
-
-**Do not duplicate the /design-system workflow here.** This skill owns the systems
-*index*; `/design-system` owns individual system *GDDs*.
-
-### Step 6c: Loop or Stop
-
-After `/design-system` completes, use `AskUserQuestion`:
-- "Continue to the next system ([next system name])?"
-- "Pick a different system?"
-- "Stop here for this session?"
-
-If continuing, return to Step 6a.
+写入后更新 `production/session-state/active.md`，包含：
+- 任务：系统拆解
+- 状态：系统索引已创建
+- 文件：design/gdd/systems-index.md
+- 下一步：撰写各系统 GDD
 
 ---
 
-## 8. Phase 7: Suggest Next Steps
+## 7. 阶段 6：设计各系统（交接给 /design-system）
 
-After the systems index is created (or after designing some systems), suggest
-the appropriate next actions:
+进入本阶段的条件：
+- 用户在创建索引后同意开始设计系统
+- 用户调用 `/map-systems [system-name]`
+- 用户调用 `/map-systems next`
 
-- "Run `/design-system [system-name]` to write the next system's GDD"
-- "Run `/design-review [path]` on each completed GDD to validate quality"
-- "Run `/gate-check pre-production` to check if you're ready to start building"
-- "Prototype the highest-risk system with `/prototype [system]`"
-- "Plan the first implementation sprint with `/sprint-plan new`"
+### 步骤 6a：选定系统
+
+- 若提供了系统名，在系统索引中查找
+- 若使用 `next`，按设计顺序选取优先级最高的未设计系统
+- 若用户刚完成索引，询问：
+  "是否现在开始设计各系统？设计顺序中的第一个系统是 [name]。还是你希望先停在这里，稍后再继续？"
+
+使用 `AskUserQuestion`："立即开始设计 [system-name]、换另一个系统，还是先停在这里？"
+
+### 步骤 6b：交接给 /design-system
+
+选定系统后，调用 `/design-system [system-name]` skill。
+
+`/design-system` skill 负责完整 GDD 撰写流程：
+- 从游戏概念、系统索引与依赖方的 GDD 收集上下文
+- 立即创建文件骨架
+- 逐个走过全部 8 个必需章节（协作、增量）
+- 交叉引用已有文档以避免矛盾
+- 路由到专业 agent 获取领域知识
+- 每节获批后即写入文件
+- 完成后运行 `/design-review`
+- 更新系统索引
+
+**勿在本 skill 中重复 /design-system 的流程。** 本 skill 负责系统*索引*；`/design-system` 负责各系统*GDD*。
+
+### 步骤 6c：循环或结束
+
+`/design-system` 完成后，使用 `AskUserQuestion`：
+- "是否继续下一个系统（[next system name]）？"
+- "是否换另一个系统？"
+- "本会话是否先停在这里？"
+
+若继续，回到步骤 6a。
 
 ---
 
-## Collaborative Protocol
+## 8. 阶段 7：建议后续步骤
 
-This skill follows the collaborative design principle at every phase:
+在系统索引创建后（或完成部分系统设计后），建议合适的后续动作：
 
-1. **Question -> Options -> Decision -> Draft -> Approval** at every step
-2. **AskUserQuestion** at every decision point (Explain -> Capture pattern):
-   - Phase 2: "Missing systems? Combine or split?"
-   - Phase 3: "Dependency ordering correct?"
-   - Phase 4: "Priority assignments match your vision?"
-   - Phase 5: "May I write the systems index?"
-   - Phase 6: "Start designing, pick different, or stop?" then hand off to `/design-system`
-3. **"May I write to [filepath]?"** before every file write
-4. **Incremental writing**: Update the systems index after each system is designed
-5. **Handoff**: Individual GDD authoring is owned by `/design-system`, which handles
-   incremental section writing, cross-referencing, design review, and index updates
-6. **Session state updates**: Write to `production/session-state/active.md` after
-   each milestone (index created, system designed, priorities changed)
+- "运行 `/design-system [system-name]` 撰写下一系统的 GDD"
+- "对每个完成的 GDD 运行 `/design-review [path]` 以校验质量"
+- "运行 `/gate-check pre-production` 检查是否可进入制作"
+- "用 `/prototype [system]` 为最高风险系统做原型"
+- "用 `/sprint-plan new` 规划首次实现冲刺"
 
-**Never** auto-generate the full systems list and write it without review.
-**Never** start designing a system without user confirmation.
-**Always** show the enumeration, dependencies, and priorities for user validation.
+---
+
+## 协作协议
+
+本 skill 在各阶段遵循协作设计原则：
+
+1. 每一步均为 **提问 → 选项 → 决策 → 草稿 → 审批**
+2. 在每个决策点使用 **AskUserQuestion**（说明 → 收集 模式）：
+   - 阶段 2："是否有遗漏？合并或拆分？"
+   - 阶段 3："依赖顺序是否正确？"
+   - 阶段 4："优先级是否符合设想？"
+   - 阶段 5："是否允许写入系统索引？"
+   - 阶段 6："开始设计、换系统还是先停？" 然后交接给 `/design-system`
+3. 每次写入文件前 **"是否允许写入 [filepath]？"**
+4. **增量写入**：每完成一个系统设计后更新系统索引
+5. **交接**：各系统 GDD 由 `/design-system` 负责，包括分节增量写入、交叉引用、设计评审与索引更新
+6. **会话状态**：在每个里程碑后写入 `production/session-state/active.md`（索引已创建、某系统已设计、优先级已调整）
+
+**切勿**在未审阅的情况下自动生成完整系统列表并写入。  
+**切勿**未经用户确认就开始设计某个系统。  
+**务必**展示枚举、依赖与优先级供用户校验。

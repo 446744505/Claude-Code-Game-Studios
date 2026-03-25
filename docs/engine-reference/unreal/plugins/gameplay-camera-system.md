@@ -1,52 +1,51 @@
-# Unreal Engine 5.7 — Gameplay Camera System
+# Unreal Engine 5.7 — Gameplay 摄像机系统
 
-**Last verified:** 2026-02-13
-**Status:** ⚠️ Experimental (introduced in UE 5.5)
-**Plugin:** `GameplayCameras` (built-in, enable in Plugins)
-
----
-
-## Overview
-
-**Gameplay Camera System** is a modular camera management framework introduced in UE 5.5.
-It replaces traditional camera setups with a flexible, node-based system that handles
-camera modes, blending, and context-aware camera behavior.
-
-**Use Gameplay Cameras for:**
-- Dynamic camera behavior (3rd person, aiming, vehicles, cinematic)
-- Context-aware camera switching (combat, exploration, dialogue)
-- Smooth camera blending between modes
-- Procedural camera motion (camera shake, lag, offset)
-
-**⚠️ Warning:** This plugin is experimental in UE 5.5-5.7. Expect API changes in future versions.
+**最后核对：** 2026-02-13  
+**状态：** ⚠️ 实验性（随 UE 5.5 引入）  
+**插件：** `GameplayCameras`（内置，在插件中启用）
 
 ---
 
-## Core Concepts
+## 概述
 
-### 1. **Camera Rig**
-- Defines camera configuration (position, rotation, FOV, etc.)
-- Modular node graph (similar to Material Editor)
+**Gameplay 摄像机系统**是 UE 5.5 引入的模块化摄像机管理框架。  
+它用灵活、基于节点的系统替代传统摄像机搭建方式，用于处理摄像机模式、混合以及随情境变化的摄像机行为。
 
-### 2. **Camera Director**
-- Manages which camera rig is active
-- Handles blending between camera rigs
+**适合使用 Gameplay 摄像机的场景：**
+- 动态摄像机行为（第三人称、瞄准、载具、过场）
+- 随情境切换摄像机（战斗、探索、对话）
+- 模式之间平滑混合
+- 程序化摄像机运动（摄像机抖动、滞后、偏移）
 
-### 3. **Camera Nodes**
-- Building blocks for camera behavior:
-  - **Position Nodes**: Orbit, Follow, Fixed Position
-  - **Rotation Nodes**: Look At, Match Actor Rotation
-  - **Modifiers**: Camera Shake, Lag, Offset
+**⚠️ 注意：** 该插件在 UE 5.5–5.7 中为实验性质，后续版本 API 可能变更。
 
 ---
 
-## Setup
+## 核心概念
 
-### 1. Enable Plugin
+### 1. **Camera Rig（摄像机装备）**
+- 定义摄像机配置（位置、旋转、FOV 等）
+- 模块化节点图（类似材质编辑器）
 
-`Edit > Plugins > Gameplay Cameras > Enabled > Restart`
+### 2. **Camera Director（摄像机导演）**
+- 管理当前激活的摄像机装备
+- 处理不同摄像机装备之间的混合
 
-### 2. Add Camera Component
+### 3. **摄像机节点**
+- 构成摄像机行为的积木：
+  - **位置节点**：环绕（Orbit）、跟随（Follow）、固定位置
+  - **旋转节点**：朝向目标（Look At）、匹配 Actor 旋转
+  - **修饰器**：摄像机抖动、滞后、偏移
+
+---
+
+## 配置步骤
+
+### 1. 启用插件
+
+`编辑 > 插件 > Gameplay Cameras > 启用 > 重启`
+
+### 2. 添加摄像机组件
 
 ```cpp
 #include "GameplayCameras/Public/GameplayCameraComponent.h"
@@ -70,16 +69,16 @@ protected:
 
 ---
 
-## Create Camera Rig
+## 创建 Camera Rig
 
-### 1. Create Camera Rig Asset
+### 1. 创建摄像机装备资源
 
-1. Content Browser > Gameplay > Gameplay Camera Rig
-2. Open Camera Rig Editor (node-based graph)
+1. 内容浏览器 > Gameplay > Gameplay Camera Rig  
+2. 打开 Camera Rig 编辑器（基于节点的图）
 
-### 2. Build Camera Rig (Example: Third Person)
+### 2. 搭建摄像机装备（示例：第三人称）
 
-**Node Setup:**
+**节点结构：**
 ```
 Actor Position (Character)
   ↓
@@ -94,64 +93,64 @@ Camera Output
 
 ---
 
-## Camera Nodes
+## 摄像机节点
 
-### Position Nodes
+### 位置节点
 
-#### Orbit Node (Third Person)
-- Orbits around target actor
-- Configure:
-  - **Orbit Distance**: Distance from target (e.g., 300 units)
-  - **Pitch Range**: Min/Max pitch angles
-  - **Yaw Range**: Min/Max yaw angles
+#### Orbit 节点（第三人称）
+- 环绕目标 Actor 运动  
+- 可配置项：
+  - **Orbit Distance**：与目标的距离（例如 300 单位）
+  - **Pitch Range**：俯仰角最小/最大
+  - **Yaw Range**：偏航角最小/最大
 
-#### Follow Node (Smooth Follow)
-- Follows target with lag
-- Configure:
-  - **Lag Speed**: How quickly camera catches up
-  - **Offset**: Fixed offset from target
+#### Follow 节点（平滑跟随）
+- 带滞后地跟随目标  
+- 可配置项：
+  - **Lag Speed**：摄像机追上目标的速度
+  - **Offset**：相对目标的固定偏移
 
-#### Fixed Position Node
-- Static camera position in world space
+#### Fixed Position 节点
+- 世界空间中的静态摄像机位置
 
 ---
 
-### Rotation Nodes
+### 旋转节点
 
-#### Look At Node
-- Points camera at target
-- Configure:
-  - **Target**: Actor or component to look at
-  - **Offset**: Look-at offset (e.g., aim at head instead of feet)
+#### Look At 节点
+- 将摄像机对准目标  
+- 可配置项：
+  - **Target**：要看的 Actor 或组件
+  - **Offset**：注视偏移（例如对准头部而非脚部）
 
 #### Match Actor Rotation
-- Matches target actor's rotation
-- Useful for first-person or vehicle cameras
+- 与目标 Actor 的旋转一致  
+- 适用于第一人称或载具摄像机
 
 ---
 
-### Modifier Nodes
+### 修饰器节点
 
 #### Camera Shake
-- Adds procedural shake (e.g., footsteps, explosions)
-- Configure:
-  - **Shake Pattern**: Perlin noise, sine wave, custom
-  - **Amplitude**: Shake strength
+- 增加程序化抖动（例如脚步、爆炸）  
+- 可配置项：
+  - **Shake Pattern**：Perlin 噪声、正弦波、自定义
+  - **Amplitude**：抖动强度
 
 #### Camera Lag
-- Smooth dampening of camera movement
-- Configure:
-  - **Lag Speed**: Damping factor (0 = instant, higher = more lag)
+- 平滑抑制摄像机运动  
+- 可配置项：
+  - **Lag Speed**：阻尼系数（0 为即时，越大滞后越明显）
 
-#### Offset Node
-- Static offset from calculated position
-- Useful for shoulder camera offset
+#### Offset 节点
+- 在计算得到的位置基础上施加静态偏移  
+- 常用于肩射视角偏移
 
 ---
 
-## Camera Director (Switching Between Rigs)
+## Camera Director（在不同 Rig 间切换）
 
-### Assign Camera Rig
+### 指定摄像机装备
 
 ```cpp
 #include "GameplayCameras/Public/GameplayCameraComponent.h"
@@ -163,7 +162,7 @@ void AMyCharacter::SetCameraMode(UGameplayCameraRig* NewRig) {
 }
 ```
 
-### Blend Between Camera Rigs
+### 在摄像机装备之间混合
 
 ```cpp
 // Blend to aiming camera over 0.5 seconds
@@ -172,21 +171,21 @@ CameraComponent->BlendToCameraRig(AimingCameraRig, 0.5f);
 
 ---
 
-## Example: Third Person + Aiming
+## 示例：第三人称 + 瞄准
 
-### 1. Create Two Camera Rigs
+### 1. 创建两个摄像机装备
 
-**Third Person Rig:**
+**第三人称 Rig：**
 ```
 Actor Position → Orbit (distance: 300) → Look At → Output
 ```
 
-**Aiming Rig:**
+**瞄准 Rig：**
 ```
 Actor Position → Orbit (distance: 150) → Offset (shoulder) → Look At → Output
 ```
 
-### 2. Switch on Aim
+### 2. 瞄准时切换
 
 ```cpp
 UPROPERTY(EditAnywhere, Category = "Camera")
@@ -206,9 +205,9 @@ void StopAiming() {
 
 ---
 
-## Common Patterns
+## 常见模式
 
-### Over-the-Shoulder Camera
+### 越肩摄像机
 
 ```
 Actor Position
@@ -224,7 +223,7 @@ Output
 
 ---
 
-### Vehicle Camera
+### 载具摄像机
 
 ```
 Vehicle Position
@@ -240,7 +239,7 @@ Output
 
 ---
 
-### First Person Camera
+### 第一人称摄像机
 
 ```
 Character Head Socket
@@ -252,9 +251,9 @@ Output
 
 ---
 
-## Camera Shake
+## 摄像机抖动
 
-### Trigger Camera Shake
+### 触发摄像机抖动
 
 ```cpp
 #include "GameplayCameras/Public/GameplayCameraShake.h"
@@ -270,17 +269,17 @@ void TriggerExplosionShake() {
 
 ---
 
-## Performance Tips
+## 性能建议
 
-- Limit camera shake frequency (don't trigger every frame)
-- Use camera lag sparingly (expensive for high lag values)
-- Cache camera rig references (don't search every frame)
+- 限制摄像机抖动触发频率（不要每帧都触发）
+- 谨慎使用摄像机滞后（高滞后值开销较大）
+- 缓存摄像机装备引用（不要每帧查找）
 
 ---
 
-## Debugging
+## 调试
 
-### Camera Debug Visualization
+### 摄像机调试可视化
 
 ```cpp
 // Console commands:
@@ -290,9 +289,9 @@ void TriggerExplosionShake() {
 
 ---
 
-## Migration from Legacy Cameras
+## 从旧版摄像机迁移
 
-### Old Spring Arm + Camera Component
+### 旧的 Spring Arm + Camera 组件
 
 ```cpp
 // ❌ OLD: Spring Arm Component
@@ -306,16 +305,16 @@ UGameplayCameraComponent* CameraComponent;
 
 ---
 
-## Limitations (Experimental Status)
+## 限制（实验性状态）
 
-- **API Instability**: Expect breaking changes in UE 5.8+
-- **Limited Documentation**: Official docs still evolving
-- **Blueprint Support**: Primarily C++ focused (Blueprint support improving)
-- **Production Risk**: Test thoroughly before shipping
+- **API 不稳定**：UE 5.8+ 可能出现破坏性变更  
+- **文档有限**：官方文档仍在完善  
+- **Blueprint 支持**：以 C++ 为主（Blueprint 支持在改进中）  
+- **上线风险**：发布前务必充分测试  
 
 ---
 
-## Sources
+## 参考来源
 - https://docs.unrealengine.com/5.7/en-US/gameplay-cameras-in-unreal-engine/
-- UE 5.5+ Release Notes
-- **Note:** This system is experimental. Always check latest official docs for API changes.
+- UE 5.5+ 发行说明  
+- **说明：** 本系统为实验性质，API 变更请以最新官方文档为准。

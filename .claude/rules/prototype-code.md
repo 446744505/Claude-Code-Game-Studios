@@ -3,38 +3,37 @@ paths:
   - "prototypes/**"
 ---
 
-# Prototype Code Standards (Relaxed)
+# 原型代码标准（放宽）
 
-Prototypes are throwaway code for validating ideas. Standards are intentionally
-relaxed to maximize iteration speed. The goal is learning, not production quality.
+原型是可丢弃的代码，用于验证想法。标准有意放宽，以最大化迭代速度。目标是学习，而非生产级质量。
 
-## What's Allowed in Prototypes
-- Hardcoded values (no need for data-driven config)
-- Minimal or no doc comments
-- Simple architecture (no dependency injection required)
-- Singletons and global state
-- Copy-pasted code (no need for abstraction)
-- Debug output left in place
-- Placeholder art and audio
-- Quick-and-dirty solutions
+## 原型中允许的做法
+- 硬编码数值（无需数据驱动配置）
+- 极少或没有文档注释
+- 简单架构（不强制依赖注入）
+- 单例与全局状态
+- 复制粘贴的代码（无需抽象）
+- 保留调试输出
+- 占位美术与音频
+- 快速凑合的解决方案
 
-## What's Still Required
-- Each prototype lives in its own subdirectory: `prototypes/[name]/`
-- Every prototype MUST have a `README.md` with:
-  - What hypothesis is being tested
-  - How to run the prototype
-  - Current status (in-progress / concluded)
-  - Findings (updated when prototype concludes)
-- No production code may reference or import from `prototypes/`
-- Prototypes must not modify files outside `prototypes/`
-- Prototypes must not be deployed or shipped
+## 仍需遵守的
+- 每个原型放在独立子目录：`prototypes/[name]/`
+- 每个原型**必须**包含 `README.md`，其中写明：
+  - 正在验证的假设是什么
+  - 如何运行该原型
+  - 当前状态（进行中 / 已结束）
+  - 结论（在原型结束时更新）
+- 生产代码不得引用或从 `prototypes/` 导入
+- 原型不得修改 `prototypes/` 以外的文件
+- 原型不得部署或对外发布
 
-## When a Prototype Succeeds
-If a prototype validates a concept and the feature moves to production:
-1. The prototype code is NOT migrated directly — it is rewritten to production standards
-2. The prototype `README.md` findings inform the production design document
-3. The prototype directory is preserved for reference but never extended
+## 当原型验证成功时
+若原型验证了概念且功能进入生产：
+1. 原型代码**不**直接迁移——须按生产标准重写
+2. 原型 `README.md` 中的结论应写入正式设计文档
+3. 保留原型目录供查阅，但不再在其上扩展
 
-## Cleanup
-Concluded prototypes should be archived or deleted after findings are captured.
-Never let prototype code grow into production code through incremental "cleanup."
+## 收尾
+在结论已记录后，已结束的原型应归档或删除。
+切勿通过逐步「清理」让原型代码长成生产代码。

@@ -1,80 +1,126 @@
-# Art Bible: [Game Title]
+# 美术圣经：[游戏名称]
 
-## Document Status
-- **Version**: 1.0
-- **Last Updated**: [Date]
-- **Owned By**: art-director
-- **Status**: [Draft / Under Review / Approved]
+*创建日期：[日期]*
+*最后更新：[日期]*
+*负责人：`art-director`*
+*状态：[草稿 / 审阅中 / 已批准]*
+*版本：1.0*
 
-## Visual Identity Summary
-[2-3 sentences describing the overall visual identity]
+---
 
-## Reference Board
-[List reference games, films, art, and what specific visual quality each represents]
+## 视觉识别摘要
 
-| Reference | Medium | What We're Taking |
-| --------- | ------ | ----------------- |
-| [Name] | [Game/Film/Art] | [Specific quality] |
+[用 2–3 句话概括整体视觉识别。这是别人在深入调色与标准之前会先扫读的一段——应回答「这款游戏一眼看上去是什么观感与气质？」]
 
-## Color Palette
+---
 
-### Primary Palette
-| Name | Hex | Usage |
-| ---- | --- | ----- |
-| [Color Name] | #XXXXXX | [Where and when to use] |
+## 参考板
 
-### Emotional Color Mapping
-| Game State | Dominant Colors | Mood |
-| ---------- | --------------- | ---- |
-| Exploration | [Colors] | [Feeling] |
-| Combat | [Colors] | [Feeling] |
-| Safe zones | [Colors] | [Feeling] |
-| Danger | [Colors] | [Feeling] |
+[列出参考游戏、影片、艺术作品，以及每一项具体代表的视觉品质。避免空泛情绪词；写出具体品质：光照、调色、剪影语言、材质可读性、UI 密度。]
 
-## Art Style
+| 参考项 | 媒介 | 我们借鉴什么 |
+| ---- | ---- | ---- |
+| [名称] | [游戏/影片/艺术] | [具体品质] |
 
-### Rendering Style
-[Realistic / Stylized / Pixel / Cel-shaded / etc.]
+---
 
-### Proportions
-[Character proportions, environment scale, UI scale relationships]
+## 色彩方案
 
-### Level of Detail
-[How detailed are characters, environments, UI elements?]
+### 主调色板
 
-### Visual Hierarchy
-[How do we guide the player's eye? What's always most prominent?]
+| 名称 | 十六进制 | 用途 |
+| ---- | ---- | ---- |
+| [颜色名称] | #XXXXXX | [在何处、何时使用] |
 
-## Character Art Standards
-[Silhouette requirements, color coding, animation style, proportions]
+### 情绪色彩映射
 
-## Environment Art Standards
-[Tilesets, modularity, lighting, atmospheric effects, scale]
+| 游戏状态 | 主色 | 情绪 |
+| ---- | ---- | ---- |
+| 探索 | [颜色] | [感受] |
+| 战斗 | [颜色] | [感受] |
+| 安全区 | [颜色] | [感受] |
+| 危险 | [颜色] | [感受] |
 
-## UI Art Standards
-[Button styles, typography, icon style, menu layout principles, HUD density]
+---
 
-## VFX Standards
-[Particle style, screen effects, impact feedback, color coding]
+## 美术风格
 
-## Asset Production Standards
+### 渲染风格
 
-### Naming Convention
+[写实 / 风格化 / 像素 / 卡通渲染 等。注明 PBR 与手绘贴图取向、后处理立场，以及任何影响 `technical-artist` 与着色器工作的要点。]
+
+### 比例
+
+[角色比例、环境尺度、UI 尺度关系——如有需要写明主角与道具的比例。]
+
+### 细节程度
+
+[角色、环境、UI 元素有多细？在何处可用 LOD 或风格化简化而不破坏识别度？]
+
+### 视觉层级
+
+[如何引导玩家视线？什么永远最突出？与玩法可读性关联：威胁、可交互物、导航。]
+
+---
+
+## 角色美术标准
+
+[剪影要求、色彩编码、动画风格、比例。注明在镜头距离与运动中的可读性。]
+
+---
+
+## 场景美术标准
+
+[瓦片集、模块化、光照、大气效果、尺度。如适用，写明雾效、昼夜规则与可复用套件预期。]
+
+---
+
+## UI 美术标准
+
+[按钮样式、字体、图标风格、菜单布局原则、HUD 密度。与 `ux-designer` 线框及 `ui-programmer` 实现约束对齐。]
+
+---
+
+## 特效标准
+
+[粒子风格、屏幕效果、打击反馈、色彩编码。须写明或引用战斗可读性与性能预算。]
+
+---
+
+## 资产制作标准
+
+### 命名约定
+
 `[category]_[name]_[variant]_[size].[ext]`
 
-### Texture Standards
-| Category | Max Resolution | Format | Color Space |
-| -------- | -------------- | ------ | ----------- |
-| Characters | [Size] | [Format] | [Space] |
-| Environments | [Size] | [Format] | [Space] |
-| UI | [Size] | [Format] | [Space] |
-| VFX | [Size] | [Format] | [Space] |
+[与 CLAUDE.md / 管线文档中的全项目资产规则保持一致。]
 
-### Animation Standards
-[Frame rates, blend times, animation graph structure]
+### 贴图标准
 
-## Accessibility
-- Colorblind-safe UI elements required
-- Minimum text size: [X]px at 1080p
-- High contrast mode specifications
-- Icon + color (never color alone) for game state
+| 类别 | 最大分辨率 | 格式 | 色彩空间 |
+| ---- | ---- | ---- | ---- |
+| 角色 | [尺寸] | [格式] | [空间] |
+| 环境 | [尺寸] | [格式] | [空间] |
+| UI | [尺寸] | [格式] | [空间] |
+| 特效 | [尺寸] | [格式] | [空间] |
+
+### 动画标准
+
+[帧率、混合时长、动画图结构。注明任何引擎相关预期。]
+
+---
+
+## 无障碍
+
+- 要求 UI 元素对色盲友好
+- 最低文字大小：1080p 下 [X]px
+- 高对比模式规格
+- 游戏状态须图标 + 颜色（不可仅靠颜色）
+- [与 `accessibility-specialist` 协调动效、光敏与 UI 缩放策略]
+
+---
+
+## 相关文档
+
+- **音频对应文档**：`sound-bible.md` — 保持音乐/音效情绪与本文件中的色彩与节奏选择一致
+- **叙事 / 角色**：`narrative-character-sheet.md` — 美术参考应指向本圣经中的相关章节

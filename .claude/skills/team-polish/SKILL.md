@@ -1,81 +1,78 @@
 ---
 name: team-polish
-description: "Orchestrate the polish team: coordinates performance-analyst, technical-artist, sound-designer, and qa-tester to optimize, polish, and harden a feature or area for release quality."
-argument-hint: "[feature or area to polish]"
+description: "编排打磨团队：协调 `performance-analyst`、`technical-artist`、`sound-designer` 与 `qa-tester`，对某一功能或区域进行优化、打磨与加固，以达到可发布质量。"
+argument-hint: "[要打磨的功能或区域]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Write, Edit, Bash, Task, AskUserQuestion, TodoWrite
 ---
-When this skill is invoked, orchestrate the polish team through a structured pipeline.
+当本技能被调用时，通过结构化流水线编排打磨团队。
 
-**Decision Points:** At each phase transition, use `AskUserQuestion` to present
-the user with the subagent's proposals as selectable options. Write the agent's
-full analysis in conversation, then capture the decision with concise labels.
-The user must approve before moving to the next phase.
+**决策点：** 在每个阶段切换时，使用 `AskUserQuestion` 将子智能体的方案以可选项形式呈现给用户。在对话中写出智能体的完整分析，再用简短标签记录决策。进入下一阶段前必须经用户批准。
 
-## Team Composition
-- **performance-analyst** — Profiling, optimization, memory analysis, frame budget
-- **technical-artist** — VFX polish, shader optimization, visual quality
-- **sound-designer** — Audio polish, mixing, ambient layers, feedback sounds
-- **qa-tester** — Edge case testing, regression testing, soak testing
+## 团队构成
+- **performance-analyst** — 性能剖析、优化、内存分析、帧预算
+- **technical-artist** — VFX 打磨、着色器优化、画面质量
+- **sound-designer** — 音频打磨、混音、环境层、反馈音效
+- **qa-tester** — 边界用例测试、回归测试、浸泡测试
 
-## How to Delegate
+## 如何委派
 
-Use the Task tool to spawn each team member as a subagent:
-- `subagent_type: performance-analyst` — Profiling, optimization, memory analysis
-- `subagent_type: technical-artist` — VFX polish, shader optimization, visual quality
-- `subagent_type: sound-designer` — Audio polish, mixing, ambient layers
-- `subagent_type: qa-tester` — Edge case testing, regression testing, soak testing
+使用 Task 工具将每位成员作为子智能体拉起：
+- `subagent_type: performance-analyst` — 性能剖析、优化、内存分析
+- `subagent_type: technical-artist` — VFX 打磨、着色器优化、画面质量
+- `subagent_type: sound-designer` — 音频打磨、混音、环境层
+- `subagent_type: qa-tester` — 边界用例测试、回归测试、浸泡测试
 
-Always provide full context in each agent's prompt (target feature/area, performance budgets, known issues). Launch independent agents in parallel where the pipeline allows it (e.g., Phases 3 and 4 can run simultaneously).
+在每个智能体的提示词中提供完整上下文（目标功能/区域、性能预算、已知问题）。在流水线允许时并行启动相互独立的智能体（例如阶段 3 与阶段 4 可同时进行）。
 
-## Pipeline
+## 流水线
 
-### Phase 1: Assessment
-Delegate to **performance-analyst**:
-- Profile the target feature/area using `/perf-profile`
-- Identify performance bottlenecks and frame budget violations
-- Measure memory usage and check for leaks
-- Benchmark against target hardware specs
-- Output: performance report with prioritized optimization list
+### 阶段 1：评估
+委派给 **performance-analyst**：
+- 使用 `/perf-profile` 对目标功能/区域进行剖析
+- 识别性能瓶颈与帧预算违规
+- 测量内存占用并检查泄漏
+- 对照目标硬件规格进行基准测试
+- 产出：带优先级排序优化清单的性能报告
 
-### Phase 2: Optimization
-Delegate to **performance-analyst** (with relevant programmers as needed):
-- Fix performance hotspots identified in Phase 1
-- Optimize draw calls, reduce overdraw
-- Fix memory leaks and reduce allocation pressure
-- Verify optimizations don't change gameplay behavior
-- Output: optimized code with before/after metrics
+### 阶段 2：优化
+委派给 **performance-analyst**（必要时联合相关程序员）：
+- 修复阶段 1 中识别的性能热点
+- 优化 draw call、降低 overdraw
+- 修复内存泄漏并降低分配压力
+- 确认优化不改变玩法行为
+- 产出：含优化前后指标的优化后代码
 
-### Phase 3: Visual Polish (parallel with Phase 2)
-Delegate to **technical-artist**:
-- Review VFX for quality and consistency with art bible
-- Optimize particle systems and shader effects
-- Add screen shake, camera effects, and visual juice where appropriate
-- Ensure effects degrade gracefully on lower settings
-- Output: polished visual effects
+### 阶段 3：视觉打磨（与阶段 2 并行）
+委派给 **technical-artist**：
+- 对照美术圣经审查 VFX 质量与一致性
+- 优化粒子系统与着色器效果
+- 在合适处加入屏幕震动、镜头效果与视觉「手感」
+- 确保低画质档位下效果能合理降级
+- 产出：打磨后的视觉效果
 
-### Phase 4: Audio Polish (parallel with Phase 2)
-Delegate to **sound-designer**:
-- Review audio events for completeness (are any actions missing sound feedback?)
-- Check audio mix levels — nothing too loud or too quiet relative to the mix
-- Add ambient audio layers for atmosphere
-- Verify audio plays correctly with spatial positioning
-- Output: audio polish list and mixing notes
+### 阶段 4：音频打磨（与阶段 2 并行）
+委派给 **sound-designer**：
+- 审查音频事件是否完整（是否有动作缺少声音反馈？）
+- 检查混音电平 — 相对整体混音不过响也不过弱
+- 补充环境音频层以营造氛围
+- 验证空间定位下音频播放正确
+- 产出：音频打磨清单与混音备注
 
-### Phase 5: Hardening
-Delegate to **qa-tester**:
-- Test all edge cases: boundary conditions, rapid inputs, unusual sequences
-- Soak test: run the feature for extended periods checking for degradation
-- Stress test: maximum entities, worst-case scenarios
-- Regression test: verify polish changes haven't broken existing functionality
-- Test on minimum spec hardware (if available)
-- Output: test results with any remaining issues
+### 阶段 5：加固
+委派给 **qa-tester**：
+- 测试所有边界情况：边界条件、快速连点、异常操作序列
+- 浸泡测试：长时间运行该功能，观察是否退化
+- 压力测试：最大实体数、最坏场景
+- 回归测试：确认打磨改动未破坏既有功能
+- 在最低规格硬件上测试（若可获取）
+- 产出：测试结果及仍存在的问题
 
-### Phase 6: Sign-off
-- Collect results from all team members
-- Compare performance metrics against budgets
-- Report: READY FOR RELEASE / NEEDS MORE WORK
-- List any remaining issues with severity and recommendations
+### 阶段 6：签收
+- 汇总各成员结果
+- 将性能指标与预算对比
+- 报告：可发布 / 仍需继续打磨
+- 列出仍存在的问题及其严重度与建议
 
-## Output
-A summary report covering: performance before/after metrics, visual polish changes, audio polish changes, test results, and release readiness assessment.
+## 产出
+一份总结报告，涵盖：性能优化前后指标、视觉打磨变更、音频打磨变更、测试结果与发布就绪度评估。

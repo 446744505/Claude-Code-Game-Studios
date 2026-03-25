@@ -1,74 +1,74 @@
 ---
 name: code-review
-description: "Performs an architectural and quality code review on a specified file or set of files. Checks for coding standard compliance, architectural pattern adherence, SOLID principles, testability, and performance concerns."
-argument-hint: "[path-to-file-or-directory]"
+description: "对指定文件或文件集合进行架构与代码质量审阅。检查编码规范符合度、架构模式遵循情况、SOLID 原则、可测试性与性能相关问题。"
+argument-hint: "[文件或目录路径]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash
 ---
 
-When this skill is invoked:
+本技能被调用时：
 
-1. **Read the target file(s)** in full.
+1. **完整阅读目标文件**。
 
-2. **Read the CLAUDE.md** for project coding standards.
+2. **阅读 CLAUDE.md**，以了解项目编码规范。
 
-3. **Identify the system category** (engine, gameplay, AI, networking, UI, tools)
-   and apply category-specific standards.
+3. **识别系统类别**（引擎、玩法、AI、网络、UI、工具），
+   并按类别应用相应标准。
 
-4. **Evaluate against coding standards**:
-   - [ ] Public methods and classes have doc comments
-   - [ ] Cyclomatic complexity under 10 per method
-   - [ ] No method exceeds 40 lines (excluding data declarations)
-   - [ ] Dependencies are injected (no static singletons for game state)
-   - [ ] Configuration values loaded from data files
-   - [ ] Systems expose interfaces (not concrete class dependencies)
+4. **对照编码规范评估**：
+   - [ ] 公共方法与类具备文档注释
+   - [ ] 每个方法的圈复杂度低于 10
+   - [ ] 无方法超过 40 行（不含数据声明）
+   - [ ] 依赖为注入式（游戏状态不使用静态单例）
+   - [ ] 配置值从数据文件加载
+   - [ ] 系统对外暴露接口（不依赖具体实现类）
 
-5. **Check architectural compliance**:
-   - [ ] Correct dependency direction (engine <- gameplay, not reverse)
-   - [ ] No circular dependencies between modules
-   - [ ] Proper layer separation (UI does not own game state)
-   - [ ] Events/signals used for cross-system communication
-   - [ ] Consistent with established patterns in the codebase
+5. **检查架构符合度**：
+   - [ ] 依赖方向正确（引擎 ← 玩法，不可反向）
+   - [ ] 模块间无循环依赖
+   - [ ] 分层清晰（UI 不持有游戏状态）
+   - [ ] 跨系统通信使用事件/信号
+   - [ ] 与代码库中既有模式一致
 
-6. **Check SOLID compliance**:
-   - [ ] Single Responsibility: Each class has one reason to change
-   - [ ] Open/Closed: Extendable without modification
-   - [ ] Liskov Substitution: Subtypes substitutable for base types
-   - [ ] Interface Segregation: No fat interfaces
-   - [ ] Dependency Inversion: Depends on abstractions, not concretions
+6. **检查 SOLID 符合度**：
+   - [ ] 单一职责：每个类仅有一个变更理由
+   - [ ] 开闭原则：可扩展而无需修改既有代码
+   - [ ] 里氏替换：子类型可替换基类型
+   - [ ] 接口隔离：无臃肿接口
+   - [ ] 依赖倒置：依赖抽象，不依赖具体实现
 
-7. **Check for common game development issues**:
-   - [ ] Frame-rate independence (delta time usage)
-   - [ ] No allocations in hot paths (update loops)
-   - [ ] Proper null/empty state handling
-   - [ ] Thread safety where required
-   - [ ] Resource cleanup (no leaks)
+7. **检查常见游戏开发问题**：
+   - [ ] 与帧率无关（正确使用 delta time）
+   - [ ] 热路径（如 update 循环）无分配
+   - [ ] 妥善处理 null/空状态
+   - [ ] 在需要处保证线程安全
+   - [ ] 资源正确释放（无泄漏）
 
-8. **Output the review** in this format:
+8. **按以下格式输出审阅结果**：
 
 ```
-## Code Review: [File/System Name]
+## 代码审阅：[文件/系统名称]
 
-### Standards Compliance: [X/6 passing]
-[List failures with line references]
+### 规范符合：[X/6 项通过]
+[列出未通过项并附行号引用]
 
-### Architecture: [CLEAN / MINOR ISSUES / VIOLATIONS FOUND]
-[List specific architectural concerns]
+### 架构：[干净 / 小问题 / 发现违规]
+[列出具体架构关切]
 
-### SOLID: [COMPLIANT / ISSUES FOUND]
-[List specific violations]
+### SOLID：[符合 / 发现问题]
+[列出具体违反项]
 
-### Game-Specific Concerns
-[List game development specific issues]
+### 游戏相关关切
+[列出游戏开发特有的问题]
 
-### Positive Observations
-[What is done well -- always include this section]
+### 正面观察
+[做得好的地方——本段必须包含]
 
-### Required Changes
-[Must-fix items before approval]
+### 必须修改
+[批准前必须修复的项]
 
-### Suggestions
-[Nice-to-have improvements]
+### 建议
+[可选的改进]
 
-### Verdict: [APPROVED / APPROVED WITH SUGGESTIONS / CHANGES REQUIRED]
+### 结论：[通过 / 通过（含建议）/ 需修改]
 ```

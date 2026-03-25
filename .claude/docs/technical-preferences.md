@@ -1,48 +1,48 @@
-# Technical Preferences
+# 技术偏好
 
-<!-- Populated by /setup-engine. Updated as the user makes decisions throughout development. -->
-<!-- All agents reference this file for project-specific standards and conventions. -->
+<!-- 由 /setup-engine 填充。随开发过程中用户决策而更新。 -->
+<!-- 所有 agent 引用本文件以获取项目专属标准与约定。 -->
 
-## Engine & Language
+## 引擎与语言
 
-- **Engine**: [TO BE CONFIGURED — run /setup-engine]
-- **Language**: [TO BE CONFIGURED]
-- **Rendering**: [TO BE CONFIGURED]
-- **Physics**: [TO BE CONFIGURED]
+- **Engine**：[待配置 — 请运行 /setup-engine]
+- **Language**：[待配置]
+- **Rendering**：[待配置]
+- **Physics**：[待配置]
 
-## Naming Conventions
+## 命名约定
 
-- **Classes**: [TO BE CONFIGURED]
-- **Variables**: [TO BE CONFIGURED]
-- **Signals/Events**: [TO BE CONFIGURED]
-- **Files**: [TO BE CONFIGURED]
-- **Scenes/Prefabs**: [TO BE CONFIGURED]
-- **Constants**: [TO BE CONFIGURED]
+- **Classes**：[待配置]
+- **Variables**：[待配置]
+- **Signals/Events**：[待配置]
+- **Files**：[待配置]
+- **Scenes/Prefabs**：[待配置]
+- **Constants**：[待配置]
 
-## Performance Budgets
+## 性能预算
 
-- **Target Framerate**: [TO BE CONFIGURED]
-- **Frame Budget**: [TO BE CONFIGURED]
-- **Draw Calls**: [TO BE CONFIGURED]
-- **Memory Ceiling**: [TO BE CONFIGURED]
+- **Target Framerate**：[待配置]
+- **Frame Budget**：[待配置]
+- **Draw Calls**：[待配置]
+- **Memory Ceiling**：[待配置]
 
-## Testing
+## 测试
 
-- **Framework**: [TO BE CONFIGURED]
-- **Minimum Coverage**: [TO BE CONFIGURED]
-- **Required Tests**: Balance formulas, gameplay systems, networking (if applicable)
+- **Framework**：[待配置]
+- **Minimum Coverage**：[待配置]
+- **Required Tests**：Balance formulas、gameplay systems、networking（如适用）
 
-## Forbidden Patterns
+## 禁止使用的模式
 
-<!-- Add patterns that should never appear in this project's codebase -->
-- [None configured yet — add as architectural decisions are made]
+<!-- 在此添加本项目中绝不应出现的模式 -->
+- [尚未配置 — 随架构决策补充]
 
-## Allowed Libraries / Addons
+## 允许的 Libraries / Addons
 
-<!-- Add approved third-party dependencies here -->
-- [None configured yet — add as dependencies are approved]
+<!-- 在此添加已批准的第三方依赖 -->
+- [尚未配置 — 随依赖获批补充]
 
-## Architecture Decisions Log
+## 架构决策日志
 
-<!-- Quick reference linking to full ADRs in docs/architecture/ -->
-- [No ADRs yet — use /architecture-decision to create one]
+<!-- 快速索引，链接至 docs/architecture/ 中的完整 ADR -->
+- [尚无 ADR — 使用 /architecture-decision 创建]

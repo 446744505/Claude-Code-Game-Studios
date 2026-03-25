@@ -1,6 +1,6 @@
 ---
 name: changelog
-description: "Auto-generates a changelog from git commits, sprint data, and design documents. Produces both internal and player-facing versions."
+description: "根据 git 提交、sprint 数据与设计文档自动生成更新日志。同时产出内部版与面向玩家的版本。"
 argument-hint: "[version|sprint-number]"
 user-invocable: true
 allowed-tools: Read, Glob, Grep, Bash
@@ -9,125 +9,108 @@ context: |
   !git tag --list --sort=-v:refname 2>/dev/null | head -5
 ---
 
-When this skill is invoked:
+调用本技能时：
 
-1. **Read the argument** for the target version or sprint number. If a version
-   is given, use the corresponding git tag. If a sprint number is given, use
-   the sprint date range.
+1. **读取参数**，确定目标版本或 sprint 编号。若给出版本，使用对应 git 标签；若给出 sprint 编号，使用该 sprint 的日期范围。
 
-1b. **Check git availability** — Verify the repository is initialized:
-   - Run `git rev-parse --is-inside-work-tree` to confirm git is available
-   - If not a git repo, inform the user and abort gracefully
+1b. **检查 git 是否可用** — 确认仓库已初始化：
+   - 运行 `git rev-parse --is-inside-work-tree` 确认 git 可用
+   - 若不是 git 仓库，告知用户并优雅中止
 
-2. **Read the git log** since the last tag or release:
+2. **读取自上一标签或发布以来的 git 日志**：
    ```
    git log --oneline [last-tag]..HEAD
    ```
-   If no tags exist, read the full log or a reasonable recent range (last 100
-   commits).
+   若无标签，读取完整日志或合理近期范围（最近 100 条提交）。
 
-3. **Read sprint reports** from `production/sprints/` for the relevant period
-   to understand planned work and context behind changes.
+3. **阅读** `production/sprints/` **中对应周期的 sprint 报告**，了解计划工作与变更背景。
 
-4. **Read completed design documents** from `design/gdd/` for any new features
-   that were implemented during this period.
+4. **阅读** `design/gdd/` **中已完成的设计文档**，覆盖该周期内实现的新功能。
 
-5. **Categorize every change** into one of these categories:
-   - **New Features**: Entirely new gameplay systems, modes, or content
-   - **Improvements**: Enhancements to existing features, UX improvements,
-     performance gains
-   - **Bug Fixes**: Corrections to broken behavior
-   - **Balance Changes**: Tuning of gameplay values, difficulty, economy
-   - **Known Issues**: Issues the team is aware of but have not yet resolved
+5. **将每条变更归入以下类别之一**：
+   - **新功能**：全新的玩法系统、模式或内容
+   - **改进**：对现有功能的增强、体验优化、性能提升
+   - **缺陷修复**：对错误行为的修正
+   - **数值/平衡调整**：玩法数值、难度、经济等调参
+   - **已知问题**：团队已知但尚未修复的问题
 
-6. **Generate the INTERNAL changelog** (full technical detail):
+6. **生成内部更新日志**（完整技术细节）：
 
 ```markdown
-# Internal Changelog: [Version]
-Date: [Date]
-Sprint(s): [Sprint numbers covered]
-Commits: [Count] ([first-hash]..[last-hash])
+# 内部更新日志：[Version]
+日期：[Date]
+Sprint：[Sprint numbers covered]
+提交：[Count]（[first-hash]..[last-hash]）
 
-## New Features
-- [Feature Name] -- [Technical description, affected systems]
-  - Commits: [hash1], [hash2]
-  - Owner: [who implemented it]
-  - Design doc: [link if applicable]
+## 新功能
+- [Feature Name] -- [技术说明、涉及系统]
+  - 提交：[hash1], [hash2]
+  - 负责人：[who implemented it]
+  - 设计文档：[link if applicable]
 
-## Improvements
-- [Improvement] -- [What changed technically and why]
-  - Commits: [hashes]
-  - Owner: [who]
+## 改进
+- [Improvement] -- [技术上改了什么、为何改]
+  - 提交：[hashes]
+  - 负责人：[who]
 
-## Bug Fixes
-- [BUG-ID] [Description of bug and root cause]
-  - Fix: [What was changed]
-  - Commits: [hashes]
-  - Owner: [who]
+## 缺陷修复
+- [BUG-ID] [缺陷与根因说明]
+  - 修复：[改了什么]
+  - 提交：[hashes]
+  - 负责人：[who]
 
-## Balance Changes
-- [What was tuned] -- [Old value -> New value] -- [Design intent]
-  - Owner: [who]
+## 数值/平衡调整
+- [调了什么] -- [旧值 -> 新值] -- [设计意图]
+  - 负责人：[who]
 
-## Technical Debt / Refactoring
-- [What was cleaned up and why]
-  - Commits: [hashes]
+## 技术债 / 重构
+- [清理了什么、为何]
+  - 提交：[hashes]
 
-## Known Issues
-- [Issue description] -- [Severity] -- [ETA for fix if known]
+## 已知问题
+- [问题说明] -- [严重度] -- [若已知则写预计修复时间]
 
-## Metrics
-- Total commits: [N]
-- Files changed: [N]
-- Lines added: [N]
-- Lines removed: [N]
+## 指标
+- 总提交数：[N]
+- 变更文件数：[N]
+- 新增行数：[N]
+- 删除行数：[N]
 ```
 
-7. **Generate the PLAYER-FACING changelog** (friendly, non-technical):
+7. **生成面向玩家的更新日志**（友好、非技术表述）：
 
 ```markdown
-# What is New in [Version]
+# [Version] 更新内容
 
-## New Features
-- **[Feature Name]**: [Player-friendly description of what they can now do
-  and why it is exciting. Focus on the experience, not the implementation.]
+## 新功能
+- **[Feature Name]**：[用玩家能理解的方式说明现在能做什么、为何值得期待。侧重体验，不写实现细节。]
 
-## Improvements
-- **[What improved]**: [How this makes the game better for the player.
-  Be specific but avoid jargon.]
+## 改进
+- **[What improved]**：[这如何让游戏对玩家更好。要具体但避免行话。]
 
-## Bug Fixes
-- Fixed an issue where [describe what the player experienced, not what was
-  wrong in the code]
-- Fixed [player-visible symptom]
+## 缺陷修复
+- 修复了 [描述玩家遇到的现象，而非代码里哪里错了]
+- 修复了 [玩家可见的症状]
 
-## Balance Changes
-- [What changed in player-understandable terms and the design intent.
-  Example: "Healing potions now restore 50 HP (up from 30) -- we felt
-  players needed more recovery options in late-game encounters."]
+## 数值/平衡调整
+- [用玩家能懂的话说明改了什么及设计意图。
+  例如：「治疗药水现在恢复 50 HP（原为 30）——我们认为在后期战斗中玩家需要更多恢复手段。」]
 
-## Known Issues
-- We are aware of [issue description in player terms] and are working on a
-  fix. [Workaround if one exists.]
+## 已知问题
+- 我们已知 [用玩家语言描述的问题] 并在处理中。[若有变通办法则写出。]
 
 ---
-Thank you for playing! Your feedback helps us make the game better.
-Report issues at [link].
+感谢游玩！你的反馈帮助我们把游戏做得更好。
+问题反馈：[link]。
 ```
 
-8. **Output both changelogs** to the user. The internal changelog is the
-   primary working document. The player-facing changelog is ready for
-   community posting after review.
+8. **将两份更新日志一并输出**给用户。内部版为主要工作文档；面向玩家版经审阅后可用于社区发布。
 
-### Guidelines
+### 准则
 
-- Never expose internal code references, file paths, or developer names in
-  the player-facing changelog
-- Group related changes together rather than listing individual commits
-- If a commit message is unclear, check the associated files and sprint data
-  for context
-- Balance changes should always include the design reasoning, not just the
-  numbers
-- Known issues should be honest -- players appreciate transparency
-- If the git history is messy (merge commits, reverts, fixup commits), clean
-  up the narrative rather than listing every commit literally
+- 面向玩家的更新日志中**不要**暴露内部代码引用、文件路径或开发者姓名
+- 相关变更应合并叙述，不要逐条罗列单个提交
+- 若提交信息不清晰，结合关联文件与 sprint 数据补全上下文
+- 平衡类改动应始终包含设计理由，而不只是数字
+- 已知问题应诚实说明——玩家通常更信任透明沟通
+- 若 git 历史较乱（合并、回退、fixup 等），应整理叙事，而非字面罗列每一次提交

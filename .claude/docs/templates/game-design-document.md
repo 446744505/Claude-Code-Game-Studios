@@ -1,48 +1,41 @@
-# [Mechanic/System Name]
+# [机制/系统名称]
 
 > **Status**: Draft | In Review | Approved | Implemented
-> **Author**: [Agent or person]
-> **Last Updated**: [Date]
-> **Implements Pillar**: [Which game pillar this supports]
+> **Author**: [Agent 或个人]
+> **Last Updated**: [日期]
+> **Implements Pillar**: [本机制所支撑的游戏支柱]
 
-## Overview
+## 概述
 
-[One paragraph that explains this mechanic to someone who knows nothing about
-the project. What is it, what does the player do, and why does it exist?]
+[一段话，向完全不了解本项目的人说明本机制：它是什么、玩家做什么、为何存在？]
 
-## Player Fantasy
+## 玩家幻想
 
-[What should the player FEEL when engaging with this mechanic? What is the
-emotional or power fantasy being served? This section guides all detail
-decisions below.]
+[玩家参与本机制时应**感受**到什么？服务于何种情感或力量幻想？本节指导下文所有细节决策。]
 
-## Detailed Design
+## 详细设计
 
-### Core Rules
+### 核心规则
 
-[Precise, unambiguous rules. A programmer should be able to implement this
-section without asking questions. Use numbered rules for sequential processes
-and bullet points for properties.]
+[精确、无歧义的规则。程序员应能仅根据本节实现而无需追问。顺序流程用编号规则，属性用项目符号。]
 
-### States and Transitions
+### 状态与转移
 
-[If this system has states (e.g., weapon states, status effects, phases),
-document every state and every valid transition between states.]
+[若本系统有状态（例如武器状态、状态效果、阶段），记录每个状态及状态之间的所有合法转移。]
 
 | State | Entry Condition | Exit Condition | Behavior |
 |-------|----------------|----------------|----------|
 
-### Interactions with Other Systems
+### 与其他系统的交互
 
-[How does this system interact with combat? Inventory? Progression? UI?
-For each interaction, specify the interface: what data flows in, what flows
-out, and who is responsible for what.]
+[本系统如何与 combat、inventory、progression、UI 交互？
+对每次交互说明接口：哪些数据流入、哪些流出，以及各方职责。]
 
-## Formulas
+## 公式
 
-[Every mathematical formula used by this system. For each formula:]
+[本系统使用的每一个数学公式。对每个公式：]
 
-### [Formula Name]
+### [公式名称]
 
 ```
 result = base_value * (1 + modifier_sum) * scaling_factor
@@ -50,67 +43,65 @@ result = base_value * (1 + modifier_sum) * scaling_factor
 
 | Variable | Type | Range | Source | Description |
 |----------|------|-------|--------|-------------|
-| base_value | float | 1-100 | data file | The base amount before modifiers |
-| modifier_sum | float | -0.9 to 5.0 | calculated | Sum of all active modifiers |
-| scaling_factor | float | 0.5-2.0 | data file | Level-based scaling |
+| base_value | float | 1-100 | data file | 修正前的基础量 |
+| modifier_sum | float | -0.9 to 5.0 | calculated | 所有生效修正之和 |
+| scaling_factor | float | 0.5-2.0 | data file | 随等级变化的缩放 |
 
 **Expected output range**: [min] to [max]
-**Edge case**: When modifier_sum < -0.9, clamp to -0.9 to prevent negative results.
+**Edge case**: 当 modifier_sum < -0.9 时，钳制到 -0.9，以避免结果为负。
 
-## Edge Cases
+## 边界情况
 
-[Explicitly document what happens in unusual situations. Each edge case
-should have a clear resolution.]
+[明确记录异常情形下的行为。每个 edge case 都应有清晰处理方式。]
 
 | Scenario | Expected Behavior | Rationale |
 |----------|------------------|-----------|
-| [What if X is zero?] | [This happens] | [Because of this reason] |
-| [What if both effects trigger?] | [Priority rule] | [Design reasoning] |
+| [若 X 为零？] | [会发生此事] | [原因] |
+| [若两种效果同时触发？] | [优先级规则] | [设计理由] |
 
-## Dependencies
+## 依赖
 
-[List every system this mechanic depends on or that depends on this mechanic.]
+[列出本机制依赖的每一个系统，或依赖本机制的系统。]
 
 | System | Direction | Nature of Dependency |
 |--------|-----------|---------------------|
-| [Combat] | This depends on Combat | Needs damage calculation results |
-| [Inventory] | Inventory depends on this | Provides item effect data |
+| [Combat] | 本机制依赖 Combat | 需要伤害计算结果 |
+| [Inventory] | Inventory 依赖本机制 | 提供物品效果数据 |
 
-## Tuning Knobs
+## 调参项
 
-[Every value that should be adjustable for balancing. Include the current
-value, the safe range, and what happens at the extremes.]
+[所有应可调整以便平衡的数值。写明当前值、安全范围，以及取极值时的表现。]
 
 | Parameter | Current Value | Safe Range | Effect of Increase | Effect of Decrease |
 |-----------|--------------|------------|-------------------|-------------------|
 
-## Visual/Audio Requirements
+## 视觉/音频需求
 
-[What visual and audio feedback does this mechanic need?]
+[本机制需要哪些视觉与音频反馈？]
 
 | Event | Visual Feedback | Audio Feedback | Priority |
 |-------|----------------|---------------|----------|
 
-## UI Requirements
+## UI 需求
 
-[What information needs to be displayed to the player and when?]
+[需要向玩家展示哪些信息、在何时展示？]
 
 | Information | Display Location | Update Frequency | Condition |
 |-------------|-----------------|-----------------|-----------|
 
-## Acceptance Criteria
+## 验收标准
 
-[Testable criteria that confirm this mechanic is working as designed.]
+[可测试的标准，用于确认本机制按设计工作。]
 
-- [ ] [Criterion 1: specific, measurable, testable]
-- [ ] [Criterion 2]
-- [ ] [Criterion 3]
-- [ ] Performance: System update completes within [X]ms
-- [ ] No hardcoded values in implementation
+- [ ] [标准 1：具体、可度量、可测试]
+- [ ] [标准 2]
+- [ ] [标准 3]
+- [ ] Performance: 系统更新在 [X]ms 内完成
+- [ ] 实现中无 hardcoded values
 
-## Open Questions
+## 待决问题
 
-[Anything not yet decided. Each question should have an owner and deadline.]
+[尚未拍板的事项。每个问题应有负责人与截止日。]
 
 | Question | Owner | Deadline | Resolution |
 |----------|-------|----------|-----------|
